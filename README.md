@@ -11,7 +11,7 @@ Tree nodes: Have different colors based on if that recursive call is still proce
 
 ## Wireframes
 
-![Alt text](relative/path/to/assets/images/wireframe.png)
+<img width="574" alt="wireframe" src="https://user-images.githubusercontent.com/106613342/180296416-153d95dd-9e12-4108-8f06-9a87c1a700c5.png">
 
 **Nav links**: where I will attach my GitHub, LinkedIn, etc. 
 
