@@ -1,4 +1,6 @@
-## Dendriform | Recursion Visualizer
+# Dendriform | Recursion Visualizer
+By Deborah Wei 
+
 ## Background 
 
 Recursion is always a field that is difficult for people to visualize, especially myself. Something that always helped me understand recursion was through looking at each recursive call drawn out. My project will be a recursion visualizer which illustrates each branch that is created when the recursive function calls itself. There will be demo recursive functions such as Fibonacci, factorials, DFS, and binary search (subject to change). My tree will be interactive so you can click on nodes and it will collapse them or extend them. There will be different colors symbolizing the stage the recursive call is at: called, processing, or returned. 
@@ -9,7 +11,7 @@ Tree nodes: Have different colors based on if that recursive call is still proce
 
 ## Wireframes
 
-/Users/deborahwei/App Academy/Projects/dendriform_js/assets/images/wireframe.png
+![alt text](assets/images/wireframe.png)
 
 **Nav links**: where I will attach my GitHub, LinkedIn, etc. 
 
