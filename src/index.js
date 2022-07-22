@@ -1,6 +1,7 @@
 import Graph from "./tree_visualizer/graph";
 import TreeNode from "./tree_visualizer/treeNode";
 import ControllerContainer from "./controller/controllerContainer";
+import FuncRunner from "./computer/funcRunner";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");
@@ -14,4 +15,12 @@ document.addEventListener("DOMContentLoaded", () => {
     root.appendChild(graph.getDOMObject());
 
     graph.addDOMElement(treeNode.getDOMObject());
+    const fibFn = `
+        if (n == 0 || n == 1)
+          return n
+        
+        return fn(n-1) + fn(n-2)
+    `
+    const fR = new FuncRunner("n", fibFn, 5);
+    console.log(fR.runFunc(5));
 });

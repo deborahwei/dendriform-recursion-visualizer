@@ -1,6 +1,7 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
 
 export default class Graph {
+    // TODO: Take in a JSON object listing out the positions for the nodes
     constructor() {
         this.graphContainer = document.createElement("div");
         this.graphContainer.classList.add("graph-container");
