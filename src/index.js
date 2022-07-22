@@ -15,12 +15,24 @@ document.addEventListener("DOMContentLoaded", () => {
     root.appendChild(graph.getDOMObject());
 
     graph.addDOMElement(treeNode.getDOMObject());
+    const argsInput = "n"
     const fibFn = `
         if (n == 0 || n == 1)
           return n
         
         return fn(n-1) + fn(n-2)
     `
-    const fR = new FuncRunner("n", fibFn, 5);
-    console.log(fR.runFunc(5));
+    console.log('hi');
+    const fR = new FuncRunner(argsInput, fibFn, 5); 
+    const treeData = fR.runFunc(5)
+    console.log(Object.keys(treeData))
+
+    // testing 
+    // console.log(fR.getFunc());
+    // console.log(fR.runFunc(5)); 
+    // function iterate(data) {
+    //   Object.keys(data).forEach ((node) => {
+    //     console.log(data[node].children)
+    //   })
+    // }
 });
