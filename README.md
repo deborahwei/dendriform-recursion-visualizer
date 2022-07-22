@@ -24,7 +24,6 @@ Tree nodes: Have different colors based on if that recursive call is still proce
 **Title**: Dendriform which means tree shaped
 
 ## Technology, Libraries, and APIs
-D3 (animations and interactions) 
 
 ## Implementation Timeline 
 

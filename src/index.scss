@@ -1,0 +1,13 @@
+@import "./tree_visualizer/styles/graph.scss";
+@import "./controller/styles/controller.scss";
+@import "./tree_visualizer/styles/treeNode.scss";
+
+#root {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    font-family: 'Cedarville Cursive', cursive;
+}
