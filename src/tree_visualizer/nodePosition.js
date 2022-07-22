@@ -11,6 +11,13 @@ export default class NodePosition { // this class finds the position and adds it
         this.level = -1
     }
 
+    traverse(cb) {
+        cb(this) 
+        for (let i = 0; i < this.children.length; i++) {
+            this.children[i].traverse(i)
+        }
+    }
+
 
     getNode() { 
         return this.data[id] 

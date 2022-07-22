@@ -5,8 +5,10 @@ export default class TreeRenderer {
     constructor(data) { // 
         this.data = data
         this.deepestLevel = -1
-        this.rootNode = this.getPosition(0, 0, null)
+        this.increments = SCREENSIZE / (this.deepestLevel + 1) // increments are even between top of screen to first level and last level to bottom of screen and b/w levels
+        this.rootNode = this.getPosition(0, 1, null)
         this.findDeepestLevel(this.rootNode)
+        this.getYCoor(this.rootNode, this.incremenets)
         this.firstTraverse(this.rootNode);
         // this.secondTraverse, 0);
         // this.fixNodeConflicts(this.rootNode);
@@ -16,6 +18,7 @@ export default class TreeRenderer {
     getPosition(node, level, prevNode) { // makes tree of instances
         let treeNode = new NodePosition(node, this.data) 
         treeNode.level = level; 
+        treeNode.y = level
         treeNode.prevNode = prevNode 
 
         for (let i = 0; i < this.data[node].children.length; i++) {
@@ -38,9 +41,11 @@ export default class TreeRenderer {
     }
 
     // get y coor of each node by taking the screen size and dividing it by the levels
-    getYCoor(screenSize, deepestLevel) {
-        increments = screenSize / (deepestLevel + 1)
-        for (let i = 0; o < )
+    getYCoor(node, ySum) {
+        for (let i = 0; i < node.children.length; i++) {
+            node.y = node.level * ySum // take level and make it proportionate to the rest of the screen 
+            this.getYCoor(node.children[i], ySum)
+        }
     } 
 
 
@@ -70,16 +75,16 @@ export default class TreeRenderer {
 
     }
    
-    fixNodeConflicts(node) { 
-        for (let i = 0; i < node.children.length; i++) { 
-            this.fixNodeConflicts(node.children[i])
-        }
+    // fixNodeConflicts(node) { 
+    //     for (let i = 0; i < node.children.length; i++) { 
+    //         this.fixNodeConflicts(node.children[i])
+    //     }
 
-        // find widest contour 
-        for (let i = 0; i < node.children.length - 1; i++) {
+    //     // find widest contour 
+    //     for (let i = 0; i < node.children.length - 1; i++) {
 
-        }
-    }
+    //     }
+    // }
 
     thirdTraverse(node, modSum) { // gives final position of each node 
         node.x += modSum 
