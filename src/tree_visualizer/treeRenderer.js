@@ -1,3 +1,4 @@
+import { get } from "core-js/core/dict";
 import { node } from "webpack";
 import NodePosition from "./nodePosition";
 
@@ -10,8 +11,9 @@ export default class TreeRenderer {
         this.findDeepestLevel(this.rootNode)
         this.getYCoor(this.rootNode, this.incremenets)
         this.firstTraverse(this.rootNode);
-        // this.secondTraverse, 0);
-        // this.fixNodeConflicts(this.rootNode);
+        this.secondTraverse()
+        this.SPACE_BW = 1
+        this.fixNodeConflicts(this.rootNode);
         // this.shiftTree();
     }
 
@@ -55,7 +57,7 @@ export default class TreeRenderer {
         }
 
         if (node.prevNode) { // checks that it is not the left most child 
-            node.x = node.prevNode.x + 1
+            node.x = node.prevNode.x + SPACE_BW
         }
         else { // value is zero if it is the left most 
             node.x = 0 
@@ -74,23 +76,38 @@ export default class TreeRenderer {
         }
 
     }
-   
-    // fixNodeConflicts(node) { 
-    //     for (let i = 0; i < node.children.length; i++) { 
-    //         this.fixNodeConflicts(node.children[i])
-    //     }
 
-    //     // find widest contour 
-    //     for (let i = 0; i < node.children.length - 1; i++) {
-
-    //     }
-    // }
-
-    thirdTraverse(node, modSum) { // gives final position of each node 
+    secondTraverse(node, modSum) { // gives final position of each node 
         node.x += modSum 
         for (let i = 0; i < node.children.length; i++) {
             this.secondTraverse(node.children[i].node.mod + modSum);
         }
+    }
+   
+    fixNodeConflicts(node) { 
+        for (let i = 0; i < node.children.length; i++) { 
+            this.fixNodeConflicts(node.children[i])
+        }
+
+        for (let i = 0; i < node.children.length - 1; i++) {
+
+            let rightContour = -Infinity;
+            node.children[i].traverse(() => {
+                rightContour = Math.max(rightContour, node.x)
+            })
+
+            let leftContour = -Infinity;
+            node.children[i+1].traverse(() => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
+                leftContour = Math.min(leftContour, node.x)
+            })
+
+            if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
+                node.children[i+ 1].visit( () => {
+                    node.x += (rightContour - leftContour + SPACE_BW)
+                })
+            }
+        }
+      
     }
     
 
