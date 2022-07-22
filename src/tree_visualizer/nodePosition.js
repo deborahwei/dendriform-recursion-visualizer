@@ -6,8 +6,9 @@ export default class NodePosition { // this class finds the position and adds it
         this.y = 0; 
         this.mod = 0
         this.children = []
-        this.return = data[id].return 
+        this.result = data[id].result 
         this.prevNode = null
+        this.level = -1
     }
 
 
