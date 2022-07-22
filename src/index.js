@@ -2,6 +2,8 @@ import Graph from "./tree_visualizer/graph";
 import TreeNode from "./tree_visualizer/treeNode";
 import ControllerContainer from "./controller/controllerContainer";
 import FuncRunner from "./computer/funcRunner";
+import TreeRenderer from "./tree_visualizer/treeRenderer.js";
+import NodePosition from "./tree_visualizer/nodePosition.js"
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");
@@ -23,9 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return fn(n-1) + fn(n-2)
     `
     console.log('hi');
-    const fR = new FuncRunner(argsInput, fibFn, 5); 
-    const treeData = fR.runFunc(5)
-    console.log(Object.keys(treeData))
+    const fR = new FuncRunner(argsInput, fibFn, 3); 
+    const treeData = fR.runFunc(3)
+    console.log(treeData)
 
     // testing 
     // console.log(fR.getFunc());
