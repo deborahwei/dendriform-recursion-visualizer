@@ -1,4 +1,3 @@
-import { objectToString } from "../utilities/util";
 import TreeNode from "./tree_node";
 
 export default class NodePosition { // this class finds the position and adds it to our Tree data indexing with id

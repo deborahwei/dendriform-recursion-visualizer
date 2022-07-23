@@ -1,21 +1,23 @@
 import NodePosition from "./node_positions";
-// Dynamically configure space between node centers
-// -> also requires knowing radius (probably want to dynamically configure as well)
+import { SPACE_X, SPACE_Y } from "./constants";
+
 export default class PositionCalculator {
-    constructor(data, screenSize) { //
-        this.depth = 0; 
+    constructor(data) { //
         this.data = data;
-        this.leftestContour;
-        this.SPACE_BW = 15;
-        this.SCREENSIZE = screenSize // testing
-        this.rootNode = this.getPosition(0, 1, null)
-        this.increments = 20;
-        //TODO: REWORK SO IT'S CLEANER AND MORE EFFICIENT
-        this.getYCoor(this.rootNode, this.increments);
+        this.maxX = 0;
+        this.maxY = 0;
+
+        this.rootNode = this.getPosition(0, 1, null);
+        this.getYCoor(this.rootNode, SPACE_Y);
         this.firstTraverse(this.rootNode);
         this.centerChildren(this.rootNode);
         this.applyMod(this.rootNode);
         this.shiftTrees(this.rootNode);
+
+    }
+
+    getTreeDimensions() {
+        return [this.maxX + SPACE_X, this.maxY + SPACE_Y] 
     }
 
     getRoot() {
@@ -23,7 +25,6 @@ export default class PositionCalculator {
     }
 
     getPosition(node, level, prevNode) { // makes tree of instances
-        this.depth = Math.max(level, this.depth);
         let treeNode = new NodePosition(node, this.data[node].input, this.data[node].result);
         treeNode.level = level;
         treeNode.y = level;
@@ -44,7 +45,7 @@ export default class PositionCalculator {
 
     // get y coor of each node by multiplying level by increment
     getYCoor(node) {
-        node.y = node.level * this.increments;
+        node.y = node.level * SPACE_Y;
         for (const i in node.children) {
             this.getYCoor(node.children[i]);
         }
@@ -56,14 +57,6 @@ export default class PositionCalculator {
             this.firstTraverse(node.children[i]); // 1, 2
             this.fixNodeConflicts(node);
         }
-        if (node.prevNode) { // checks that it is not the left most child 
-            node.x = node.prevNode.x + this.SPACE_BW
-
-        }
-        else { // value is zero if it is the left most 
-            node.x = 0 
-        }
-        this.centerChildren(this.rootNode)
     }
 
     centerChildren(node) {
@@ -106,27 +99,25 @@ export default class PositionCalculator {
             })
             if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
                 node.children[i+ 1].traverse( (curNode) => {
-                    curNode.x += (rightContour - leftContour + this.SPACE_BW)
+                    curNode.x += (rightContour - leftContour + SPACE_X)
                 })
             }
-            // if ((rightContour) >= (leftContour)) {
-            //     const delta = (rightContour - leftContour + this.SPACE_BW);
-            //     node.children[i+1].x += delta;
-            //     node.children[i+1].mod += delta;
-            // }
         }
     }
 
     shiftTrees(node) {
         let leftestContour = Infinity
+
         for (let i = 0; i < node.children.length - 1; i++) {
             node.children[i].traverse((curNode) => {
                 leftestContour = Math.min(leftestContour, curNode.x);
             })
-        const shift = -leftestContour
+        const shift = -leftestContour + SPACE_X
         if (shift > 0) {
             node.traverse ((curNode) => {
                 curNode.x += shift
+                this.maxX = Math.max(this.maxX, curNode.x); // finds the most right our tree goes
+                this.maxY = Math.max(this.maxY, curNode.y); // the depth of our tree
             })
         }
     }

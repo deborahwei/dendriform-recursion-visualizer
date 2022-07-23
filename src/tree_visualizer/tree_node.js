@@ -1,13 +1,14 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
+import { RADIUS } from "./constants";
 
 export default class TreeNode {
     constructor(cx, cy, value) {
-        this.r = 5;
-        this.strokeWidth = 0.5;
+        this.r = RADIUS;
+        this.strokeWidth = 1;
         this.gTag = document.createElementNS(svgNameSpace, "g");
         setAttributes(this.gTag, {
             "fill": "white",
-            "stroke": "green",
+            "stroke": "black",
             "stroke-width": this.strokeWidth    
         });
 
@@ -22,8 +23,12 @@ export default class TreeNode {
         setAttributes(this.text, {
             "x": cx,
             "y": cy,
-            "stroke-width": this.strokeWidth/2
+            "stroke-width": this.strokeWidth
         });
+        
+        this.arrow = document.createElementNS(svgNameSpace, "path");
+        
+
         this.text.classList.add("param-text");
         this.text.textContent = value;
 

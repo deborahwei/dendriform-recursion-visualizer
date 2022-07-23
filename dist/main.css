@@ -12,10 +12,10 @@
 }
 
 .param-text {
-  font-size: 5px;
+  font-size: 15;
   text-anchor: middle;
   alignment-baseline: central;
-  stroke-width: 0.5;
+  stroke-width: 1.5;
 }
 
 #root {
@@ -25,5 +25,5 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  font-family: "Cedarville Cursive", cursive;
+  font-family: "Times New Roman", Times, serif;
 }
