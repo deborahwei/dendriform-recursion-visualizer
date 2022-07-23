@@ -1,3 +1,4 @@
+import Arrow from "./arrow";
 import TreeNode from "./tree_node";
 
 export default class NodePosition { // this class finds the position and adds it to our Tree data indexing with id
@@ -19,6 +20,7 @@ export default class NodePosition { // this class finds the position and adds it
             this.children[i].traverse(cb);
         }
     }
+
 
     getDOMObject() {
         if (!this.treeNode)

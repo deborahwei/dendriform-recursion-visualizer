@@ -1,5 +1,5 @@
 import { setAttributes, svgNameSpace} from "../utilities/util";
-import TreeNode from "./tree_node";
+import Arrow from "./arrow";
 
 export default class Graph {
     constructor() {
@@ -18,7 +18,7 @@ export default class Graph {
         node.traverse( cur => {
             this.graphWindow.appendChild(cur.getDOMObject());
         })
-        
+        for (let i = 0; i)
     }
 
     getDOMObject() {

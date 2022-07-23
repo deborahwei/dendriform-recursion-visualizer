@@ -18,6 +18,11 @@
   stroke-width: 1.5;
 }
 
+.call-arrow {
+  stroke: black;
+  stroke-width: 3;
+}
+
 #root {
   width: 100%;
   display: flex;

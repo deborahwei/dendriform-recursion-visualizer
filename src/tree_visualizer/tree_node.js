@@ -1,5 +1,6 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
 import { RADIUS } from "./constants";
+import NodePosition from "./node_positions";
 
 export default class TreeNode {
     constructor(cx, cy, value) {
@@ -25,9 +26,7 @@ export default class TreeNode {
             "y": cy,
             "stroke-width": this.strokeWidth
         });
-        
-        this.arrow = document.createElementNS(svgNameSpace, "path");
-        
+    
 
         this.text.classList.add("param-text");
         this.text.textContent = value;
