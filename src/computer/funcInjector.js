@@ -12,7 +12,7 @@ export default function getSourceCode(originalCode, params) {
 const injectedFunc = `
 const stack = [];
 const treeData = {};
-const MAX_CALL_STACK_SIZE = 200;
+const MAX_CALL_STACK_SIZE = 12;
 let errorMessage = null;
 let nodeId = -1;
 

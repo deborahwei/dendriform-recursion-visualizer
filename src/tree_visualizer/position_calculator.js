@@ -15,10 +15,6 @@ export default class PositionCalculator {
         this.firstTraverse(this.rootNode);
         this.centerChildren(this.rootNode);
         this.applyMod(this.rootNode);
-        this.fixNodeConflicts(this.rootNode);
-        this.centerChildren(this.rootNode);
-        this.applyMod(this.rootNode);
-        this.fixNodeConflicts(this.rootNode)
         this.shiftTrees(this.rootNode);
     }
 
@@ -57,7 +53,8 @@ export default class PositionCalculator {
     firstTraverse(node) { // this is the step where we set the initial positions and calculate how much the nodes children have to move to be under their parent
 
         for (let i = 0; i < node.children.length; i++) { // [1, 4], [2, 3]
-            this.firstTraverse(node.children[i]) // 1, 2
+            this.firstTraverse(node.children[i]); // 1, 2
+            this.fixNodeConflicts(node);
         }
         if (node.prevNode) { // checks that it is not the left most child 
             node.x = node.prevNode.x + this.SPACE_BW
@@ -80,6 +77,7 @@ export default class PositionCalculator {
             node.mod = node.x - ((node.children[node.children.length-1].x + node.children[0].x) / 2) // finds the average between the two first and last node childrens
         }
     }
+
 
     applyMod(node, modSum = 0) { // gives final position of each node
         node.x += modSum 
@@ -106,8 +104,6 @@ export default class PositionCalculator {
             node.children[i+1].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
                 leftContour = Math.min(leftContour, curNode.x);
             })
-
-            console.log(leftContour, rightContour)
             if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
                 node.children[i+ 1].traverse( (curNode) => {
                     curNode.x += (rightContour - leftContour + this.SPACE_BW)

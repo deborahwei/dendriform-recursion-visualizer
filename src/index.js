@@ -18,18 +18,15 @@ document.addEventListener("DOMContentLoaded", () => {
     root.appendChild(controller.getDOMObject());
     root.appendChild(graph.getDOMObject());
 
-    const argsInput = "a, n"
+    const argsInput = "n"
     const fibFn = `
-    if (n == 0)
-    return 1
+    if (n == 0 || n == 1)
+    return n
   
-    if (n % 2 == 0)
-    return fn(a*a, n/2)
-  
-    return a * fn(a*a, (n-1)/2)
+    return fn(n-1) + fn(n-2)
     `
 
-    const fR = new FuncRunner(argsInput, fibFn, [2, 5]); 
+    const fR = new FuncRunner(argsInput, fibFn, [8]); 
     const treeData = fR.runFunc()
     const positionCalculator = new PositionCalculator(treeData, SCREEN_SIZE)
     graph.dfs(positionCalculator.getRoot());
