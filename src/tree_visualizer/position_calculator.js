@@ -82,14 +82,14 @@ export default class PositionCalculator {
             this.fixNodeConflicts(node.children[i])
         }
 
-        for (let i = 0; i < node.children.length - 1; i++) {
+        for (let i = 0; i < node.children.length; i++) {
             let rightContour = -Infinity;
             node.children[i].traverse((curNode) => {
                 rightContour = Math.max(rightContour, curNode.x)
             })
 
             let leftContour = Infinity;
-            node.children[i+1].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
+            node.children[i].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
                 leftContour = Math.min(leftContour, curNode.x)
                 this.leftestContour = Math.min(this.leftestContour, leftContour)
             })
