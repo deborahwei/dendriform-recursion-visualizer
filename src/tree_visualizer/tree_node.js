@@ -2,8 +2,8 @@ import { setAttributes, svgNameSpace } from "../utilities/util";
 
 export default class TreeNode {
     constructor(cx, cy, value) {
-        this.r = 5
-        this.strokeWidth = 0.5
+        this.r = 5;
+        this.strokeWidth = 0.5;
         this.gTag = document.createElementNS(svgNameSpace, "g");
         setAttributes(this.gTag, {
             "fill": "white",

@@ -6,19 +6,20 @@ export default class PositionCalculator {
         this.depth = 0; 
         this.data = data;
         this.leftestContour;
-        this.SPACE_BW = 20;
+        this.SPACE_BW = 15;
         this.SCREENSIZE = screenSize // testing
         this.rootNode = this.getPosition(0, 1, null)
-        this.increments = this.SCREENSIZE / (this.depth);
+        this.increments = 20;
+        //TODO: REWORK SO IT'S CLEANER AND MORE EFFICIENT
         this.getYCoor(this.rootNode, this.increments);
         this.firstTraverse(this.rootNode);
         this.centerChildren(this.rootNode);
         this.applyMod(this.rootNode);
         this.fixNodeConflicts(this.rootNode);
+        this.centerChildren(this.rootNode);
         this.applyMod(this.rootNode);
-        this.centerChildren(this.rootNode)
-        this.applyMod(this.rootNode)
-        this.shiftTrees(this.rootNode)
+        this.fixNodeConflicts(this.rootNode)
+        this.shiftTrees(this.rootNode);
     }
 
     getRoot() {
@@ -106,16 +107,17 @@ export default class PositionCalculator {
                 leftContour = Math.min(leftContour, curNode.x);
             })
 
-            // if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
-            //     node.children[i+ 1].traverse( (curNode) => {
-            //         curNode.x += (rightContour - leftContour + this.SPACE_BW)
-            //     })
-            // }
-            if (rightContour >= leftContour) {
-                const delta = (rightContour - leftContour + this.SPACE_BW);
-                node.children[i+1].x += delta;
-                node.children[i+1].mod += delta;
+            console.log(leftContour, rightContour)
+            if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
+                node.children[i+ 1].traverse( (curNode) => {
+                    curNode.x += (rightContour - leftContour + this.SPACE_BW)
+                })
             }
+            // if ((rightContour) >= (leftContour)) {
+            //     const delta = (rightContour - leftContour + this.SPACE_BW);
+            //     node.children[i+1].x += delta;
+            //     node.children[i+1].mod += delta;
+            // }
         }
     }
 

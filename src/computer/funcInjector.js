@@ -1,6 +1,6 @@
 export default function getSourceCode(originalCode, params) {
     const bottomLines = `
-        fn(${params});
+        fn(${params.join(",")});
         return errorMessage ?? treeData;
     `;
     return [originalCode,
