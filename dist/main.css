@@ -12,7 +12,7 @@
 }
 
 .param-text {
-  font-size: 5px;
+  font-size: 3px;
   text-anchor: middle;
   alignment-baseline: central;
   stroke-width: 0.5;
@@ -25,5 +25,9 @@
   position: fixed;
   top: 0;
   bottom: 0;
-  font-family: "Cedarville Cursive", cursive;
+  font-family: "Sans Serif";
+}
+
+.graph-container { 
+  overflow: scroll;
 }
