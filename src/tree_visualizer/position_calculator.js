@@ -1,18 +1,24 @@
 import NodePosition from "./node_positions";
-
+// Dynamically configure space between node centers
+// -> also requires knowing radius (probably want to dynamically configure as well)
 export default class PositionCalculator {
-    constructor(data) { //
+    constructor(data, screenSize) { //
         this.depth = 0; 
         this.data = data;
         this.leftestContour;
-        this.SPACE_BW = 30;
-        this.SCREENSIZE = 100 // testing
+        this.SPACE_BW = 20;
+        this.SCREENSIZE = screenSize // testing
         this.rootNode = this.getPosition(0, 1, null)
         this.increments = this.SCREENSIZE / (this.depth);
         this.getYCoor(this.rootNode, this.increments);
         this.firstTraverse(this.rootNode);
-        this.secondTraverse(this.rootNode, 0);
-        // this.fixNodeConflicts(this.rootNode);
+        this.centerChildren(this.rootNode);
+        this.applyMod(this.rootNode);
+        this.fixNodeConflicts(this.rootNode);
+        this.applyMod(this.rootNode);
+        this.centerChildren(this.rootNode)
+        this.applyMod(this.rootNode)
+        this.shiftTrees(this.rootNode)
     }
 
     getRoot() {
@@ -59,6 +65,13 @@ export default class PositionCalculator {
         else { // value is zero if it is the left most 
             node.x = 0 
         }
+        this.centerChildren(this.rootNode)
+    }
+
+    centerChildren(node) {
+        for (let i = 0; i < node.children.length; i++) { // [1, 4], [2, 3]
+            this.centerChildren(node.children[i]) // 1, 2
+        }
         if (node.children.length == 1) { // if that node has only one child then it will be under the node 
             node.mod = node.x
         }
@@ -67,14 +80,14 @@ export default class PositionCalculator {
         }
     }
 
-    secondTraverse(node, modSum) { // gives final position of each node
+    applyMod(node, modSum = 0) { // gives final position of each node
         node.x += modSum 
         modSum += node.mod
+        node.mod = 0;
 
         for (let i = 0; i < node.children.length; i++) {
-            this.secondTraverse(node.children[i], modSum);
+            this.applyMod(node.children[i], modSum);
         }
-        // console.log(node)
     }
    
     fixNodeConflicts(node) { 
@@ -82,34 +95,41 @@ export default class PositionCalculator {
             this.fixNodeConflicts(node.children[i])
         }
 
-        for (let i = 0; i < node.children.length; i++) {
+        for (let i = 0; i < node.children.length - 1; i++) {
             let rightContour = -Infinity;
             node.children[i].traverse((curNode) => {
-                rightContour = Math.max(rightContour, curNode.x)
+                rightContour = Math.max(rightContour, curNode.x);
             })
 
             let leftContour = Infinity;
-            node.children[i].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
-                leftContour = Math.min(leftContour, curNode.x)
-                this.leftestContour = Math.min(this.leftestContour, leftContour)
+            node.children[i+1].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
+                leftContour = Math.min(leftContour, curNode.x);
             })
 
-            if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
-                node.children[i+ 1].traverse( (curNode) => {
-                    curNode.x += (rightContour - leftContour + this.SPACE_BW)
-                })
+            // if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
+            //     node.children[i+ 1].traverse( (curNode) => {
+            //         curNode.x += (rightContour - leftContour + this.SPACE_BW)
+            //     })
+            // }
+            if (rightContour >= leftContour) {
+                const delta = (rightContour - leftContour + this.SPACE_BW);
+                node.children[i+1].x += delta;
+                node.children[i+1].mod += delta;
             }
         }
     }
 
-    shiftTrees(overflow, node) {
-        const shift = -overflow
+    shiftTrees(node) {
+        let leftestContour = Infinity
+        for (let i = 0; i < node.children.length - 1; i++) {
+            node.children[i].traverse((curNode) => {
+                leftestContour = Math.min(leftestContour, curNode.x);
+            })
+        const shift = -leftestContour
         if (shift > 0) {
-            node += shift
-        }
-        for (let child of node.children) {
-            this.shiftTrees(overflow, child)
+            node.traverse ((curNode) => {
+                curNode.x += shift
+            })
         }
     }
-}
-
+}}
