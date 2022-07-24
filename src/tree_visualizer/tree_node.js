@@ -1,6 +1,5 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH} from "./constants";
-import NodePosition from "./node_positions";
+import { RADIUS, STROKE_WIDTH, TIME_GAP} from "./constants";
 
 export default class TreeNode {
     constructor(cx, cy, value) {
@@ -37,4 +36,32 @@ export default class TreeNode {
     getDOMObject() {
         return this.gTag;
     }
+
+    show() { 
+        return new Promise(resolve => { 
+            setTimeout (() => {
+                this.gTag.classList.remove('hidden');
+                resolve();
+            }, TIME_GAP)
+        })
+        // show, wait, highlight, processing
+    }
+
+    hide() { 
+        this.gTag.classList.add("hidden") 
+    }
+
+    processing() { // node default brown 
+        this.gTag.classList.add("processing") // node outline yellow
+    }
+
+    completed() { 
+        this.gTag.classList.remove("processing")
+        this.gTag.classList.add("completed") // node outline green 
+    }
+
+    highlight() { // node currently on, mark by fill
+        this.gTag.classList.add("highlight")
+    }
+
 };

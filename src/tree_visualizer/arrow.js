@@ -1,5 +1,5 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH } from "./constants";
+import { RADIUS, STROKE_WIDTH, TIME_GAP } from "./constants";
 
 export default class Arrow {
     constructor(id, result, startCoor, endCoor) {  // 
@@ -92,12 +92,17 @@ export default class Arrow {
         this.line.classList.add('hidden')
     } 
 
+    hideReturn(){
+        this.text.classList.add("hidden")
+        this.circle.classList.add("hidden")
+    }
+
     show() { 
         return new Promise(resolve => {
             setTimeout (() => {
                 this.line.classList.remove('hidden');
                 resolve();
-            }, 300)
+            }, TIME_GAP)
         })
     }
 
@@ -106,9 +111,38 @@ export default class Arrow {
     }
 
     return() {
-        this.gTag.appendChild(this.circle)
-        this.gTag.appendChild(this.text) // shows return value
-        [this.startCoor, this.endCoor] = [this.endCoor, this.startCoor] // flips arrow
+        return new Promise(resolve => {
+            setTimeout (() => {
+                this.gTag.appendChild(this.circle)
+                this.gTag.appendChild(this.text) // shows return value
+                this.flipCoors()
+                resolve();
+            }, TIME_GAP)
+        })
     }
 
-};
+    flipCoors() {
+        const [x1, y1] = this.startCoor;
+        const [x2, y2] = this.endCoor;
+
+        const arrowLength = Math.sqrt((x2 -x1)**2 + (y2-y1)**2) // distance formula 
+        const startRatio = arrowLength / RADIUS
+        const endRatio = arrowLength / (RADIUS + 4)
+        const bigX = x2 - x1 // there are two triangles that are similar
+        const bigY = y2 - y1
+        this.startCoor = [x1 - (bigX / startRatio), y1 - (bigY / startRatio)] 
+        this.endCoor = [x2 + (bigX / endRatio), y2 + (bigY / endRatio)]
+        
+        setAttributes(this.line, {
+            "x1": `${this.endCoor[0]}`,
+            "y1": `${this.endCoor[1]}`, 
+            "x2": `${this.startCoor[0]}`, 
+            "y2": `${this.startCoor[1]}`, 
+        }) 
+    }
+
+    highlight() { // node currently on
+        this.gTag.classList.add("highlight")
+    }
+
+}
