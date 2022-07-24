@@ -13,7 +13,7 @@ export default class Arrow {
         this.scaleCoors(this.startCoor,this.endCoor)
         this.findMidpoint()
         this.defs = document.createElementNS(svgNameSpace, "defs");
-        this.gTag = document.createElementNS(svgNameSpace, "g")
+        this.gTag = document.createElementNS(svgNameSpace, "g");
         this.marker = document.createElementNS(svgNameSpace, "marker") // gives arrowhead
         setAttributes(this.marker, {
             "id": `arrowhead-${this.id}`,
@@ -46,13 +46,20 @@ export default class Arrow {
             "stroke-width": STROKE_WIDTH
         });
         
+        this.circle = document.createElementNS(svgNameSpace, 'circle')
+        setAttributes(this.circle, {
+            "cx": this.midPoint[0], 
+            "cy": this.midPoint[1], 
+            "r": RADIUS/2,
+            "fill": "white", // background color
+        })
 
         this.line.classList.add("call-arrow")
         this.text.classList.add("result-text")
+        this.text.textContent = this.result
 
         this.gTag.appendChild(this.defs)
         this.gTag.appendChild(this.line)
-        this.gTag.appendChild(this.text)
         this.defs.appendChild(this.marker)
         this.marker.appendChild(this.path)
     }
@@ -99,7 +106,9 @@ export default class Arrow {
     }
 
     return() {
-        return this.result 
+        this.gTag.appendChild(this.circle)
+        this.gTag.appendChild(this.text) // shows return value
+        [this.startCoor, this.endCoor] = [this.endCoor, this.startCoor] // flips arrow
     }
 
 };

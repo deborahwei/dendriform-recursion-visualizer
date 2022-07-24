@@ -8,9 +8,12 @@
 }
 
 .result-text { 
-    font-size: 10; 
+    font-size: 8; 
     text-anchor: middle; 
-    stroke-width: 1;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    alignment-baseline: central;
 }
 
 
