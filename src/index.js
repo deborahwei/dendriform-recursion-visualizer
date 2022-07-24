@@ -3,7 +3,7 @@ import TreeNode from "./tree_visualizer/tree_node";
 import ControllerContainer from "./controller/controllerContainer";
 import FuncRunner from "./computer/funcRunner";
 import PositionCalculator from "./tree_visualizer/position_calculator.js";
-
+import Arrow from "./tree_visualizer/arrow.js"
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");
@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const controller = new ControllerContainer();
     const graph = new Graph();
-    const treeNode = new TreeNode(25, 25, 5, 1, 5);
 
     root.appendChild(controller.getDOMObject());
     root.appendChild(graph.getDOMObject());
@@ -24,12 +23,11 @@ document.addEventListener("DOMContentLoaded", () => {
     return fn(n-1) + fn(n-2)
     `
 
-    const fR = new FuncRunner(argsInput, fibFn, [3]); 
+    const fR = new FuncRunner(argsInput, fibFn, [7]); 
     const treeData = fR.runFunc()
-    console.log(treeData)
     const positionCalculator = new PositionCalculator(treeData)
     graph.resizeViewBox(positionCalculator.getTreeDimensions())
-    graph.dfs(positionCalculator.getRoot());
+    graph.animate(positionCalculator.getRoot());
     
     // console.log(tree.rootNode.id)
     // console.log(treeData)

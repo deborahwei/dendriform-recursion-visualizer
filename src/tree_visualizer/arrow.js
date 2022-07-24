@@ -1,18 +1,19 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
+import { RADIUS } from "./constants";
 
 export default class Arrow {
     constructor(id, startCoor, endCoor) {  // 
-        this.startNodeId = id
-        this.markerWidth = 10
-        this.markerHeight = 7
+        this.id = `line-${id}`
+        this.markerWidth = 50
+        this.markerHeight = 30
         this.startCoor = startCoor 
         this.endCoor = endCoor 
-        this.endCoor = endCoor
+        this.scaleCoors(this.startCoor,this.endCoor)
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g")
         this.marker = document.createElementNS(svgNameSpace, "marker") // gives arrowhead
         setAttributes(this.marker, {
-            "id": `arrowhead-${this.startNodeId}`,
+            "id": `arrowhead-${this.id}`,
             "markerWidth": this.markerWidth,
             "markerHeight": this.markerHeight, 
             "refX": '1', 
@@ -23,11 +24,12 @@ export default class Arrow {
 
         this.line = document.createElementNS(svgNameSpace, "line")
         setAttributes(this.line, {
-            "x1": `${startCoor[0]}`, // where the line starts
-            "y1": `${startCoor[1]}`, 
-            "x2": `${endCoor[0]}`, // where the line ends
-            "y2": `${endCoor[1]}`, 
-            "marker-end": `url(#arrowhead-${this.startNodeId})`
+            "x1": `${this.startCoor[0]}`, // where the line starts
+            "y1": `${this.startCoor[1]}`, 
+            "x2": `${this.endCoor[0]}`, // where the line ends
+            "y2": `${this.endCoor[1]}`, 
+            "marker-end": `url(#arrowhead-${this.id})`, 
+            "id": `${this.id}`
         })
         this.path = document.createElementNS(svgNameSpace, 'path')
         setAttributes(this.path, {
@@ -42,4 +44,40 @@ export default class Arrow {
         this.gTag.appendChild(this.line)
         this.marker.appendChild(this.path)
     }
+
+    scaleCoors(start, end) {
+        const [x1, y1] = start;
+        const [x2, y2] = end;
+
+        const arrowLength = Math.sqrt((x2 -x1)**2 + (y2-y1)**2) // distance formula 
+        const startRatio = arrowLength / RADIUS
+        const endRatio = arrowLength / (RADIUS + 4)
+        const bigX = x2 - x1 // there are two triangles that are similar
+        const bigY = y2 - y1
+        this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
+        this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
+    }
+
+    getDOMObject() {
+        return this.gTag;
+    }
+
+    hide() {
+        this.line.classList.add('hidden')
+    } 
+
+    show() { 
+        console.log(this.id)
+        return new Promise(resolve => {
+            setTimeout (() => {
+                this.line.classList.remove('hidden');
+                resolve();
+            }, 300)
+        })
+    }
+
+    getId() { 
+        return this.id
+    }
+
 };
