@@ -1,6 +1,10 @@
 .call-arrow {
-    stroke: black; 
+    stroke: #614124;
     stroke-width: 2;
+}
+
+.arrow-wrapper {
+    fill: #614124;
 }
 
 .hidden { 
@@ -10,7 +14,7 @@
 .result-text { 
     font-size: 8; 
     text-anchor: middle; 
-    stroke-width: 1.5;
+    stroke-width: 2;
     stroke-linecap: round;
     stroke-linejoin: round;
     alignment-baseline: central;

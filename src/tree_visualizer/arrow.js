@@ -10,7 +10,7 @@ export default class Arrow {
         this.endCoor = endCoor 
         this.result = result 
         this.midPoint = 0
-        this.scaleCoors(this.startCoor,this.endCoor)
+        this.generateCoors(this.startCoor, this.endCoor)
         this.findMidpoint()
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g");
@@ -56,6 +56,7 @@ export default class Arrow {
 
         this.line.classList.add("call-arrow")
         this.text.classList.add("result-text")
+        this.gTag.classList.add("arrow-wrapper")
         this.text.textContent = this.result
 
         this.gTag.appendChild(this.defs)
@@ -64,17 +65,21 @@ export default class Arrow {
         this.marker.appendChild(this.path)
     }
 
-    scaleCoors(start, end) {
+    generateCoors(start, end) {
         const [x1, y1] = start;
         const [x2, y2] = end;
 
         const arrowLength = Math.sqrt((x2 -x1)**2 + (y2-y1)**2) // distance formula 
         const startRatio = arrowLength / RADIUS
-        const endRatio = arrowLength / (RADIUS + 4)
+        const endRatio = arrowLength / (RADIUS+4)
         const bigX = x2 - x1 // there are two triangles that are similar
         const bigY = y2 - y1
+
         this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
         this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
+        
+        this.flippedStartCoor = [x2 - (bigX / startRatio), y2 - (bigY / startRatio)]
+        this.flippedEndCoor = [x1 + (bigX / endRatio), y1 + (bigY / endRatio)] 
     }
 
     findMidpoint() { 
@@ -110,39 +115,25 @@ export default class Arrow {
         return this.id
     }
 
-    return() {
+    return(node) {
         return new Promise(resolve => {
             setTimeout (() => {
                 this.gTag.appendChild(this.circle)
                 this.gTag.appendChild(this.text) // shows return value
                 this.flipCoors()
+                node.completed()
                 resolve();
             }, TIME_GAP)
         })
     }
 
     flipCoors() {
-        const [x1, y1] = this.startCoor;
-        const [x2, y2] = this.endCoor;
-
-        const arrowLength = Math.sqrt((x2 -x1)**2 + (y2-y1)**2) // distance formula 
-        const startRatio = arrowLength / RADIUS
-        const endRatio = arrowLength / (RADIUS + 4)
-        const bigX = x2 - x1 // there are two triangles that are similar
-        const bigY = y2 - y1
-        this.startCoor = [x1 - (bigX / startRatio), y1 - (bigY / startRatio)] 
-        this.endCoor = [x2 + (bigX / endRatio), y2 + (bigY / endRatio)]
-        
         setAttributes(this.line, {
-            "x1": `${this.endCoor[0]}`,
-            "y1": `${this.endCoor[1]}`, 
-            "x2": `${this.startCoor[0]}`, 
-            "y2": `${this.startCoor[1]}`, 
+            "x1": `${this.flippedStartCoor[0]}`,
+            "y1": `${this.flippedStartCoor[1]}`, 
+            "x2": `${this.flippedEndCoor[0]}`, 
+            "y2": `${this.flippedEndCoor[1]}`, 
         }) 
-    }
-
-    highlight() { // node currently on
-        this.gTag.classList.add("highlight")
     }
 
 }

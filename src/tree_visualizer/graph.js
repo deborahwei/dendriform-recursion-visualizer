@@ -1,4 +1,3 @@
-import coreJsCompat from "@babel/preset-env/data/core-js-compat";
 import { setAttributes, svgNameSpace} from "../utilities/util";
 import Arrow from "./arrow";
 
@@ -6,6 +5,12 @@ export default class Graph {
     constructor() {
         this.graphContainer = document.createElement("div");
         this.graphContainer.classList.add("graph-container");
+
+        this.navSteps = document.createElement("div")
+        this.nextStepButton = document.createElement("i")
+        this.nextStepButton.classList.add("fa-solid", "fa-caret-right", "fa-lg")
+        this.navSteps.appendChild(this.nextStepButton)
+
         this.graphWindow = document.createElementNS(svgNameSpace, "svg");
         setAttributes(this.graphWindow, {
             "viewBox": `0 0 100 100`,
@@ -13,23 +18,24 @@ export default class Graph {
             "height": "100%"
         });
 
+        this.graphContainer.appendChild(this.navSteps)
         this.graphContainer.appendChild(this.graphWindow);
+
         this.arrows = {}
         this.nodes = {}
+        this.steps = {}
+        this.stepCounter = 0
     };
 
-    animate(node) {
+
+    async animate(node) {
         this.generateTree(node); // puts elements on document, but invisible for now
-        this.showNodes(node)
+        await this.showNodes(node)
+        await this.showAnswer(node)
     }
 
     generateTree(node) { 
         node.traverse(cur => { // generate nodes
-            this.graphWindow.appendChild(cur.getDOMObject())
-            let treeNode = cur.getTreeNode()
-            this.nodes[`node-${cur.id}`] = treeNode
-            treeNode.hide() // hide nodes
-
             for (let child of cur.children) { // generate arrows
                 let endCoor = [child.x, child.y] 
                 let arrow = new Arrow (child.id, child.result, [cur.x, cur.y], endCoor)
@@ -38,19 +44,32 @@ export default class Graph {
                 this.graphWindow.appendChild(arrow.getDOMObject())
             }
         })
+        node.traverse(cur => { 
+            this.graphWindow.appendChild(cur.getDOMObject())
+            let treeNode = cur.getTreeNode()
+            this.nodes[`node-${cur.id}`] = treeNode
+            treeNode.hide() // hide nodes
+        })
     }
 
     async showNodes(node) {
         let treeNodeKey = `node-${node.id}`
         let treeNode = this.nodes[treeNodeKey] 
+        // this.addStep(treeNodeKey)
         await treeNode.show() 
+
         for (let child of node.children) {
             let arrow = this.arrows[`line-${child.id}`]
             await arrow.show()
+            // this.addStep(`line-${child.id}`)
             await this.showNodes(child)
-            await arrow.return()
+            await arrow.return(this.nodes[`node-${child.id}`])
         }
     }
+
+    // addStep(v) {
+    //     this.steps[`step-${this.stepCounter += 1}`] = [v]
+    // }
 
     getDOMObject() {
         return this.graphContainer;
@@ -63,5 +82,16 @@ export default class Graph {
             "viewBox": `0 0 ${width} ${height}`
         })
     }
+
+    showAnswer(node) {
+        this.nodes[`node-0`].completed()
+        console.log(node.result)
+    }
+
+    // backStep(node) {
+        
+    // }
+
+    // forwardStep()
 
 };

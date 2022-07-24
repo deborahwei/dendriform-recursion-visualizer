@@ -7,7 +7,7 @@ export default class TreeNode {
         this.gTag = document.createElementNS(svgNameSpace, "g");
         setAttributes(this.gTag, {
             "fill": "white",
-            "stroke": "black",
+            "stroke": "#614124",
             "stroke-width": STROKE_WIDTH
         });
 
@@ -41,6 +41,7 @@ export default class TreeNode {
         return new Promise(resolve => { 
             setTimeout (() => {
                 this.gTag.classList.remove('hidden');
+                this.gTag.classList.add('processing')
                 resolve();
             }, TIME_GAP)
         })
@@ -51,17 +52,10 @@ export default class TreeNode {
         this.gTag.classList.add("hidden") 
     }
 
-    processing() { // node default brown 
-        this.gTag.classList.add("processing") // node outline yellow
-    }
-
     completed() { 
         this.gTag.classList.remove("processing")
         this.gTag.classList.add("completed") // node outline green 
     }
 
-    highlight() { // node currently on, mark by fill
-        this.gTag.classList.add("highlight")
-    }
 
 };
