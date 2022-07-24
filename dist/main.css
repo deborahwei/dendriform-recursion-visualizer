@@ -27,6 +27,12 @@
   visibility: hidden;
 }
 
+.result-text {
+  font-size: 10;
+  text-anchor: middle;
+  stroke-width: 1;
+}
+
 #root {
   width: 100%;
   display: flex;

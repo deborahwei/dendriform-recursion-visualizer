@@ -1,5 +1,5 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS } from "./constants";
+import { RADIUS, STROKE_WIDTH } from "./constants";
 
 export default class Arrow {
     constructor(id, result, startCoor, endCoor) {  // 
@@ -9,8 +9,9 @@ export default class Arrow {
         this.startCoor = startCoor 
         this.endCoor = endCoor 
         this.result = result 
-        console.log(this.id, this.result)
+        this.midPoint = 0
         this.scaleCoors(this.startCoor,this.endCoor)
+        this.findMidpoint()
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g")
         this.marker = document.createElementNS(svgNameSpace, "marker") // gives arrowhead
@@ -38,15 +39,21 @@ export default class Arrow {
             "d": 'M 1,0 L 1,2 L 3,1 Z'
         })
 
-        this.circle = document.createElementNS(svgNameSpace, 'circle')
-        setAttributes
+        this.text = document.createElementNS(svgNameSpace, 'text')
+        setAttributes(this.text, { 
+            "x": this.midPoint[0], 
+            "y": this.midPoint[1], 
+            "stroke-width": STROKE_WIDTH
+        });
         
 
         this.line.classList.add("call-arrow")
+        this.text.classList.add("result-text")
 
         this.gTag.appendChild(this.defs)
-        this.defs.appendChild(this.marker)
         this.gTag.appendChild(this.line)
+        this.gTag.appendChild(this.text)
+        this.defs.appendChild(this.marker)
         this.marker.appendChild(this.path)
     }
 
@@ -61,6 +68,13 @@ export default class Arrow {
         const bigY = y2 - y1
         this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
         this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
+    }
+
+    findMidpoint() { 
+        const [x1, y1] = this.startCoor;
+        const [x2, y2] = this.endCoor;
+
+        this.midPoint = [(x1 + x2)/2, (y1+y2)/2]
     }
 
     getDOMObject() {
@@ -85,7 +99,6 @@ export default class Arrow {
     }
 
     return() {
-        this.
         return this.result 
     }
 
