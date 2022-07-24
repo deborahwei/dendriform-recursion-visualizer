@@ -35,11 +35,16 @@ export default class Graph {
 
     async showNodes(node) {
         this.graphWindow.appendChild(node.getDOMObject());
-        console.log(node)
         for (let child of node.children) {
             let arrow = this.arrows[`line-${child.id}`]
             await arrow.show()
             await this.showNodes(child)
+        }
+    }
+
+    async returnArrows(node) { 
+        for (let child of node.children) {
+            let arrow = this.arrows[`line-${node.id}`]
         }
     }
     

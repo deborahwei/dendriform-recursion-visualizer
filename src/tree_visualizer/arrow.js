@@ -67,7 +67,6 @@ export default class Arrow {
     } 
 
     show() { 
-        console.log(this.id)
         return new Promise(resolve => {
             setTimeout (() => {
                 this.line.classList.remove('hidden');
