@@ -5,6 +5,7 @@ export default class Arrow {
     constructor(id, result, startCoor, endCoor) {  // 
         this.id = `line-${id}`
         this.markerWidth = 50
+        this.returned = false
         this.markerHeight = 30
         this.startCoor = startCoor 
         this.endCoor = endCoor 
@@ -121,6 +122,7 @@ export default class Arrow {
                 this.gTag.appendChild(this.circle)
                 this.gTag.appendChild(this.text) // shows return value
                 this.flipCoors()
+                this.setReturn(true)
                 node.completed()
                 resolve();
             }, TIME_GAP)
@@ -134,6 +136,10 @@ export default class Arrow {
             "x2": `${this.flippedEndCoor[0]}`, 
             "y2": `${this.flippedEndCoor[1]}`, 
         }) 
+    }
+
+    setReturn(status) { 
+        this.return = status
     }
 
 }

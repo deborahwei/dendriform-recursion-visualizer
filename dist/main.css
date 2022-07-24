@@ -4,6 +4,8 @@
 .graph-container {
   width: 100%;
   height: 70%;
+  display: flex;
+  flex-direction: column;
 }
 
 .controller-container {
@@ -46,6 +48,22 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   alignment-baseline: central;
+}
+
+.nav-steps {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fa-backward, .fa-forward {
+  color: #CC704B;
+}
+
+.fa-caret-right, .fa-caret-left {
+  color: #E8C07D;
 }
 
 #root {

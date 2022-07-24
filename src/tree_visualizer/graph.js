@@ -1,15 +1,13 @@
 import { setAttributes, svgNameSpace} from "../utilities/util";
 import Arrow from "./arrow";
+import NavSteps from "./nav_steps";
 
 export default class Graph {
     constructor() {
         this.graphContainer = document.createElement("div");
         this.graphContainer.classList.add("graph-container");
 
-        this.navSteps = document.createElement("div")
-        this.nextStepButton = document.createElement("i")
-        this.nextStepButton.classList.add("fa-solid", "fa-caret-right", "fa-lg")
-        this.navSteps.appendChild(this.nextStepButton)
+        this.navSteps = new NavSteps()
 
         this.graphWindow = document.createElementNS(svgNameSpace, "svg");
         setAttributes(this.graphWindow, {
@@ -18,13 +16,13 @@ export default class Graph {
             "height": "100%"
         });
 
-        this.graphContainer.appendChild(this.navSteps)
+        this.graphContainer.appendChild(this.navSteps.getDOMElement())
         this.graphContainer.appendChild(this.graphWindow);
+
 
         this.arrows = {}
         this.nodes = {}
-        this.steps = {}
-        this.stepCounter = 0
+
     };
 
 
@@ -66,10 +64,6 @@ export default class Graph {
             await arrow.return(this.nodes[`node-${child.id}`])
         }
     }
-
-    // addStep(v) {
-    //     this.steps[`step-${this.stepCounter += 1}`] = [v]
-    // }
 
     getDOMObject() {
         return this.graphContainer;

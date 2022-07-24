@@ -4,6 +4,7 @@ import { RADIUS, STROKE_WIDTH, TIME_GAP} from "./constants";
 export default class TreeNode {
     constructor(cx, cy, value) {
         this.r = RADIUS;
+        this.complete = false
         this.gTag = document.createElementNS(svgNameSpace, "g");
         setAttributes(this.gTag, {
             "fill": "white",
@@ -54,7 +55,12 @@ export default class TreeNode {
 
     completed() { 
         this.gTag.classList.remove("processing")
+        this.setComplete(true)
         this.gTag.classList.add("completed") // node outline green 
+    }
+
+    setComplete(status) { 
+        this.setComplete = status
     }
 
 

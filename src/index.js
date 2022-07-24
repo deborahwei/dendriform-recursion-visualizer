@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const controller = new ControllerContainer();
     const graph = new Graph();
 
+
     root.appendChild(controller.getDOMObject());
     root.appendChild(graph.getDOMObject());
 

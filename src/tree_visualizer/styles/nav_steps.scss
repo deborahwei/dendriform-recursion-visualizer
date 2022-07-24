@@ -1,0 +1,15 @@
+.nav-steps {
+    height: 10%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.fa-backward, .fa-forward { 
+    color: #CC704B;
+}
+
+.fa-caret-right, .fa-caret-left { 
+    color: #E8C07D;
+}
