@@ -2,12 +2,14 @@ import { setAttributes, svgNameSpace } from "../utilities/util";
 import { RADIUS } from "./constants";
 
 export default class Arrow {
-    constructor(id, startCoor, endCoor) {  // 
+    constructor(id, result, startCoor, endCoor) {  // 
         this.id = `line-${id}`
         this.markerWidth = 50
         this.markerHeight = 30
         this.startCoor = startCoor 
         this.endCoor = endCoor 
+        this.result = result 
+        console.log(this.id, this.result)
         this.scaleCoors(this.startCoor,this.endCoor)
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g")
@@ -35,6 +37,9 @@ export default class Arrow {
         setAttributes(this.path, {
             "d": 'M 1,0 L 1,2 L 3,1 Z'
         })
+
+        this.circle = document.createElementNS(svgNameSpace, 'circle')
+        setAttributes
         
 
         this.line.classList.add("call-arrow")
@@ -77,6 +82,11 @@ export default class Arrow {
 
     getId() { 
         return this.id
+    }
+
+    return() {
+        this.
+        return this.result 
     }
 
 };

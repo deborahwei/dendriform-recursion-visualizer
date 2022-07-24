@@ -23,7 +23,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return fn(n-1) + fn(n-2)
     `
 
-    const fR = new FuncRunner(argsInput, fibFn, [2]); 
+    const fR = new FuncRunner(argsInput, fibFn, [3]); 
     const treeData = fR.runFunc()
     const positionCalculator = new PositionCalculator(treeData)
     graph.resizeViewBox(positionCalculator.getTreeDimensions())

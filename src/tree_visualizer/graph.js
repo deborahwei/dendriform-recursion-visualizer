@@ -25,7 +25,7 @@ export default class Graph {
         node.traverse(cur => {
             for (let child of cur.children) {
                 let endCoor = [child.x, child.y] 
-                let arrow = new Arrow (child.id, [cur.x, cur.y], endCoor)
+                let arrow = new Arrow (child.id, child.result, [cur.x, cur.y], endCoor)
                 this.arrows[arrow.getId()] = arrow
                 arrow.hide()
                 this.graphWindow.appendChild(arrow.getDOMObject())
