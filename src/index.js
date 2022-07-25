@@ -33,9 +33,9 @@ document.addEventListener("DOMContentLoaded", () => {
     // return fn(n-1) + fn(n-2)
     // `
 
+    // const userInput = new user_input(argsInput, fibfn, [7])
     // const fR = new FuncRunner(argsInput, fibFn, [7]); 
     const treeData = userInputs.getTreeData()
-    // const userInput = new user_input(argsInput, fibfn, [7])
     const positionCalculator = new PositionCalculator(treeData)
     graph.resizeViewBox(positionCalculator.getTreeDimensions())
     graph.animate(positionCalculator.getRoot());

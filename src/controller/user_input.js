@@ -67,7 +67,7 @@ export default class UserInput {
     }
 
     callFuncRunner() {
-        return new FuncRunner(this.argsInput, this.functionBody, this.params)
+        return new FuncRunner(this.args, this.functionBody, this.params)
     }
 
     getTreeData() { 
