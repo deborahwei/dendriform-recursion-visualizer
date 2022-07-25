@@ -87,6 +87,7 @@ export default class Graph {
             if (this.currentStep + 1 < this.steps.length) this.jumpToStep(++this.currentStep);
         })
         this.navSteps.addClickEventListener('endButton', () => {
+            this.noSkip = false
             this.currentStep = this.steps.length - 1
             this.jumpToStep(this.currentStep)
         })
