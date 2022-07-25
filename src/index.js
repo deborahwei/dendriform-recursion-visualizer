@@ -2,8 +2,8 @@ import Graph from "./tree_visualizer/graph";
 import TreeNode from "./tree_visualizer/tree_node";
 import ControllerContainer from "./controller/controllerContainer";
 import FuncRunner from "./computer/funcRunner";
-import PositionCalculator from "./tree_visualizer/position_calculator.js";
-import Arrow from "./tree_visualizer/arrow.js"
+import PositionCalculator from "./tree_visualizer/position_calculator";
+import Arrow from "./tree_visualizer/arrow"
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");

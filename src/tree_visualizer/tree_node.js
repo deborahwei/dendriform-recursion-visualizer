@@ -38,27 +38,38 @@ export default class TreeNode {
         return this.gTag;
     }
 
-    show() { 
-        return new Promise(resolve => { 
-            setTimeout (() => {
-                this.gTag.classList.remove('hidden');
-                this.gTag.classList.remove('completed')
-                this.gTag.classList.add('processing')
-                resolve();
-            }, TIME_GAP)
-        })
-        // show, wait, highlight, processing
+    // show() { 
+    //     return new Promise(resolve => { 
+    //         setTimeout (() => {
+    //             this.gTag.classList.remove('hidden');
+    //             this.gTag.classList.remove('completed')
+    //             this.gTag.classList.add('processing')
+    //             resolve();
+    //         }, TIME_GAP)
+    //     })
+    //     // show, wait, highlight, processing
+    // }
+
+    showProcessingNode() { // makes initial node
+        this.gTag.classList.remove('hidden');
+        this.gTag.classList.remove('completed')
+        this.gTag.classList.add('processing')
     }
 
-    hide() { 
+    hideProcessingNode() { 
         this.gTag.classList.add("hidden") 
     }
 
-    completed() { 
+
+    showCompletedNode() { 
         this.gTag.classList.remove("processing")
-        this.setComplete(true)
         this.gTag.classList.add("completed") // node outline green 
     }
+
+    hideCompletedNode() { 
+        this.gTag.classList.add("processing")
+        this.gTag.classList.remove("completed")    
+    }   
 
     setComplete(status) { 
         this.complete = status

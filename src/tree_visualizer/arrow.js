@@ -64,6 +64,8 @@ export default class Arrow {
         this.gTag.appendChild(this.line)
         this.defs.appendChild(this.marker)
         this.marker.appendChild(this.path)
+        this.gTag.appendChild(this.circle)
+        this.gTag.appendChild(this.text)
     }
 
     generateCoors(start, end) {
@@ -94,44 +96,72 @@ export default class Arrow {
         return this.gTag;
     }
 
-    hide() {
+    hideReturnArrow(node) {
+        this.unflipCoors() // renders arrow
+        this.text.classList.add("hidden")
+        this.circle.classList.add("hidden")
+
+        node.setComplete(false) // changes node to processing
+    } 
+
+    showReturnArrow(node) { 
+        this.flipCoors()
+        this.text.classList.remove("hidden")
+        this.circle.classList.remove("hidden")
+
+        node.setComplete(true) // changes node to completed
+        node.showCompletedNode()
+    }
+
+
+    // show() { 
+    //     return new Promise(resolve => {
+    //         setTimeout (() => {
+    //             this.line.classList.remove('hidden');
+    //             resolve();
+    //         }, TIME_GAP)
+    //     })
+    // }
+
+    
+    showCallArrow() { 
+        this.line.classList.remove('hidden');
+        this.text.classList.add("hidden")
+        this.circle.classList.add("hidden")
+    }
+
+    hideCallArrow() { 
         this.line.classList.add('hidden')
         this.text.classList.add("hidden")
         this.circle.classList.add("hidden")
-    } 
-
-    unhideReturn() { 
-        this.text.classList.remove("hidden")
-        this.circle.classList.remove("hidden")
-    }
-
-
-    show() { 
-        return new Promise(resolve => {
-            setTimeout (() => {
-                this.line.classList.remove('hidden');
-                resolve();
-            }, TIME_GAP)
-        })
     }
 
     getId() { 
-        return this.id
+        return this.id[this.id.length - 1]
     }
 
-    return(node) {
-        return new Promise(resolve => {
-            setTimeout (() => {
-                this.gTag.appendChild(this.circle)
-                this.gTag.appendChild(this.text) // shows return value
+    // return(node) {
+    //     return new Promise(resolve => {
+    //         setTimeout (() => {
+    //             this.gTag.appendChild(this.circle)
+    //             this.gTag.appendChild(this.text) // shows return value
 
-                this.flipCoors()
-                this.setReturn(true)
-                node.completed()
-                resolve();
-            }, TIME_GAP)
-        })
-    }
+    //             this.flipCoors()
+    //             this.setReturn(true)
+    //             node.completed()
+    //             resolve();
+    //         }, TIME_GAP)
+    //     })
+    // }
+    
+    // return(node) {
+    //     this.gTag.appendChild(this.circle)
+    //     this.gTag.appendChild(this.text) // shows return value
+
+    //     this.flipCoors()
+    //     this.setReturn(true)
+    //     node.completed()
+    // }
 
     flipCoors() {
         setAttributes(this.line, {
