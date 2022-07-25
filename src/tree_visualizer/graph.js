@@ -33,9 +33,9 @@ export default class Graph {
     async animate(node) {
         this.generateTree(node); // puts elements on document, but invisible for now
         this.addElementsToHash(node)
+        this.   
         // await this.showNodes(node)
         // await this.showAnswer(node)
-        console.log(this.steps)
     }
 
     generateTree(node) { 
@@ -105,35 +105,29 @@ export default class Graph {
     }
 
     doStep(object, doSteps) { 
-        console.log(doSteps)
         if (object instanceof Arrow) {
             let returnedCount = 0 
             let count = 0
             doSteps.forEach( (step) => { 
-                if (step.id && step.id === object.id) {
+                if (step.id === object.id) {
                     count += 1
-                    if (step.returned) {
-                        returnedCount += 1 
-                    }
                 }
             })
             if (count === 1) {
-                console.log("call", returnedCount, count)
                 object.showCallArrow() 
                 // if there is no returned count return call arrow
                 object.setReturn(false)
             }
             else if (count === 2) {
-                console.log("return", returnedCount, count)
 
                 const arrowId = object.getId() // node that becomes complete has the same id as arrow
                 const nodeReturning = this.nodes[`node-${arrowId}`]
                 object.showReturnArrow(nodeReturning)
                 object.setReturn(true)
             }
-            // if (this.currentStep === this.steps.length - 1) {
-            //     this.showAnswer()
-            // }
+            if (this.currentStep === this.steps.length - 1) {
+                this.nodes[`node-0`].showCompletedNode()
+            }
         }
         else if (object instanceof TreeNode) {
             object.showProcessingNode()
@@ -146,11 +140,8 @@ export default class Graph {
             let returnedCount = 0 // counts how many instances of the arrow in hidden steps
             let count = 0
             hiddenSteps.forEach( (step) => { 
-                if (step.id && step.id === object.id) {
+                if (step.id === object.id) {
                     count += 1
-                    if (step.returned) {
-                        returnedCount += 1 
-                    }
                 }
             })
             if (count === 1) { 
@@ -178,7 +169,7 @@ export default class Graph {
             if (0 <= this.currentStep - 1) this.jumpToStep(--this.currentStep);
         })
         this.navSteps.addClickEventListener('nextStepButton', () => {
-            if (this.currentStep < this.steps.length) this.jumpToStep(++this.currentStep);
+            if (this.currentStep + 1 < this.steps.length) this.jumpToStep(++this.currentStep);
         })
         this.navSteps.addClickEventListener('endButton', () => {
             this.currentStep = this.steps.length - 1
@@ -189,7 +180,7 @@ export default class Graph {
     jumpToStep(step) { 
         const doSteps = this.steps.slice(0, step + 1) 
         const hiddenSteps = this.steps.slice(step + 1)
-        console.log(doSteps, hiddenSteps)
+        console.log("arrs", doSteps, hiddenSteps)
         for (let i = 0; i < this.steps.length; i++) {
             if (i <= step) {
                 this.doStep(this.steps[i], doSteps)

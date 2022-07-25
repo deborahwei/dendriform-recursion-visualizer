@@ -106,6 +106,7 @@ export default class Arrow {
 
     showReturnArrow(node) { 
         this.flipCoors()
+        this.line.classList.remove("hidden")
         this.text.classList.remove("hidden")
         this.circle.classList.remove("hidden")
 
