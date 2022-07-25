@@ -105,6 +105,7 @@ export default class Graph {
     }
 
     doStep(object, doSteps) { 
+        console.log(doSteps)
         if (object instanceof Arrow) {
             let returnedCount = 0 
             let count = 0
@@ -130,9 +131,8 @@ export default class Graph {
                 object.showReturnArrow(nodeReturning)
                 object.setReturn(true)
             }
-            // if (this.currentStep === this.steps.length) {
-            //     console.log(this.currentStep)
-            //     this.nodes[`node-0`].completed()
+            // if (this.currentStep === this.steps.length - 1) {
+            //     this.showAnswer()
             // }
         }
         else if (object instanceof TreeNode) {
@@ -153,19 +153,19 @@ export default class Graph {
                     }
                 }
             })
-            if (returnedCount !== 0 && count === 1) { // this means hide the whole arrow
+            if (count === 1) { 
                 const arrowId = object.getId() // node that becomes complete has the same id as arrow
                 const nodeReturning = this.nodes[`node-${arrowId}`]
                 object.hideReturnArrow(nodeReturning)
             }
-            else if (count === 0) {
+            else if (count === 2) {
                 object.hideCallArrow()
             }
             object.setReturn(false)
         }
         else if (object instanceof TreeNode) {
             object.setComplete(false)
-            object.hideProcessingNode
+            object.hideProcessingNode()
         }
     }
 
@@ -187,9 +187,9 @@ export default class Graph {
     }
 
     jumpToStep(step) { 
-        console.log(step)
         const doSteps = this.steps.slice(0, step + 1) 
-        const hiddenSteps = this.steps.slice(step)
+        const hiddenSteps = this.steps.slice(step + 1)
+        console.log(doSteps, hiddenSteps)
         for (let i = 0; i < this.steps.length; i++) {
             if (i <= step) {
                 this.doStep(this.steps[i], doSteps)
@@ -213,7 +213,7 @@ export default class Graph {
     }
 
     showAnswer(node) {
-        this.nodes[`node-0`].completed()
+        this.nodes[`node-0`].showCompletedNode()
         console.log(node.result)
     }
 };
