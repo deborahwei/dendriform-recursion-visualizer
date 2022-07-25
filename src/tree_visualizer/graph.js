@@ -33,7 +33,7 @@ export default class Graph {
     async animate(node) {
         this.generateTree(node); // puts elements on document, but invisible for now
         this.addElementsToHash(node)
-        this.   
+        // this.   
         // await this.showNodes(node)
         // await this.showAnswer(node)
     }
@@ -95,9 +95,12 @@ export default class Graph {
         let treeNodeKey = `node-${node.id}`
         let treeNode = this.nodes[treeNodeKey] // add node to hash
         this.steps.push(treeNode) // add step to hash
-
+        // console.log(node.children)
         for (let child of node.children) {
+            console.log(this.arrows)
             let arrow = this.arrows[`line-${child.id}`]
+            // console.log(child.id)
+            console.log(this.arrows[`line-1`])
             this.steps.push(arrow)
             this.addElementsToHash(child)
             this.steps.push(arrow)
@@ -106,7 +109,6 @@ export default class Graph {
 
     doStep(object, doSteps) { 
         if (object instanceof Arrow) {
-            let returnedCount = 0 
             let count = 0
             doSteps.forEach( (step) => { 
                 if (step.id === object.id) {
@@ -137,7 +139,6 @@ export default class Graph {
 
     undoStep(object, hiddenSteps) {
         if (object instanceof Arrow) {
-            let returnedCount = 0 // counts how many instances of the arrow in hidden steps
             let count = 0
             hiddenSteps.forEach( (step) => { 
                 if (step.id === object.id) {
@@ -180,7 +181,6 @@ export default class Graph {
     jumpToStep(step) { 
         const doSteps = this.steps.slice(0, step + 1) 
         const hiddenSteps = this.steps.slice(step + 1)
-        console.log("arrs", doSteps, hiddenSteps)
         for (let i = 0; i < this.steps.length; i++) {
             if (i <= step) {
                 this.doStep(this.steps[i], doSteps)

@@ -138,7 +138,7 @@ export default class Arrow {
     }
 
     getId() { 
-        return this.id[this.id.length - 1]
+        return this.id.slice(5)
     }
 
     // return(node) {

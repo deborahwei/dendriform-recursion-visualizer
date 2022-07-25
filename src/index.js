@@ -16,15 +16,34 @@ document.addEventListener("DOMContentLoaded", () => {
     root.appendChild(controller.getDOMObject());
     root.appendChild(graph.getDOMObject());
 
-    const argsInput = "n"
+    const argsInput = "n, k"
     const fibFn = `
-    if (n == 0 || n == 1)
-    return n
-  
-    return fn(n-1) + fn(n-2)
+    if (k == 0 || n == k)
+        return 1
+    return fn(n-1, k-1) + fn(n-1, k)
     `
 
-    const fR = new FuncRunner(argsInput, fibFn, [2]); 
+    // const argsInput = "n"
+    // const fibFn = `
+    // if (n == 0 || n == 1)
+    // return n
+  
+    // return fn(n-1) + fn(n-2)
+    // `
+
+    // if (n == 0 || n == 1)
+    // return n
+  
+    // return fn(n-1) + fn(n-2)
+
+
+// if (k == 0 || n == k)
+//   return 1
+
+// return fn(n-1, k-1) + fn(n-1, k)
+// }
+
+    const fR = new FuncRunner(argsInput, fibFn, [5, 2]); 
     const treeData = fR.runFunc()
     const positionCalculator = new PositionCalculator(treeData)
     graph.resizeViewBox(positionCalculator.getTreeDimensions())
