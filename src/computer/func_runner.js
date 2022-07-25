@@ -1,4 +1,4 @@
-import getSourceCode from "./funcInjector";
+import getSourceCode from "./func_injector";
 
 export default class FuncRunner {
     constructor(args, functionBody, params) {
