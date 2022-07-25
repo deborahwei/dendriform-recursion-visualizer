@@ -3,24 +3,64 @@ import { setAttributes } from "../utilities/util";
 
 export default class UserInput {
     constructor() { 
-        this.args = ``;
-        this.functionBody = ``;
-        this.params = ``
+        const fibFn = `
+        if (n == 0 || n == 1)
+        return n
+    
+        return fn(n-1) + fn(n-2)
+        `
+        this.args = "n";
+        this.functionBody = fibFn;
+        this.params = [7]
         this.func = this.callFuncRunner()
 
         this.userInputs = document.createElement("div");
-        this.userInputs.classList.add("user-inputs")
-        this.functionBodyInput = document.createElement("input")
-        this.paramsInput = document.createElement("input")
-        this.argsInput = document.createElement("input")
 
+        this.functionBodyInput = document.createElement("input");
+        this.functionBodyLabel = document.createElement("label");
+        this.functionBodyLabel.innerHTML = "Insert recursive function: ";
+        setAttributes(this.functionBodyInput, {
+            'type': 'text', 
+            'id': 'function-body', 
+        })
+        setAttributes(this.functionBodyLabel, {
+            'for': 'function-body'
+        })
+        
+        this.argsInput = document.createElement("input");
+        this.argsLabel = document.createElement("label");
+        this.argsLabel.innerHTML = "Args: " ;
+        setAttributes(this.argsInput, {
+            'type': 'text', 
+            'id': 'args-input', 
+        })
+        setAttributes(this.argsLabel, {
+            'for': 'args-input'
+        })
+        
+        this.paramsInput = document.createElement("input");
+        this.paramsLabel = document.createElement("label");
+        this.paramsLabel.innerHTML = "Params: ";
+        setAttributes(this.paramsInput, {
+            'type': 'text', 
+            'id': 'params-input', 
+        })
+        setAttributes(this.paramsLabel, {
+            'for': 'params-input'
+        })
+
+        this.userInputs.appendChild(this.functionBodyLabel)
         this.userInputs.appendChild(this.functionBodyInput)
+
+        this.userInputs.appendChild(this.paramsLabel)
         this.userInputs.appendChild(this.paramsInput)
+        
+        this.userInputs.appendChild(this.argsLabel)
         this.userInputs.appendChild(this.argsInput)
     }
 
     getUserInput() { 
-        const functionBodyInput = document.createElement("ibput")
+        const functionBodyInput = document.createElement("input")
         setAttributes(functionBodyInput, {
             "type": "text"
         });
@@ -30,12 +70,12 @@ export default class UserInput {
         return new FuncRunner(this.argsInput, this.functionBody, this.params)
     }
 
-    returnTreeData() { 
+    getTreeData() { 
         this.treeData = this.func.runFunc()
         return this.treeData
     }
 
     getDOMObject() { 
-        retur
+        return this.userInputs
     }
 }

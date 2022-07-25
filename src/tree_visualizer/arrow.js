@@ -113,17 +113,6 @@ export default class Arrow {
         node.setComplete(true) // changes node to completed
         node.showCompletedNode()
     }
-
-
-    // show() { 
-    //     return new Promise(resolve => {
-    //         setTimeout (() => {
-    //             this.line.classList.remove('hidden');
-    //             resolve();
-    //         }, TIME_GAP)
-    //     })
-    // }
-
     
     showCallArrow() { 
         this.line.classList.remove('hidden');
@@ -140,29 +129,6 @@ export default class Arrow {
     getId() { 
         return this.id.slice(5)
     }
-
-    // return(node) {
-    //     return new Promise(resolve => {
-    //         setTimeout (() => {
-    //             this.gTag.appendChild(this.circle)
-    //             this.gTag.appendChild(this.text) // shows return value
-
-    //             this.flipCoors()
-    //             this.setReturn(true)
-    //             node.completed()
-    //             resolve();
-    //         }, TIME_GAP)
-    //     })
-    // }
-    
-    // return(node) {
-    //     this.gTag.appendChild(this.circle)
-    //     this.gTag.appendChild(this.text) // shows return value
-
-    //     this.flipCoors()
-    //     this.setReturn(true)
-    //     node.completed()
-    // }
 
     flipCoors() {
         setAttributes(this.line, {

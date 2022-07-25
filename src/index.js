@@ -2,6 +2,7 @@ import Graph from "./tree_visualizer/graph";
 import ControllerContainer from "./controller/controller_container";
 import FuncRunner from "./computer/func_runner";
 import PositionCalculator from "./tree_visualizer/position_calculator";
+import UserInput from "./controller/user_input";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");
@@ -9,9 +10,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const controller = new ControllerContainer();
     const graph = new Graph();
+    const userInputs = new UserInput();
 
     root.appendChild(controller.getDOMObject());
     root.appendChild(graph.getDOMObject());
+
+    
 
     // Binomial coefficient 
     // const argsInput = "n, k"
@@ -21,16 +25,16 @@ document.addEventListener("DOMContentLoaded", () => {
     // return fn(n-1, k-1) + fn(n-1, k)
     // `
 
-    const argsInput = "n"
-    const fibFn = `
-    if (n == 0 || n == 1)
-    return n
+    // const argsInput = "n"
+    // const fibFn = `
+    // if (n == 0 || n == 1)
+    // return n
   
-    return fn(n-1) + fn(n-2)
-    `
+    // return fn(n-1) + fn(n-2)
+    // `
 
-    const fR = new FuncRunner(argsInput, fibFn, [7]); 
-    const treeData = fR.runFunc()
+    // const fR = new FuncRunner(argsInput, fibFn, [7]); 
+    const treeData = userInputs.getTreeData()
     // const userInput = new user_input(argsInput, fibfn, [7])
     const positionCalculator = new PositionCalculator(treeData)
     graph.resizeViewBox(positionCalculator.getTreeDimensions())
