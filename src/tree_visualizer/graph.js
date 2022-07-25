@@ -1,6 +1,7 @@
 import { setAttributes, svgNameSpace} from "../utilities/util";
 import Arrow from "./arrow";
 import NavSteps from "./nav_steps";
+import TreeNode from "./tree_node";
 
 export default class Graph {
     constructor() {
@@ -18,11 +19,14 @@ export default class Graph {
 
         this.graphContainer.appendChild(this.navSteps.getDOMElement())
         this.graphContainer.appendChild(this.graphWindow);
+        this.addNavButtonListeners()
 
 
         this.arrows = {}
         this.nodes = {}
 
+        this.steps = []
+        this.currentStep = 0 
     };
 
 
@@ -30,6 +34,7 @@ export default class Graph {
         this.generateTree(node); // puts elements on document, but invisible for now
         await this.showNodes(node)
         await this.showAnswer(node)
+        console.log(this.steps)
     }
 
     generateTree(node) { 
@@ -53,15 +58,104 @@ export default class Graph {
     async showNodes(node) {
         let treeNodeKey = `node-${node.id}`
         let treeNode = this.nodes[treeNodeKey] 
-        // this.addStep(treeNodeKey)
+        this.addStep(treeNode)
         await treeNode.show() 
 
         for (let child of node.children) {
             let arrow = this.arrows[`line-${child.id}`]
             await arrow.show()
-            // this.addStep(`line-${child.id}`)
+            this.addStep(arrow)
             await this.showNodes(child)
             await arrow.return(this.nodes[`node-${child.id}`])
+            this.addStep(arrow)
+        }
+    }
+
+    addStep(value) {
+        this.steps.push(value)
+    }
+
+    doStep(object, hiddenSteps) { 
+        if (object instanceof Arrow) {
+            let count = 0 // counts how many instances of the arrow in hidden steps
+            hiddenSteps.forEach( (step) => { 
+                if (step.id && step.id === object.id) {
+                    count += 1 
+                }
+            })
+            if (count === 1) { // if it only shows once that means the arrow hasn't returned
+                object.show()
+                object.unflipCoors()
+                object.setReturn(false)
+            }
+            else { 
+                object.show()
+                const arrowId = object.getId()
+                const nodeReturning = this.nodes[`node-${arrowId[arrowId.length - 1]}`]
+                object.return(nodeReturning)
+                object.unhideReturn()
+                object.setReturn(true)
+            }
+            if (this.currentStep === this.steps.length) {
+                console.log(this.currentStep)
+                this.nodes[`node-0`].completed()
+            }
+        }
+        else if (object instanceof TreeNode) {
+            object.setComplete(false)
+            object.show()
+        }
+    }
+
+    undoStep(object, hiddenSteps) {
+        if (object instanceof Arrow) {
+            let count = 0 // counts how many instances of the arrow in hidden steps
+            hiddenSteps.forEach( (step) => { 
+                if (step.id && step.id === object.id) {
+                    count += 1 
+                }
+            })
+            if (count === 1) { // if it only shows once that means the arrow hasn't returned
+                object.show()
+                object.hide()
+            }
+            else { 
+                object.hide()
+            }
+            object.setReturn(false)
+        }
+        else if (object instanceof TreeNode) {
+            object.setComplete(false)
+            object.hide()
+        }
+    }
+
+    addNavButtonListeners() { 
+        this.navSteps.addClickEventListener('beginningButton', () => {
+            this.currentStep = 0;
+            this.jumpToStep(this.currentStep);
+        })
+        this.navSteps.addClickEventListener('previousStepButton', () => {
+            if (this.currentStep < this.steps.length) this.jumpToStep(--this.currentStep);
+        })
+        this.navSteps.addClickEventListener('nextStepButton', () => {
+            if (this.currentStep < this.steps.length) this.jumpToStep(++this.currentStep);
+        })
+        this.navSteps.addClickEventListener('endButton', () => {
+            this.currentStep = this.steps.length - 1
+            this.jumpToStep(this.currentStep + 1)
+        })
+    }
+
+    jumpToStep(step) {
+        const hiddenSteps = this.steps.slice(step)
+        for (let i = 0; i < this.steps.length; i++) {
+            if (i < step) {
+                this.doStep(this.steps[i], hiddenSteps)
+            }
+            else {
+                this.undoStep(this.steps[i], hiddenSteps)
+            }
         }
     }
 
@@ -81,11 +175,4 @@ export default class Graph {
         this.nodes[`node-0`].completed()
         console.log(node.result)
     }
-
-    // backStep(node) {
-        
-    // }
-
-    // forwardStep()
-
 };

@@ -42,6 +42,7 @@ export default class TreeNode {
         return new Promise(resolve => { 
             setTimeout (() => {
                 this.gTag.classList.remove('hidden');
+                this.gTag.classList.remove('completed')
                 this.gTag.classList.add('processing')
                 resolve();
             }, TIME_GAP)
@@ -60,7 +61,7 @@ export default class TreeNode {
     }
 
     setComplete(status) { 
-        this.setComplete = status
+        this.complete = status
     }
 
 

@@ -96,12 +96,15 @@ export default class Arrow {
 
     hide() {
         this.line.classList.add('hidden')
-    } 
-
-    hideReturn(){
         this.text.classList.add("hidden")
         this.circle.classList.add("hidden")
+    } 
+
+    unhideReturn() { 
+        this.text.classList.remove("hidden")
+        this.circle.classList.remove("hidden")
     }
+
 
     show() { 
         return new Promise(resolve => {
@@ -121,6 +124,7 @@ export default class Arrow {
             setTimeout (() => {
                 this.gTag.appendChild(this.circle)
                 this.gTag.appendChild(this.text) // shows return value
+
                 this.flipCoors()
                 this.setReturn(true)
                 node.completed()
@@ -134,12 +138,21 @@ export default class Arrow {
             "x1": `${this.flippedStartCoor[0]}`,
             "y1": `${this.flippedStartCoor[1]}`, 
             "x2": `${this.flippedEndCoor[0]}`, 
-            "y2": `${this.flippedEndCoor[1]}`, 
+            "y2": `${this.flippedEndCoor[1]}`,
         }) 
     }
 
+    unflipCoors() { 
+        setAttributes(this.line, {
+            "x1": `${this.startCoor[0]}`,
+            "y1": `${this.startCoor[1]}`, 
+            "x2": `${this.endCoor[0]}`, 
+            "y2": `${this.endCoor[1]}`,  
+        })
+    }
+
     setReturn(status) { 
-        this.return = status
+        this.returned = status
     }
 
 }
