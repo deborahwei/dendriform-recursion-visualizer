@@ -1,5 +1,7 @@
+import { findRelativeConfig } from "@babel/core/lib/config/files";
 import { setAttributes, svgNameSpace} from "../utilities/util";
 import Arrow from "./arrow";
+import { TIME_GAP } from "./constants";
 import NavSteps from "./nav_steps";
 import TreeNode from "./tree_node";
 
@@ -27,15 +29,20 @@ export default class Graph {
 
         this.steps = []
         this.currentStep = 0 
+        this.noSkip = true
     };
 
 
     async animate(node) {
         this.generateTree(node); // puts elements on document, but invisible for now
         this.addElementsToHash(node)
-        // this.   
-        // await this.showNodes(node)
-        // await this.showAnswer(node)
+        for (let i = 0; i < this.steps.length; i++) { 
+            this.currentStep = i
+            if (this.noSkip) {
+                const doSteps = this.steps.slice(0, i + 1)
+                await this.doStep(this.steps[i], doSteps)
+            }
+        }
     }
 
     generateTree(node) { 
@@ -56,111 +63,18 @@ export default class Graph {
         })
     }
 
-    // async showNodes(node) {
-    //     let treeNodeKey = `node-${node.id}`
-    //     let treeNode = this.nodes[treeNodeKey] 
-    //     this.addStep(treeNode)
-    //     await treeNode.show() 
-
-    //     for (let child of node.children) {
-    //         let arrow = this.arrows[`line-${child.id}`]
-    //         await arrow.show()
-    //         this.addStep(arrow)
-    //         await this.showNodes(child)
-    //         await arrow.return(this.nodes[`node-${child.id}`])
-    //         this.addStep(arrow)
-    //     }
-    // }
-
-    // showNodes(node) {
-    //     let treeNodeKey = `node-${node.id}`
-    //     let treeNode = this.nodes[treeNodeKey] 
-    //     this.addStep(treeNode)
-    //     await treeNode.show() 
-
-    //     for (let child of node.children) {
-    //         let arrow = this.arrows[`line-${child.id}`]
-    //         await arrow.show()
-    //         this.addStep(arrow)
-    //         await this.showNodes(child)
-    //         await arrow.return(this.nodes[`node-${child.id}`])
-    //         this.addStep(arrow)
-    //     }
-    // }
-    // addStep(value) {
-    //     this.steps.push(value)
-    // }
-
     addElementsToHash(node) { // adds in dfs order which is call order
         let treeNodeKey = `node-${node.id}`
         let treeNode = this.nodes[treeNodeKey] // add node to hash
         this.steps.push(treeNode) // add step to hash
-        // console.log(node.children)
         for (let child of node.children) {
-            console.log(this.arrows)
             let arrow = this.arrows[`line-${child.id}`]
-            // console.log(child.id)
-            console.log(this.arrows[`line-1`])
             this.steps.push(arrow)
             this.addElementsToHash(child)
             this.steps.push(arrow)
         }
     }
-
-    doStep(object, doSteps) { 
-        if (object instanceof Arrow) {
-            let count = 0
-            doSteps.forEach( (step) => { 
-                if (step.id === object.id) {
-                    count += 1
-                }
-            })
-            if (count === 1) {
-                object.showCallArrow() 
-                // if there is no returned count return call arrow
-                object.setReturn(false)
-            }
-            else if (count === 2) {
-
-                const arrowId = object.getId() // node that becomes complete has the same id as arrow
-                const nodeReturning = this.nodes[`node-${arrowId}`]
-                object.showReturnArrow(nodeReturning)
-                object.setReturn(true)
-            }
-            if (this.currentStep === this.steps.length - 1) {
-                this.nodes[`node-0`].showCompletedNode()
-            }
-        }
-        else if (object instanceof TreeNode) {
-            object.showProcessingNode()
-            object.setComplete(false)
-        }
-    }
-
-    undoStep(object, hiddenSteps) {
-        if (object instanceof Arrow) {
-            let count = 0
-            hiddenSteps.forEach( (step) => { 
-                if (step.id === object.id) {
-                    count += 1
-                }
-            })
-            if (count === 1) { 
-                const arrowId = object.getId() // node that becomes complete has the same id as arrow
-                const nodeReturning = this.nodes[`node-${arrowId}`]
-                object.hideReturnArrow(nodeReturning)
-            }
-            else if (count === 2) {
-                object.hideCallArrow()
-            }
-            object.setReturn(false)
-        }
-        else if (object instanceof TreeNode) {
-            object.setComplete(false)
-            object.hideProcessingNode()
-        }
-    }
-
+    
     addNavButtonListeners() { 
         this.navSteps.addClickEventListener('beginningButton', () => {
             this.currentStep = 0;
@@ -191,6 +105,66 @@ export default class Graph {
         }
     }
 
+    doStep(object, doSteps) { 
+        return new Promise(resolve => {
+            setTimeout (() => {
+                if (object instanceof Arrow) {
+                    let count = 0
+                    doSteps.forEach( (step) => { 
+                        if (step.id === object.id) {
+                            count += 1
+                        }
+                    })
+                    if (count === 1) {
+                        // if there is no returned count return call arrow
+                        object.showCallArrow() 
+                        object.setReturn(false)
+                    }
+                    else if (count === 2) {
+        
+                        const arrowId = object.getId() // node that becomes complete has the same id as arrow
+                        const nodeReturning = this.nodes[`node-${arrowId}`]
+                        object.showReturnArrow(nodeReturning)
+                        object.setReturn(true)
+                    }
+                    if (this.currentStep === this.steps.length - 1) {
+                        this.nodes[`node-0`].showCompletedNode()
+                    }
+                }
+                else if (object instanceof TreeNode) {
+                    object.showProcessingNode()
+                    object.setComplete(false)
+                }
+                resolve()
+            }, TIME_GAP) 
+        })
+    }
+
+    undoStep(object, hiddenSteps) {
+        if (object instanceof Arrow) {
+            let count = 0
+            hiddenSteps.forEach( (step) => { 
+                if (step.id === object.id) {
+                    count += 1
+                }
+            })
+            if (count === 1) { 
+                const arrowId = object.getId() // node that becomes complete has the same id as arrow
+                const nodeReturning = this.nodes[`node-${arrowId}`]
+                object.hideReturnArrow(nodeReturning)
+            }
+            else if (count === 2) {
+                object.hideCallArrow()
+            }
+            object.setReturn(false)
+        }
+        else if (object instanceof TreeNode) {
+            object.setComplete(false)
+            object.hideProcessingNode()
+        }
+    }
+
+
     getDOMObject() {
         return this.graphContainer;
     }
@@ -203,8 +177,4 @@ export default class Graph {
         })
     }
 
-    showAnswer(node) {
-        this.nodes[`node-0`].showCompletedNode()
-        console.log(node.result)
-    }
 };
