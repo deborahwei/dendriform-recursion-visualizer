@@ -1,19 +1,45 @@
 import { setAttributes } from "../utilities/util";
+import DefaultFunctions from "./default_functions";
 import CodeFlask from "codeflask";
 
 export default class UserInput {
     constructor() { 
-        this.functionBody = '';
-        this.params = 0;
-
+        this.functionBody = `function fn() {\n \\ write your code here \n}`;
+        this.params = `fn()`;
+        this.defaultFunc = ''
+        
         this.userInputs = document.createElement("div");
         this.userInputs.classList.add("user-inputs")
-
+        
         this.lastValidFirstLine = ''
         this.lastValidParams = ''
-        this.createTextArea()
-        this.createParamsInput()
+        
+        this.defaultFunctions = new DefaultFunctions()
+        this.defaultDiv = this.defaultFunctions.getDOMObject()
 
+        this.createTextArea() 
+        this.addFunctionButtonEventListeners()
+        this.createParamsInput()
+    }
+    
+    getdefaultFunction() {
+        return this.defaultDiv
+    }
+    
+    addFunctionButtonEventListeners() { 
+        this.defaultFunctions.addClickEventListener('customButton', () => { 
+            this.defaultFunc = this.defaultFunctions.getFunction('Custom')
+            console.log(this.defaultFunc.arg)
+        })
+    
+        this.defaultFunctions.addClickEventListener('fibButton', () => { 
+           this.defaultFunc = this.defaultFunctions.getFunction('Fibonacci Sum')
+        })
+    
+        this.defaultFunctions.addClickEventListener('binomialButton', () => { 
+           this.defaultFunc = this.defaultFunctions.getFunction('Binomial Coefficient')
+        })
+        this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n ${this.defaultFunc.functionBody} \n}`)
     }
 
     createTextArea() { 
@@ -28,8 +54,8 @@ export default class UserInput {
             lineNumbers: true, 
             defaultTheme: false
         })
-
-        this.fBFlask.updateCode('function fn() {\n // write code here \n}')
+        
+        this.fBFlask.updateCode("walk")
         this.lastValidFirstLine = 'function fn() {'
         
         this.fBFlask.onUpdate((code) => {
@@ -45,8 +71,10 @@ export default class UserInput {
             else { 
                 this.lastValidFirstLine = lines[0]
             }
-        })        
+        })
+
     }
+
 
     createParamsInput() { 
         const paramsWrapper = document.createElement('div')
@@ -59,7 +87,7 @@ export default class UserInput {
             defaultTheme: false, 
         })
 
-        this.paramsFlask.updateCode('fn()')
+        this.paramsFlask.updateCode("run")
         this.lastValidParams = 'fn()'
 
         this.paramsFlask.onUpdate((code) => { 

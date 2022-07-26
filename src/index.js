@@ -18,6 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const userInputs = new UserInput()
     controller.getDOMObject().appendChild(userInputs.getDOMObject())
+    controller.getDOMObject().appendChild(userInputs.getdefaultFunction())
 
     userInputs.addClickEventListener( (e) => { 
         e.preventDefault()

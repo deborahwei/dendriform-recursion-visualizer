@@ -9,10 +9,6 @@ export default class ControllerContainer {
         this.navBar = new NavBar()
         const navArea = this.navBar.getDOMObject()
         this.mainContainer.appendChild(navArea)
-
-        this.defaultFunctions = new DefaultFunctions()
-        const defaultDiv = this.defaultFunctions.getDOMObject()
-        this.mainContainer.appendChild(defaultDiv)
     }
 
     getDOMObject() {

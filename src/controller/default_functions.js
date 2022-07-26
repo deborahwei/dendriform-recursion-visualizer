@@ -22,6 +22,7 @@ export default class DefaultFunctions {
                 `
             }
         }
+
         this.defaultDiv = document.createElement("div")
         this.defaultDiv.classList.add('default-funcs')
 
@@ -38,12 +39,23 @@ export default class DefaultFunctions {
         this.defaultDiv.appendChild(fibButton)
         this.defaultDiv.appendChild(binomialButton)
         
+        this.buttons = {
+            'customButton': customButton,
+            'fibButton': fibButton, 
+            'binomialButton': binomialButton,
+        }
     }
 
-    addClickEventListener(button, cb)
+    addClickEventListener(b, cb) {
+        const button = this.buttons[b]
         button.addEventListener("click", cb)
+    }
 
     getDOMObject() { 
         return this.defaultDiv 
+    }
+
+    getFunction(functionName) { 
+        return this.functionLibrary[functionName]
     }
 }

@@ -1,4 +1,3 @@
-import { findRelativeConfig } from "@babel/core/lib/config/files";
 import { setAttributes, svgNameSpace} from "../utilities/util";
 import Arrow from "./arrow";
 import { TIME_GAP } from "./constants";
