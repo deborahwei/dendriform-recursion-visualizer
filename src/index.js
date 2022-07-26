@@ -6,38 +6,33 @@ import UserInput from "./controller/user_input";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");
+
     const root = document.getElementById("root");
 
     const controller = new ControllerContainer();
     const graph = new Graph();
-    const userInputs = new UserInput();
+
 
     root.appendChild(controller.getDOMObject());
-    root.appendChild(graph.getDOMObject());
-
+    root.appendChild(graph.getDOMObject());  
     
+    const userInputs = new UserInput()
+    controller.getDOMObject().appendChild(userInputs.getDOMObject())
 
-    // Binomial coefficient 
-    // const argsInput = "n, k"
-    // const fibFn = `
-    // if (k == 0 || n == k)
-    //     return 1
-    // return fn(n-1, k-1) + fn(n-1, k)
-    // `
+    userInputs.addClickEventListener( (e) => { 
+        e.preventDefault()
+        graph.reset()
 
-    // const argsInput = "n"
-    // const fibFn = `
-    // if (n == 0 || n == 1)
-    // return n
-  
-    // return fn(n-1) + fn(n-2)
-    // `
+        const fB = userInputs.getFunctionBody()
+        const args = userInputs.getArgs()
+        const params = userInputs.getParams()
 
-    // const userInput = new user_input(argsInput, fibfn, [7])
-    // const fR = new FuncRunner(argsInput, fibFn, [7]); 
-    const treeData = userInputs.getTreeData()
-    const positionCalculator = new PositionCalculator(treeData)
-    graph.resizeViewBox(positionCalculator.getTreeDimensions())
-    graph.animate(positionCalculator.getRoot());
+        const func = new FuncRunner(args, fB, params)
+        const treeData = func.runFunc()
+        const positionCalculator = new PositionCalculator(treeData)
+        
+        graph.resizeViewBox(positionCalculator.getTreeDimensions())
+        graph.animate(positionCalculator.getRoot());
+    });
     
 });

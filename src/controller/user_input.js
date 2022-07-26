@@ -1,5 +1,5 @@
-import FuncRunner from "../computer/func_runner";
 import { setAttributes } from "../utilities/util";
+import CodeFlask from "codeflask";
 
 export default class UserInput {
     constructor() { 
@@ -9,35 +9,12 @@ export default class UserInput {
     
         return fn(n-1) + fn(n-2)
         `
-        this.args = "n";
-        this.functionBody = fibFn;
-        this.params = [7]
-        this.func = this.callFuncRunner()
 
         this.userInputs = document.createElement("div");
+        this.userInputs.classList.add("user-inputs")
+        this.lastValidFirstLine = ''
+        this.createTextArea()
 
-        this.functionBodyInput = document.createElement("input");
-        this.functionBodyLabel = document.createElement("label");
-        this.functionBodyLabel.innerHTML = "Insert recursive function: ";
-        setAttributes(this.functionBodyInput, {
-            'type': 'text', 
-            'id': 'function-body', 
-        })
-        setAttributes(this.functionBodyLabel, {
-            'for': 'function-body'
-        })
-        
-        this.argsInput = document.createElement("input");
-        this.argsLabel = document.createElement("label");
-        this.argsLabel.innerHTML = "Args: " ;
-        setAttributes(this.argsInput, {
-            'type': 'text', 
-            'id': 'args-input', 
-        })
-        setAttributes(this.argsLabel, {
-            'for': 'args-input'
-        })
-        
         this.paramsInput = document.createElement("input");
         this.paramsLabel = document.createElement("label");
         this.paramsLabel.innerHTML = "Params: ";
@@ -49,30 +26,61 @@ export default class UserInput {
             'for': 'params-input'
         })
 
-        this.userInputs.appendChild(this.functionBodyLabel)
-        this.userInputs.appendChild(this.functionBodyInput)
-
+        
         this.userInputs.appendChild(this.paramsLabel)
         this.userInputs.appendChild(this.paramsInput)
         
-        this.userInputs.appendChild(this.argsLabel)
-        this.userInputs.appendChild(this.argsInput)
+        this.runButton = document.createElement("button");
+        this.runButton.innerHTML = "RUN"
+        this.userInputs.appendChild(this.runButton)
+
+        this.functionBody = 0;
+        this.params = 0;
+
     }
 
-    getUserInput() { 
-        const functionBodyInput = document.createElement("input")
-        setAttributes(functionBodyInput, {
-            "type": "text"
-        });
+    createTextArea() { 
+        const codeFlaskWrapper =  document.createElement('div')
+        this.userInputs.appendChild(codeFlaskWrapper)
+        setAttributes(codeFlaskWrapper, {
+            'id': 'flask-wrapper'
+        })
+        const flask = new CodeFlask(codeFlaskWrapper, {
+            language: 'js', 
+            lineNumbers: true
+        })
+        flask.updateCode('function fn() {\n // write code here \n}')
+        this.lastValidFirstLine = 'function fn() {'
+        
+        flask.onUpdate((code) => {
+            const lines = code.split('\n')
+            console.log(lines[0].slice(0, 12), lines[0].slice(lines[0].length - 3))
+            console.log(lines[0].slice(0, 12) !== 'function fn(', lines[0].slice(lines[0].length - 3) !== ') {')
+            if (lines[0].slice(0, 12) !== 'function fn(' || lines[0].slice(lines[0].length - 3) !== ') {') {
+                console.log(this.lastValidFirstLine)
+                lines[0] =  this.lastValidFirstLine
+                flask.updateCode(lines.join('\n'))
+            }
+            else { 
+                this.lastValidFirstLine = lines[0]
+            }
+        })
+    }
+    
+    addClickEventListener(cb) {
+        this.runButton.addEventListener("click", cb)
     }
 
-    callFuncRunner() {
-        return new FuncRunner(this.args, this.functionBody, this.params)
+    getFunctionBody() {
+        return this.functionBodyInput.value
     }
 
-    getTreeData() { 
-        this.treeData = this.func.runFunc()
-        return this.treeData
+    getParams() {
+        return this.paramsInput.value.split(',')    
+    }
+
+    getArgs() {
+        return this.argsInput.value
     }
 
     getDOMObject() { 

@@ -1,0 +1,23 @@
+.user-inputs {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#params-input {
+    width: 10%;
+}
+
+button { 
+    width: 5%;
+}
+
+#flask-wrapper { 
+    position: relative;
+    height: 170px;
+    width: 250px;
+}
+
+.codeflask > textarea{ 
+    background: #D3D3D3;
+}

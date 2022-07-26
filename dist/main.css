@@ -1,3 +1,101 @@
-.graph-container{width:100%;height:70%;display:flex;flex-direction:column}.controller-container{height:30%;border-bottom:1px solid #000}.param-text{font-size:15;text-anchor:middle;alignment-baseline:central;stroke-width:1.5}.processing{stroke:#e8c07d}.completed{stroke:#9fc088}.call-arrow{stroke:#614124;stroke-width:2}.arrow-wrapper{fill:#614124}.hidden{visibility:hidden}.result-text{font-size:8;text-anchor:middle;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;alignment-baseline:central}.nav-steps{height:10%;width:100%;display:flex;flex-direction:row;justify-content:space-between}.fa-backward,.fa-forward{color:#cc704b}.fa-caret-right,.fa-caret-left{color:#e8c07d}#root{width:100%;display:flex;flex-direction:column;position:fixed;top:0;bottom:0;font-family:"Times New Roman",Times,serif}
+/*!*************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/sass-loader/dist/cjs.js!./src/index.scss ***!
+  \*************************************************************************************************************************************/
+.graph-container {
+  width: 100%;
+  height: 70%;
+  display: flex;
+  flex-direction: column;
+}
 
-/*# sourceMappingURL=main.css.map*/
+.controller-container {
+  height: 30%;
+  border-bottom: 1px solid black;
+}
+
+.param-text {
+  font-size: 15;
+  text-anchor: middle;
+  alignment-baseline: central;
+  stroke-width: 1.5;
+}
+
+.processing {
+  stroke: #E8C07D;
+}
+
+.completed {
+  stroke: #9FC088;
+}
+
+.call-arrow {
+  stroke: #614124;
+  stroke-width: 2;
+}
+
+.arrow-wrapper {
+  fill: #614124;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.result-text {
+  font-size: 8;
+  text-anchor: middle;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  alignment-baseline: central;
+}
+
+.nav-steps {
+  height: 10%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.fa-backward, .fa-forward {
+  color: #CC704B;
+}
+
+.fa-caret-right, .fa-caret-left {
+  color: #E8C07D;
+}
+
+.user-inputs {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+#params-input {
+  width: 10%;
+}
+
+button {
+  width: 5%;
+}
+
+#flask-wrapper {
+  position: relative;
+  height: 170px;
+  width: 250px;
+}
+
+.codeflask > textarea {
+  background: #D3D3D3;
+}
+
+#root {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  font-family: "Times New Roman", Times, serif;
+}

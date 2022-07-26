@@ -32,6 +32,16 @@ export default class Graph {
         this.noSkip = true
     };
 
+    reset() { 
+        this.graphWindow.innerHTML = ''
+        this.arrows = {}
+        this.nodes = {}
+
+        this.steps = []
+        this.currentStep = 0 
+        this.noSkip = true
+    }
+
 
     async animate(node) {
         this.generateTree(node); // puts elements on document, but invisible for now
@@ -117,7 +127,7 @@ export default class Graph {
                         }
                     })
                     if (count === 1) {
-                        // if there is no returned count return call arrow
+                        // if there is only one return call arrow
                         object.showCallArrow() 
                         object.setReturn(false)
                     }

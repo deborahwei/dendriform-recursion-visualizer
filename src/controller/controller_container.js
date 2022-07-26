@@ -5,8 +5,6 @@ export default class ControllerContainer {
         this.mainContainer = document.createElement("div");
         this.mainContainer.classList.add("controller-container");
         
-        this.userInputs = new UserInput() 
-        this.mainContainer.appendChild(this.userInputs.getDOMObject())
     }
 
     getDOMObject() {
