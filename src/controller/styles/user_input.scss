@@ -19,5 +19,43 @@ button {
 }
 
 .codeflask > textarea{ 
-    background: #D3D3D3;
+    background: #dcdcdc;
+    border-radius: 5px;
 }
+
+.codeflask .token.punctuation {
+    color: #4a4a4a;
+  }
+  .codeflask .token.keyword {
+    color: #CC704B;
+  }
+  .codeflask .token.operator {
+    color: #ff5598;
+  }
+  .codeflask .token.string {
+    color: #41ad8f;
+  }
+  .codeflask .token.comment {
+    color: #9FC088;
+  }
+  .codeflask .token.function {
+    color: #CC704B;
+  }
+  .codeflask .token.boolean {
+    color: #8500ff;
+  }
+  .codeflask .token.number {
+    color: #8500ff;
+  }
+  .codeflask .token.selector {
+    color: #8500ff;
+  }
+  .codeflask .token.property {
+    color: #8500ff;
+  }
+  .codeflask .token.tag {
+    color: #8500ff;
+  }
+  .codeflask .token.attr-value {
+    color: #8500ff;
+  }

@@ -10,24 +10,24 @@ export default class UserInput {
         return fn(n-1) + fn(n-2)
         `
 
-        this.userInputs = document.createElement("div");
-        this.userInputs.classList.add("user-inputs")
-        this.lastValidFirstLine = ''
-        this.createTextArea()
+        // this.userInputs = document.createElement("div");
+        // this.userInputs.classList.add("user-inputs")
+        // this.lastValidFirstLine = ''
+        // this.createTextArea()
 
-        this.paramsInput = document.createElement("input");
-        this.paramsLabel = document.createElement("label");
-        this.paramsLabel.innerHTML = "Params: ";
-        setAttributes(this.paramsInput, {
-            'type': 'text', 
-            'id': 'params-input', 
-        })
-        setAttributes(this.paramsLabel, {
-            'for': 'params-input'
-        })
+        // this.paramsInput = document.createElement("input");
+        // this.paramsLabel = document.createElement("label");
+        // this.paramsLabel.innerHTML = "Params: ";
+        // setAttributes(this.paramsInput, {
+        //     'type': 'text', 
+        //     'id': 'params-input', 
+        // })
+        // setAttributes(this.paramsLabel, {
+        //     'for': 'params-input'
+        // })
 
         
-        this.userInputs.appendChild(this.paramsLabel)
+        // this.userInputs.appendChild(this.paramsLabel)
         this.userInputs.appendChild(this.paramsInput)
         
         this.runButton = document.createElement("button");
@@ -47,24 +47,31 @@ export default class UserInput {
         })
         const flask = new CodeFlask(codeFlaskWrapper, {
             language: 'js', 
-            lineNumbers: true
+            lineNumbers: true, 
+            defaultTheme: false
         })
         flask.updateCode('function fn() {\n // write code here \n}')
         this.lastValidFirstLine = 'function fn() {'
         
         flask.onUpdate((code) => {
             const lines = code.split('\n')
-            console.log(lines[0].slice(0, 12), lines[0].slice(lines[0].length - 3))
-            console.log(lines[0].slice(0, 12) !== 'function fn(', lines[0].slice(lines[0].length - 3) !== ') {')
             if (lines[0].slice(0, 12) !== 'function fn(' || lines[0].slice(lines[0].length - 3) !== ') {') {
                 console.log(this.lastValidFirstLine)
                 lines[0] =  this.lastValidFirstLine
+                flask.updateCode(lines.join('\n'))
+            }
+            else if (lines[lines.length - 1][0] !== '}' || lines.length !== 1){
+                lines[lines.length -1] = '}'
                 flask.updateCode(lines.join('\n'))
             }
             else { 
                 this.lastValidFirstLine = lines[0]
             }
         })
+    }
+
+    createParamsInput() { 
+
     }
     
     addClickEventListener(cb) {
@@ -79,8 +86,8 @@ export default class UserInput {
         return this.paramsInput.value.split(',')    
     }
 
-    getArgs() {
-        return this.argsInput.value
+    getArgs() { // gets ahold of what is between the parenthesis 
+        return this.lastValidFirstLine.slice(0, this.lastValidFirstLine.length -3).slice(12)
     }
 
     getDOMObject() { 
