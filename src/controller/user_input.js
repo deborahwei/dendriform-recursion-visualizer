@@ -14,28 +14,11 @@ export default class UserInput {
 
         this.userInputs = document.createElement("div");
         this.userInputs.classList.add("user-inputs")
+
         this.lastValidFirstLine = ''
+        this.lastValidParams = ''
         this.createTextArea()
         this.createParamsInput()
-
-        // this.paramsInput = document.createElement("input");
-        // this.paramsLabel = document.createElement("label");
-        // this.paramsLabel.innerHTML = "Params: ";
-        // setAttributes(this.paramsInput, {
-        //     'type': 'text', 
-        //     'id': 'params-input', 
-        // })
-        // setAttributes(this.paramsLabel, {
-        //     'for': 'params-input'
-        // })
-
-        
-        // this.userInputs.appendChild(this.paramsLabel)
-        // this.userInputs.appendChild(this.paramsInput)
-        
-        this.runButton = document.createElement("button");
-        this.runButton.innerHTML = "RUN"
-        this.userInputs.appendChild(this.runButton)
 
     }
 
@@ -45,11 +28,13 @@ export default class UserInput {
         setAttributes(codeFlaskWrapper, {
             'id': 'flask-wrapper'
         })
+
         this.fBFlask = new CodeFlask(codeFlaskWrapper, {
             language: 'js', 
             lineNumbers: true, 
             defaultTheme: false
         })
+
         this.fBFlask.updateCode('function fn() {\n // write code here \n}')
         this.lastValidFirstLine = 'function fn() {'
         
@@ -59,7 +44,7 @@ export default class UserInput {
                 lines[0] =  this.lastValidFirstLine
                 this.fBFlask.updateCode(lines.join('\n)'))
             }
-            else if (lines[lines.length - 1][0] !== '}' || lines.length !== 1){
+            else if (lines[lines.length - 1][0] !== '}' || lines[lines.length - 1].length !== 1){
                 lines[lines.length -1] = '}'
                 this.fBFlask.updateCode(lines.join('\n'))
             }
@@ -79,6 +64,26 @@ export default class UserInput {
             language: 'js', 
             defaultTheme: false
         })
+
+        this.paramsFlask.updateCode('fn()')
+        this.lastValidParams = 'fn()'
+
+        this.paramsFlask.onUpdate((code) => { 
+            const lines = code.split()
+            if (lines.length !== 1 || 
+                lines[0].slice(0, 3) !== 'fn(' || 
+                lines[0].slice(lines[0].length - 1) !== ')') {
+                    lines[0] = this.lastValidParams
+                    this.paramsFlask.updateCode(lines.join())
+                }
+            else {
+                this.lastValidParams = lines[0]
+            }
+        })
+        
+        this.runButton = document.createElement("button");
+        this.runButton.innerHTML = "RUN"
+        this.userInputs.appendChild(this.runButton)
     }
     
     addClickEventListener(cb) {
@@ -87,16 +92,19 @@ export default class UserInput {
 
     getFunctionBody() { 
         const code = this.fBFlask.getCode().split('\n')
-        this.functionBody = code.slice(0, code.length - 1).slice(1)
+        this.functionBody = code.slice(0, code.length - 1).slice(1).join('\n')
         return this.functionBody
     }
 
-    getParams() { // rework 
-        return this.paramsInput.value.split(',')    
+    getParams() { 
+        const code = this.paramsFlask.getCode().split()
+        this.params = code[0].slice(0, code[0].length -1).slice(3).split()
+        return this.params
     }
 
     getArgs() { // gets ahold of what is between the parenthesis 
-        return this.lastValidFirstLine.slice(0, this.lastValidFirstLine.length -3).slice(12)
+        console.log(this.lastValidFirstLine.split()[0].slice(0, this.lastValidFirstLine.length -3).slice(12))
+        return this.lastValidFirstLine.split()[0].slice(0, this.lastValidFirstLine.length -3).slice(12)
     }
 
     getDOMObject() { 

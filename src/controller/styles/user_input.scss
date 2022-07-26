@@ -2,22 +2,29 @@
     display: flex; 
     flex-direction: column;
     justify-content: space-between;
+    margin-top: 30px;
 }
 
 button { 
-    width: 5%;
+    width: 50px;
 }
 
 #flask-wrapper { 
     position: relative;
     height: 170px;
-    width: 250px;
+    width: 500px;
+    margin-left: 30px;
 }
 
 #params-wrapper { 
     position: relative; 
     height: 40px; 
     width: 150px;
+    margin-left: 30px;
+}
+
+button { 
+    margin-left: 30px;
 }
 
 .codeflask > textarea{ 
@@ -49,7 +56,7 @@ button {
     color: #8500ff;
   }
   .codeflask .token.number {
-    color: #8500ff;
+    color: #9FC088;
   }
   .codeflask .token.selector {
     color: #8500ff;
