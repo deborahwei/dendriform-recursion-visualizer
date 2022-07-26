@@ -16,6 +16,7 @@ export default class UserInput {
         this.userInputs.classList.add("user-inputs")
         this.lastValidFirstLine = ''
         this.createTextArea()
+        this.createParamsInput()
 
         // this.paramsInput = document.createElement("input");
         // this.paramsLabel = document.createElement("label");
