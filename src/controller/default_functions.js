@@ -7,19 +7,11 @@ export default class DefaultFunctions {
             },
             'Fibonacci Sum': {
                 'arg': 'n',
-                'functionBody': `
-                if (n == 0 || n == 1)
-                return n
-                return fn(n-1) + fn(n-2)
-                `
+                'functionBody': `if (n == 0 || n == 1)\nreturn n\nreturn fn(n-1) + fn(n-2)`
             },
             'Binomial Coefficient': {
                 'arg': 'n, k',
-                'functionBody': `
-                if (k == 0 || n == k)
-                return 1
-                return fn(n-1, k-1) + fn(n-1, k)
-                `
+                'functionBody': `if (k == 0 || n == k)\nreturn 1\nreturn fn(n-1, k-1) + fn(n-1, k)`
             }
         }
 

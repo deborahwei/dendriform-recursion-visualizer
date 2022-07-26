@@ -4,7 +4,7 @@ import CodeFlask from "codeflask";
 
 export default class UserInput {
     constructor() { 
-        this.functionBody = `function fn() {\n \\ write your code here \n}`;
+        this.functionBody = `function fn() {\n//write your code here \n}`;
         this.params = `fn()`;
         this.defaultFunc = ''
         
@@ -29,17 +29,18 @@ export default class UserInput {
     addFunctionButtonEventListeners() { 
         this.defaultFunctions.addClickEventListener('customButton', () => { 
             this.defaultFunc = this.defaultFunctions.getFunction('Custom')
-            console.log(this.defaultFunc.arg)
+            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
         })
     
         this.defaultFunctions.addClickEventListener('fibButton', () => { 
            this.defaultFunc = this.defaultFunctions.getFunction('Fibonacci Sum')
+           this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
         })
     
         this.defaultFunctions.addClickEventListener('binomialButton', () => { 
            this.defaultFunc = this.defaultFunctions.getFunction('Binomial Coefficient')
+           this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
         })
-        this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n ${this.defaultFunc.functionBody} \n}`)
     }
 
     createTextArea() { 
@@ -55,7 +56,7 @@ export default class UserInput {
             defaultTheme: false
         })
         
-        this.fBFlask.updateCode("walk")
+        this.fBFlask.updateCode(this.functionBody)
         this.lastValidFirstLine = 'function fn() {'
         
         this.fBFlask.onUpdate((code) => {
@@ -87,7 +88,7 @@ export default class UserInput {
             defaultTheme: false, 
         })
 
-        this.paramsFlask.updateCode("run")
+        this.paramsFlask.updateCode(this.params)
         this.lastValidParams = 'fn()'
 
         this.paramsFlask.onUpdate((code) => { 
