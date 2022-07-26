@@ -1,0 +1,10 @@
+.default-funcs {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+
+.default-funcs > button {
+    background: #CC704B;
+    width: 100px;
+}

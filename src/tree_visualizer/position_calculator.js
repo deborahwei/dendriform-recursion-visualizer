@@ -17,6 +17,7 @@ export default class PositionCalculator {
     }
 
     getTreeDimensions() {
+        console.log(this.maxX, this.maxY)
         return [this.maxX + SPACE_X, this.maxY + SPACE_Y] 
     }
 
@@ -108,14 +109,16 @@ export default class PositionCalculator {
     shiftTrees(node) {
         let leftestContour = Infinity
 
-        for (let i = 0; i < node.children.length - 1; i++) {
+        for (let i = 0; i < node.children.length; i++) {
             node.children[i].traverse((curNode) => {
                 leftestContour = Math.min(leftestContour, curNode.x);
             })
-        const shift = -leftestContour + SPACE_X
-        if (shift > 0) {
+
+        const rightShift = -leftestContour + SPACE_X
+
+        if (rightShift > 0) {
             node.traverse ((curNode) => {
-                curNode.x += shift
+                curNode.x += rightShift
                 this.maxX = Math.max(this.maxX, curNode.x); // finds the most right our tree goes
                 this.maxY = Math.max(this.maxY, curNode.y); // the depth of our tree
             })

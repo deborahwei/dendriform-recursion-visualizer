@@ -27,8 +27,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
 
+        // console.log('fb:', fB, 'args: '. args, 'params: ', params)
+        // console.log(args)
+
         const func = new FuncRunner(args, fB, params)
         const treeData = func.runFunc()
+        console.log(treeData)
         const positionCalculator = new PositionCalculator(treeData)
         
         graph.resizeViewBox(positionCalculator.getTreeDimensions())

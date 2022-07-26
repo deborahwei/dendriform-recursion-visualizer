@@ -3,12 +3,6 @@ import CodeFlask from "codeflask";
 
 export default class UserInput {
     constructor() { 
-        const fibFn = `
-        if (n == 0 || n == 1)
-        return n
-        
-        return fn(n-1) + fn(n-2)
-        `
         this.functionBody = '';
         this.params = 0;
 
@@ -62,7 +56,7 @@ export default class UserInput {
         })
         this.paramsFlask = new CodeFlask(paramsWrapper, { 
             language: 'js', 
-            defaultTheme: false
+            defaultTheme: false, 
         })
 
         this.paramsFlask.updateCode('fn()')
@@ -103,11 +97,11 @@ export default class UserInput {
     }
 
     getArgs() { // gets ahold of what is between the parenthesis 
-        console.log(this.lastValidFirstLine.split()[0].slice(0, this.lastValidFirstLine.length -3).slice(12))
-        return this.lastValidFirstLine.split()[0].slice(0, this.lastValidFirstLine.length -3).slice(12)
+        return this.lastValidFirstLine.split()[0].slice(0, this.lastValidFirstLine.length -3).slice(12).split(',')
     }
 
     getDOMObject() { 
         return this.userInputs
     }
+
 }
