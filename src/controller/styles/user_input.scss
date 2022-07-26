@@ -18,10 +18,18 @@ button {
     width: 250px;
 }
 
+#params-wrapper { 
+    position: relative; 
+    height: 20px; 
+    width: 150px;
+}
+
 .codeflask > textarea{ 
     background: #dcdcdc;
     border-radius: 5px;
 }
+
+// text decoration
 
 .codeflask .token.punctuation {
     color: #4a4a4a;
