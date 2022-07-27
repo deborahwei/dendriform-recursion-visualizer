@@ -1,34 +1,81 @@
+const fibBody =
+`function fn(n) {
+  if (n == 0 || n == 1)
+    return n
+  return fn(n-1) + fn(n-2)
+}`;
+
+const customBody = 
+`function fn() {
+  // write your code here
+}`
+
+const binomialBody = 
+`function fn(n, k) {
+  if (k == 0 || n == k)
+    return 1
+ return fn(n-1, k-1) + fn(n-1, k)
+}`
+
+const coinBody = 
+`function fn(v) {
+  if (v == 0) return 0
+  if (v < 0) return Infinity
+  let ans = Infinity
+  for (const coin of coins)
+    ans = Math.min(ans, 1 +fn(v- coin))
+  return ans
+}
+  const coins = [1, 3, 4, 5]
+`
+
+const sumBody = 
+`function fn(n) {
+  if (n < 10)
+    return n
+  const lastDigit = n % 10
+  const remainingNum = Math.floor(n / 10)
+  return fn(lastDigit + fn(remainingNum))
+}
+`
+
+const sequenceBody = 
+`function fn(i, j) {
+  if (i == a.length || j == b.length)
+    return 0
+  if (a[i] == b[j])
+    return 1+fn(i+1, j+1)
+  return Math.max(fn(i+1, j), fn(i, j+1))
+}
+const a = "DEBO"
+const b = "EBWDO"\n
+`
+
 export default class DefaultFunctions {
     constructor() { 
         this.functionLibrary = {
             'Custom': {
-                'arg':'',
-                'functionBody': '// write your code here',
-                'params': ""
+                'functionBody': customBody,
+                'params': ''
             },
             'Fibonacci Sum': {
-                'arg': 'n',
-                'functionBody': `  if (n == 0 || n == 1)\n    return n\n  return fn(n-1) + fn(n-2)`,
+                'functionBody': fibBody,
                 'params': '5'
             },
             'Binomial Coefficient': {
-                'arg': 'n, k',
-                'functionBody': `  if (k == 0 || n == k)\n    return 1\n  return fn(n-1, k-1) + fn(n-1, k)`,
+                'functionBody': binomialBody,
                 'params': '5, 2'
             }, 
             'Coin Change': {
-                'arg': 'v',
-                'functionBody': `  const coins = [1, 3, 4, 5]\n  if (v == 0) return 0\n  if (v < 0) return Infinity\n  let ans = Infinity\n  for (const coin of coins)\n  ans = Math.min(ans, 1 +fn(v- coin))\n  return ans`,
+                'functionBody': coinBody,
                 'params': '4'
             },
             'Sum of Digits': {
-                'arg': 'n',
-                'functionBody': `  if (n < 10)\n    return n\n  const lastDigit = n % 10\n  const remainingNum = Math.floor(n / 10)\n  return fn(lastDigit + fn(remainingNum))`,
+                'functionBody': sumBody,
                 'params': '123'
             },
             'Longest Common Subsequence': {
-                'arg': 'i, j',
-                'functionBody': `  const a = "DEBO"\n  const b = "EBWDO"\n  if (i == a.length || j == b.length)\n  return 0\n  if (a[i] == b[j])\n    return 1+fn(i+1, j+1)\n  return Math.max(fn(i+1, j), fn(i, j+1))`,
+                'functionBody': sequenceBody,
                 'params': '1, 1'
             }
         }
@@ -79,6 +126,7 @@ export default class DefaultFunctions {
             'subsequenceButton': subsequenceButton
         }
     }
+
 
     addClickEventListener(b, cb) {
         const button = this.buttons[b]

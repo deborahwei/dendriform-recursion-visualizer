@@ -32,48 +32,42 @@ export default class UserInput {
         button.classList.add('selected')
         this.selectedButton = button
     }
+
+    eventCallback(buttonName) {
+        this.defaultFunc = this.defaultFunctions.getFunction(buttonName)
+        this.fBFlask.updateCode(this.defaultFunc.functionBody)
+        this.userParams.textContent = this.defaultFunc.params
+    }
     
     addFunctionButtonEventListeners() { 
         this.defaultFunctions.addClickEventListener('customButton', () => { 
-            this.defaultFunc = this.defaultFunctions.getFunction('Custom') 
             this.selectFunction("customButton")
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
+            this.eventCallback('Custom')
         })
         
         this.defaultFunctions.addClickEventListener('fibButton', () => { 
-            this.defaultFunc = this.defaultFunctions.getFunction('Fibonacci Sum')
             this.selectFunction("fibButton")
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
+            this.eventCallback('Fibonacci Sum')
         })
         
         this.defaultFunctions.addClickEventListener('binomialButton', () => { 
-            this.defaultFunc = this.defaultFunctions.getFunction('Binomial Coefficient')
             this.selectFunction("binomialButton")
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
+            this.eventCallback('Binomial Coefficient')
         })
 
         this.defaultFunctions.addClickEventListener('coinButton', () => {
-            this.defaultFunc = this.defaultFunctions.getFunction('Coin Change')
             this.selectFunction("coinButton")
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
+            this.eventCallback('Coin Change')
         })
 
         this.defaultFunctions.addClickEventListener('sumDigitsButton', () => {
-            this.defaultFunc = this.defaultFunctions.getFunction('Sum of Digits')
             this.selectFunction("sumDigitsButton")
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
+            this.eventCallback('Sum of Digits')
         })
 
         this.defaultFunctions.addClickEventListener('subsequenceButton', () => {
-            this.defaultFunc = this.defaultFunctions.getFunction('Longest Common Subsequence')
             this.selectFunction("subsequenceButton")
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
+            this.eventCallback('Longest Common Subsequence')
         })
     }
 
@@ -133,7 +127,7 @@ export default class UserInput {
 
     getFunctionBody() { 
         const code = this.fBFlask.getCode().split('\n')
-        this.functionBody = code.slice(0, code.length - 1).slice(1).join('\n')
+        this.functionBody = code.slice(1).join('\n')
         return this.functionBody
     }
 

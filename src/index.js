@@ -44,7 +44,6 @@ document.addEventListener("DOMContentLoaded", () => {
             graph.animate(positionCalculator.getRoot());
         }
         catch(e) {
-            console.log(e)
             err.updateMessage(e)
             err.show()
         }

@@ -12,12 +12,12 @@ export default function getSourceCode(originalCode, params) {
 const injectedFunc = `
 const stack = [];
 const treeData = {};
-const MAX_CALLS = 65;
+const MAX_CALLS = 100;
 let nodeId = -1;
 
 function fn(...args) {
     if (MAX_CALLS < Object.keys(treeData).length) {
-        throw "MAXIMUM CALL STACK EXCEEDED";
+        throw "MAXIMUM NUMBER OF CALLS EXCEEDED";
     }
     nodeId++; // keeps track of what the node's unique id is 
 
