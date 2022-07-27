@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const err = new Error()
     bottomContainer.appendChild(err.getDOMObject())
 
-    const questionButton = controller.getNavBar().getQuestions()
+    const questionButton = controller.getHelp()
     instructions.addQuestionButton(questionButton)
 
     graph.navSteps.addClickEventListener('runButton', (e) => { 

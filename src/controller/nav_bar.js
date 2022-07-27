@@ -25,15 +25,7 @@ export default class NavBar {
         this.createSocials()
     }
 
-    getQuestions() {
-        return this.question
-    }
-
     createSocials() {  
-        this.question = document.createElement('i')
-        this.question.classList.add("fas", "fa-question-circle", "fa-xl")
-        this.socials.appendChild(this.question)
-
         const linkedIn = document.createElement('i')
         linkedIn.classList.add("fa-brands", "fa-linkedin", "fa-2xl")
         this.socials.appendChild(linkedIn)

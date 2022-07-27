@@ -8,13 +8,22 @@ export default class ControllerContainer {
         this.navBar = new NavBar()
         const navArea = this.navBar.getDOMObject()
         this.mainContainer.appendChild(navArea)
+
+        this.question = document.createElement('div')
+        this.question.classList.add("help")
+        this.mainContainer.appendChild(this.question)
+        const questionMark = document.createElement('div')
+        questionMark.innerText = "?"
+        questionMark.classList.add('question-mark')
+        this.question.appendChild(questionMark)
     }
 
     getDOMObject() {
         return this.mainContainer;
     }
 
-    getNavBar() {
-        return this.navBar
+    getHelp() {
+        return this.question
     }
+
 };
