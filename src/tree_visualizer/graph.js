@@ -18,10 +18,9 @@ export default class Graph {
             "height": "100%"
         });
 
-        this.graphContainer.appendChild(this.navSteps.getDOMElement())
+        this.graphContainer.appendChild(this.navSteps.getDOMObject())
         this.graphContainer.appendChild(this.graphWindow);
         this.addNavButtonListeners()
-
 
         this.arrows = {}
         this.nodes = {}
@@ -137,13 +136,13 @@ export default class Graph {
                         object.showReturnArrow(nodeReturning)
                         object.setReturn(true)
                     }
-                    if (this.currentStep === this.steps.length - 1) {
-                        this.nodes[`node-0`].showCompletedNode()
-                    }
                 }
                 else if (object instanceof TreeNode) {
                     object.showProcessingNode()
                     object.setComplete(false)
+                }
+                if (this.currentStep === this.steps.length - 1) {
+                    this.nodes[`node-0`].showCompletedNode()
                 }
                 resolve()
             }, TIME_GAP) 

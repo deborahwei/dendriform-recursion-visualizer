@@ -10,14 +10,12 @@ export default class PositionCalculator {
         this.rootNode = this.getPosition(0, 1, null);
         this.getYCoor(this.rootNode, SPACE_Y);
         this.firstTraverse(this.rootNode);
-        this.centerChildren(this.rootNode);
         this.applyMod(this.rootNode);
         this.shiftTrees(this.rootNode);
-
     }
 
     getTreeDimensions() {
-        console.log(this.maxX, this.maxY)
+        this.findMax(this.rootNode)
         return [this.maxX + SPACE_X, this.maxY + SPACE_Y] 
     }
 
@@ -53,25 +51,12 @@ export default class PositionCalculator {
     } 
 
     firstTraverse(node) { // this is the step where we set the initial positions and calculate how much the nodes children have to move to be under their parent
-
-        for (let i = 0; i < node.children.length; i++) { // [1, 4], [2, 3]
-            this.firstTraverse(node.children[i]); // 1, 2
+        for (let i = 0; i < node.children.length; i++) {
+            this.firstTraverse(node.children[i]); 
             this.fixNodeConflicts(node);
         }
+        node.x = node.children.length > 0 ? this.centralX(node.children) : node.x;
     }
-
-    centerChildren(node) {
-        for (let i = 0; i < node.children.length; i++) { // [1, 4], [2, 3]
-            this.centerChildren(node.children[i]) // 1, 2
-        }
-        if (node.children.length == 1) { // if that node has only one child then it will be under the node 
-            node.mod = node.x
-        }
-        else if (node.children.length >= 2) {
-            node.mod = node.x - ((node.children[node.children.length-1].x + node.children[0].x) / 2) // finds the average between the two first and last node childrens
-        }
-    }
-
 
     applyMod(node, modSum = 0) { // gives final position of each node
         node.x += modSum 
@@ -82,7 +67,7 @@ export default class PositionCalculator {
             this.applyMod(node.children[i], modSum);
         }
     }
-   
+    
     fixNodeConflicts(node) { 
         for (let i = 0; i < node.children.length; i++) { 
             this.fixNodeConflicts(node.children[i])
@@ -93,7 +78,7 @@ export default class PositionCalculator {
             node.children[i].traverse((curNode) => {
                 rightContour = Math.max(rightContour, curNode.x);
             })
-
+            
             let leftContour = Infinity;
             node.children[i+1].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
                 leftContour = Math.min(leftContour, curNode.x);
@@ -105,7 +90,14 @@ export default class PositionCalculator {
             }
         }
     }
+    
+    centralX(children) {
+        const length = children.length;
 
+        return length % 2 === 0
+          ? (children[0].x + children[length - 1].x) / 2
+          : children[(length - 1) / 2].x;
+    }
     shiftTrees(node) {
         let leftestContour = Infinity
 
@@ -113,7 +105,7 @@ export default class PositionCalculator {
             node.children[i].traverse((curNode) => {
                 leftestContour = Math.min(leftestContour, curNode.x);
             })
-
+        }
         const rightShift = -leftestContour + SPACE_X
 
         if (rightShift > 0) {
@@ -124,4 +116,12 @@ export default class PositionCalculator {
             })
         }
     }
-}}
+
+    findMax(node) { 
+        node.traverse ((curNode) => {
+            this.maxX = Math.max(this.maxX, curNode.x); // finds the most right our tree goes
+            this.maxY = Math.max(this.maxY, curNode.y); // the depth of our tree
+        })
+    }
+
+}

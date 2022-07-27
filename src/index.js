@@ -3,24 +3,33 @@ import ControllerContainer from "./controller/controller_container";
 import FuncRunner from "./computer/func_runner";
 import PositionCalculator from "./tree_visualizer/position_calculator";
 import UserInput from "./controller/user_input";
+import Error from "./error/error";
 
 document.addEventListener("DOMContentLoaded", () => {
     console.log("DOM content loaded!");
 
     const root = document.getElementById("root");
-
+    
     const controller = new ControllerContainer();
-    const graph = new Graph();
-
-
     root.appendChild(controller.getDOMObject());
-    root.appendChild(graph.getDOMObject());  
+    
+    const bottomContainer = document.createElement("div")
+    root.appendChild(bottomContainer)
+    bottomContainer.classList.add('bottom-container')
+
+    const graph = new Graph();
+    bottomContainer.appendChild(graph.getDOMObject())
+
+    // const error = new Error("uh oh")
+    // console.log(error)
+    // graph.getDOMObject().appendChild(error.getDOMObject())
+
     
     const userInputs = new UserInput()
     controller.getDOMObject().appendChild(userInputs.getDOMObject())
     controller.getDOMObject().appendChild(userInputs.getdefaultFunction())
 
-    userInputs.addClickEventListener( (e) => { 
+    graph.navSteps.addClickEventListener('runButton', (e) => { 
         e.preventDefault()
         graph.reset()
 
@@ -33,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const func = new FuncRunner(args, fB, params)
         const treeData = func.runFunc()
-        console.log(treeData)
         const positionCalculator = new PositionCalculator(treeData)
         
         graph.resizeViewBox(positionCalculator.getTreeDimensions())

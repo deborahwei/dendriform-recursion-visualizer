@@ -1,55 +1,78 @@
 .user-inputs {
-    display: flex; 
-    flex-direction: column;
-    justify-content: space-between;
-    width: 30%;
-    margin-left: 30px;
+  display: flex; 
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 30%;
 }
 
 .user-inputs > button { 
-    width: 10%;
-    background: #9FC088;
+  width: 10%;
+  background: #9FC088;
 }
 
 #flask-wrapper { 
-    position: relative;
-    height: 70%;
-    width: 100%;
-    margin-left: 30px;
+  position: relative;
+  height: 70%;
+  width: 100%;
+  font-size: 15px;
+
+  span, textarea, code{ 
+    font-size: 15px;
+  }
+
+  textarea {
+    color: transparent;
+  }
 }
 
 #params-wrapper { 
-    position: relative; 
-    height: 18%; 
-    width: 25%;
-    margin-left: 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: 'Courier New', Courier, monospace;
+  color: #CC704B;
+  font-size: 15px;
+
+  > span { 
+    min-width: 15px;    
+    background: $background;
+    color: black;
+
+    &:focus {
+      outline: none;
+      background: #dcdcdc;
+    }
   }
-  
-.user-inputs > button { 
-  margin-left: 30px;
+}
+
+.codeflask--has-line-numbers{
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
 }
 
 .codeflask > textarea{ 
   background: #dcdcdc;
-  border-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
 }
+
 
 // text decoration
 
 .codeflask .token.punctuation {
-    color: #4a4a4a;
+    color: $color4;
   }
   .codeflask .token.keyword {
-    color: #CC704B;
+    color: #9c4421;
   }
   .codeflask .token.operator {
-    color: #ff5598;
+    color: #c49647;
   }
   .codeflask .token.string {
     color: #41ad8f;
   }
   .codeflask .token.comment {
-    color: #9FC088;
+    color: #678056;
   }
   .codeflask .token.function {
     color: #CC704B;
@@ -58,7 +81,7 @@
     color: #8500ff;
   }
   .codeflask .token.number {
-    color: #9FC088;
+    color: #678056;
   }
   .codeflask .token.selector {
     color: #8500ff;

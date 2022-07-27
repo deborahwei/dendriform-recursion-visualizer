@@ -11,6 +11,10 @@ export default class NavSteps {
         const previousStepButton = document.createElement("i")
         previousStepButton.classList.add("fa-solid", "fa-caret-left", "fa-3x")
         this.navSteps.appendChild(previousStepButton);
+        
+        const runButton = document.createElement("button");
+        runButton.innerHTML = "RUN"
+        this.navSteps.appendChild(runButton)
 
         const nextStepButton = document.createElement("i");
         nextStepButton.classList.add("fa-solid", "fa-caret-right", "fa-3x");
@@ -24,11 +28,13 @@ export default class NavSteps {
             'beginningButton': beginningButton,
             'previousStepButton': previousStepButton, 
             'nextStepButton': nextStepButton,
-            'endButton': endButton
+            'endButton': endButton,
+            'runButton': runButton
         }
     }
 
-    getDOMElement() { 
+
+    getDOMObject() { 
         return this.navSteps;
     }
 

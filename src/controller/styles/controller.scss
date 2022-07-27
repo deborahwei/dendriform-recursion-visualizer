@@ -1,6 +1,27 @@
 .controller-container {
     height: 30%; 
-    border-bottom: 1px solid black;
+    display: flex; 
+    flex-direction: row;
+    justify-content: space-evenly;
+    background-color: white;
+    width: 95%;
+    margin: 0 auto;
+    border-bottom-left-radius: 8px;
+    border-bottom-right-radius: 8px;
+    
+}
+
+.nav-area {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 10%;
+    > h1, h2 {
+        text-align: center;
+    }
+}
+
+.socials { 
     display: flex; 
     flex-direction: row;
     justify-content: space-evenly;

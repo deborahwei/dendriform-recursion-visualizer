@@ -3,15 +3,23 @@ export default class DefaultFunctions {
         this.functionLibrary = {
             'Custom': {
                 'arg':'',
-                'functionBody': '// write your code here'
+                'functionBody': '// write your code here',
+                'params': ""
             },
             'Fibonacci Sum': {
                 'arg': 'n',
-                'functionBody': `if (n == 0 || n == 1)\nreturn n\nreturn fn(n-1) + fn(n-2)`
+                'functionBody': `  if (n == 0 || n == 1)\n    return n\n  return fn(n-1) + fn(n-2)`,
+                'params': '5'
             },
             'Binomial Coefficient': {
                 'arg': 'n, k',
-                'functionBody': `if (k == 0 || n == k)\nreturn 1\nreturn fn(n-1, k-1) + fn(n-1, k)`
+                'functionBody': `  if (k == 0 || n == k)\n    return 1\n  return fn(n-1, k-1) + fn(n-1, k)`,
+                'params': '5, 2'
+            }, 
+            'Exponential': {
+                'arg': 'n, k',
+                'functionBody': `  if (k == 0 || n == k)\n  return 1\n  return fn(n-1, k-1) + fn(n-1, k)`,
+                'params': '3, 5'
             }
         }
 
@@ -19,13 +27,13 @@ export default class DefaultFunctions {
         this.defaultDiv.classList.add('default-funcs')
 
         const customButton = document.createElement("button")
-        customButton.innerHTML = "Custom Function"
+        customButton.innerHTML = "CUSTOM FUNCTION"
         
         const fibButton = document.createElement("button")
-        fibButton.innerHTML = "Fibonacci Sum"
+        fibButton.innerHTML = "FIBONACCI SUM"
         
         const binomialButton = document.createElement("button")
-        binomialButton.innerHTML = "Binomial Coefficient"
+        binomialButton.innerHTML = "BINOMIAL COEFFICIENT"
 
         this.defaultDiv.appendChild(customButton)
         this.defaultDiv.appendChild(fibButton)

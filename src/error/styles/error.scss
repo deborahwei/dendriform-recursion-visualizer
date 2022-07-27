@@ -1,0 +1,68 @@
+.error-container {
+    display: block; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 30%;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+
+.error-header {
+  padding: 2px 16px;
+  background-color: #CC704B;
+  color: white;
+  text-align: center;
+}
+
+.error-message {
+  text-align: center;
+  width: 100%;
+  height: 85%;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  border-top: 0px;
+  width: 25%;
+  height: 15%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+@keyframes animatetop {
+    from {top: -300px; opacity: 0}
+    to {top: 0; opacity: 1}
+}
+
+.close {
+    position: absolute;
+    top: 3;
+    right: 4;
+    background: #FF605C;
+    border-radius: 50%;
+    font-size: 20px;
+    font-weight: bold;
+    float: right;
+    height: 13px;
+    width: 13px;
+}
+  
+.x {
+  opacity: 0;
+  color: darkslategrey;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.x:hover {
+  opacity: 30%;
+}

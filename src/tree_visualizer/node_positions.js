@@ -12,7 +12,8 @@ export default class NodePosition { // this class finds the position and adds it
         this.children = [];
         this.prevNode = null;
         this.level = -1;
-        this.treeNode = 0
+        this.treeNode = 0;
+        this.thread = null;
     }
 
     traverse(cb) {

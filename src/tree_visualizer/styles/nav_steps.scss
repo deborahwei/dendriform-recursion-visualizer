@@ -1,9 +1,10 @@
 .nav-steps {
     height: 10%;
-    width: 100%;
+    width: 90%;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    padding: 10px;
 }
 
 .fa-backward, .fa-forward { 
@@ -13,3 +14,17 @@
 .fa-caret-right, .fa-caret-left { 
     color: #E8C07D;
 }
+
+.nav-steps > button {
+    background-color: #9FC088;
+    padding: 10px 50px;
+    border: transparent;
+    border-radius: 10px;
+    color: white;
+    font-family: $sans-serif;
+    letter-spacing: 5px;
+    &:hover {
+        filter: brightness(0.9);
+    }
+}
+
