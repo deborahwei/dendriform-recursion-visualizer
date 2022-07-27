@@ -34,7 +34,7 @@ export default class NavBar {
         })
 
         const personalSite = document.createElement('img')
-        personalSite.src = "assets/tree.png"
+        personalSite.src = "assets/images/tree.png"
         this.socials.appendChild(personalSite)
         personalSite.addEventListener("click", () => {
             window.open("")

@@ -17,7 +17,7 @@ export default class Instructions {
         ]
 
         this.gifs = {
-            'page1': {'gif1': 'assets/gifs/pg1selecting.gif'}
+            'page1': {'gif1': 'assets/gifs/pg1selecting.gif', 'gif2': 'assets/gifs/pg1addingconstants.gif'}
         }
 
         this.instructions = document.createElement('div')
@@ -64,6 +64,11 @@ export default class Instructions {
         this.gifOne.src = this.gifs['page1'].gif1
         this.instructionsImages.appendChild(this.gifOne)
         this.gifOne.classList.add('gif')
+        
+        this.gifTwo = document.createElement('img')
+        this.gifTwo.src = this.gifs['page1'].gif2
+        this.instructionsImages.appendChild(this.gifTwo)
+        this.gifTwo.classList.add('gif')
 
         this.instructionsTextContainer = document.createElement('div')
         this.instructionsContent.appendChild(this.instructionsTextContainer)
