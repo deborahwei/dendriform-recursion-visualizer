@@ -2,6 +2,9 @@ import { setAttributes } from "../utilities/util"
 
 export default class Instructions {
     constructor() {
+
+        this.currentPage = 0
+
         this.subheadings = [
         "Pick a recursive function to visualize", 
         "Edit or use default params and arguments",
@@ -17,7 +20,10 @@ export default class Instructions {
         ]
 
         this.gifs = {
-            'page1': {'gif1': 'assets/gifs/pg1selecting.gif', 'gif2': 'assets/gifs/pg1constants.gif'}
+            'page0': {'gif1': 'assets/gifs/pg1selecting.gif', 'gif2': 'assets/gifs/pg1constants.gif'},
+            'page1': {'gif1': 'assets/gifs/pg2custom.gif', 'gif2': 'assets/gifs/pg2default.gif'},
+            'page2': {'gif1': 'assets/gifs/3.gif'},
+            'page3': {'gif1': 'assets/gifs/4.gif'}
         }
 
         this.instructions = document.createElement('div')
@@ -61,14 +67,12 @@ export default class Instructions {
         this.instructionsImages.classList.add('instructions-images')
 
         this.gifOne = document.createElement('img')
-        this.gifOne.src = this.gifs['page1'].gif1
+        this.gifOne.src = this.gifs['page0'].gif1
         this.instructionsImages.appendChild(this.gifOne)
-        this.gifOne.classList.add('gif')
         
         this.gifTwo = document.createElement('img')
-        this.gifTwo.src = this.gifs['page1'].gif2
+        this.gifTwo.src = this.gifs['page0'].gif2
         this.instructionsImages.appendChild(this.gifTwo)
-        this.gifTwo.classList.add('gif')
 
         this.instructionsTextContainer = document.createElement('div')
         this.instructionsContent.appendChild(this.instructionsTextContainer)
@@ -84,14 +88,17 @@ export default class Instructions {
         this.backButton = document.createElement('i')
         instructionsFooter.appendChild(this.backButton)
         this.backButton.classList.add("fa-solid", "fa-chevron-left", "fa-2xl")
+        this.backButton.classList.add("hidden")
         
         this.pageNumber = document.createElement('div')
+        this.pageNumber.textContent = `${this.currentPage + 1}/4`
         instructionsFooter.appendChild(this.pageNumber)
 
         this.forwardButton = document.createElement('i')
         instructionsFooter.appendChild(this.forwardButton)
         this.forwardButton.classList.add("fa-solid", "fa-chevron-right", "fa-2xl")
 
+        this.switchPage()
     }
 
     getDOMObject() { 
@@ -100,29 +107,84 @@ export default class Instructions {
 
     closeInstructions() { 
         this.x.addEventListener('click', () => {
-            console.log('hide')
             this.hide()  
         })
     }
 
+    switchPage() {
+        this.forwardButton.addEventListener('click', () => {
+            this.currentPage += 1
+            this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]
+            this.instructionsText.innerHTML = this.texts[this.currentPage]
+            this.gifOne.src = this.gifs[`page${this.currentPage}`].gif1
+            switch(this.currentPage) {
+                case 0: 
+                    this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
+                    break;
+                case 1: 
+                    this.backButton.classList.remove('hidden')
+                    this.gifTwo.classList.remove('hide')
+                    this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
+                    break;
+                case 2:
+                    this.backButton.classList.remove('hidden')
+                    this.forwardButton.classList.remove('hidden')
+                    this.gifTwo.classList.add('hide')
+                    break;
+                case 3: 
+                    this.forwardButton.classList.add('hidden')
+                    break;
+            }    
+            this.pageNumber.textContent = `${this.currentPage + 1} /4`
+        })
+        this.backButton.addEventListener('click', () => {
+            this.currentPage -= 1
+            this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]
+            this.instructionsText.innerHTML = this.texts[this.currentPage]
+            this.gifOne.src = this.gifs[`page${this.currentPage}`].gif1
+            switch(this.currentPage) {
+                case 0: 
+                    this.backButton.classList.add('hidden')
+                    this.gifTwo.classList.remove('hide')
+                    this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
+                    break;
+                case 1: 
+                    this.backButton.classList.remove('hidden')
+                    this.gifTwo.classList.remove('hide')
+                    this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
+                    break;
+                case 2:
+                    this.backButton.classList.remove('hidden')
+                    this.forwardButton.classList.remove('hidden')
+                    this.gifTwo.classList.add('hide')
+                    break;
+                case 3: 
+                    break;
+
+            }    
+            this.pageNumber.textContent = `${this.currentPage + 1}/4`
+        })
+    }
+
+
     show() {
-        this.instructions.classList.remove('hide-instructions')
+        this.instructions.classList.remove('hide')
         this.instructions.classList.add('instructions')
     }
 
     hide() {
         this.instructions.classList.remove('instructions')
-        this.instructions.classList.add('hide-instructions')
+        this.instructions.classList.add('hide')
     }
 
     hideArrow(isBack) { 
-        if (isBack) this.backButton.classList.add("hide-instructions")
-        else this.forwardButton.classList.add("hide-instructions")
+        if (isBack) this.backButton.classList.add("hide")
+        else this.forwardButton.classList.add("hide")
     }
     
     showArrow(isBack) { 
-        if (isBack) this.backButton.classList.remove("hide-instructions")
-        else this.forwardButton.classList.remove("hide-instructions")
+        if (isBack) this.backButton.classList.remove("hide")
+        else this.forwardButton.classList.remove("hide")
     }
 
     changeSlide(pageNumber) { 

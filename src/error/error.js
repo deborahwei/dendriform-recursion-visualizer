@@ -50,12 +50,12 @@ export default class Error {
     }
 
     show() {
-        this.modal.classList.remove('hide-error')
+        this.modal.classList.remove('hide')
         this.modalContent.classList.add("modal-content")
     }
     
     hide() { 
         this.modalContent.classList.remove("modal-content")
-        this.modal.classList.add('hide-error')
+        this.modal.classList.add('hide')
     }
 }

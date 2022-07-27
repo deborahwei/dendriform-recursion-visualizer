@@ -389,7 +389,7 @@ button.selected {
   opacity: 30%;
 }
 
-.hide-error {
+.hide {
   display: none;
 }
 
@@ -413,8 +413,8 @@ button.selected {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 55%;
-  height: 70%;
+  width: 50%;
+  height: 60%;
   background-color: white;
   position: relative;
   border-radius: 12px;
@@ -467,21 +467,19 @@ button.selected {
   letter-spacing: 2px;
 }
 .instructions-content .instructions-images {
-  height: 40%;
+  height: 50%;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;
   border: transparent;
-}
-.instructions-content img {
-  height: 100%;
+  align-items: center;
 }
 .instructions-content .instructions-text {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 25%;
+  height: 15%;
   width: 100%;
   font-family: "Ovo", serif;
   text-align: center;
@@ -501,14 +499,11 @@ button.selected {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-family: "Ovo", serif;
 }
 .instructions-content .fa-solid {
   color: #9FC088;
   padding: 8px;
-}
-
-.hide-instructions {
-  display: none;
 }
 
 #root {
