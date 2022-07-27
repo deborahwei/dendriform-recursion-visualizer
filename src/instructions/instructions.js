@@ -16,6 +16,10 @@ export default class Instructions {
         "You can click through the navigational buttons to see different branches of the recursive tree. The outer buttons skip to the beginning or the end of the tree. The inner buttons allow you to iterate throguh each individual step."
         ]
 
+        this.gifs = {
+            'page1': {'gif1': 'assets/gifs/pg1selecting.gif'}
+        }
+
         this.instructions = document.createElement('div')
         this.instructions.classList.add('instructions')
 
@@ -55,6 +59,11 @@ export default class Instructions {
         this.instructionsImages = document.createElement('div')
         this.instructionsContent.appendChild(this.instructionsImages)
         this.instructionsImages.classList.add('instructions-images')
+
+        this.gifOne = document.createElement('img')
+        this.gifOne.src = this.gifs['page1'].gif1
+        this.instructionsImages.appendChild(this.gifOne)
+        this.gifOne.classList.add('gif')
 
         this.instructionsTextContainer = document.createElement('div')
         this.instructionsContent.appendChild(this.instructionsTextContainer)
