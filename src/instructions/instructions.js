@@ -67,11 +67,9 @@ export default class Instructions {
         this.instructionsImages.classList.add('instructions-images')
 
         this.gifOne = document.createElement('img')
-        this.gifOne.src = this.gifs['page0'].gif1
         this.instructionsImages.appendChild(this.gifOne)
         
         this.gifTwo = document.createElement('img')
-        this.gifTwo.src = this.gifs['page0'].gif2
         this.instructionsImages.appendChild(this.gifTwo)
 
         this.instructionsTextContainer = document.createElement('div')
@@ -79,25 +77,23 @@ export default class Instructions {
         this.instructionsTextContainer.classList.add('instructions-text')
         
         this.instructionsText = document.createElement('p')
-        this.instructionsText.innerHTML = this.texts[0]
         this.instructionsTextContainer.append(this.instructionsText)
 
         const instructionsFooter = document.createElement('footer')
         this.instructionsContent.appendChild(instructionsFooter)
 
         this.backButton = document.createElement('i')
-        instructionsFooter.appendChild(this.backButton)
         this.backButton.classList.add("fa-solid", "fa-chevron-left", "fa-2xl")
-        this.backButton.classList.add("hidden")
+        instructionsFooter.appendChild(this.backButton)
         
         this.pageNumber = document.createElement('div')
-        this.pageNumber.textContent = `${this.currentPage + 1}/4`
         instructionsFooter.appendChild(this.pageNumber)
 
         this.forwardButton = document.createElement('i')
         instructionsFooter.appendChild(this.forwardButton)
         this.forwardButton.classList.add("fa-solid", "fa-chevron-right", "fa-2xl")
 
+        this.reset()
         this.switchPage()
 
     }
@@ -115,14 +111,13 @@ export default class Instructions {
     switchPage() {
         this.forwardButton.addEventListener('click', () => {
             this.currentPage += 1
-            this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]
-            this.instructionsText.innerHTML = this.texts[this.currentPage]
-            this.gifOne.src = this.gifs[`page${this.currentPage}`].gif1
+            this.pageSetup()
             switch(this.currentPage) {
                 case 0: 
                     this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
                     break;
                 case 1: 
+                    console.log(this.backButton.classList.includes('hidden'))
                     this.backButton.classList.remove('hidden')
                     this.gifTwo.classList.remove('hide')
                     this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
@@ -140,9 +135,7 @@ export default class Instructions {
         })
         this.backButton.addEventListener('click', () => {
             this.currentPage -= 1
-            this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]
-            this.instructionsText.innerHTML = this.texts[this.currentPage]
-            this.gifOne.src = this.gifs[`page${this.currentPage}`].gif1
+            this.pageSetup()
             switch(this.currentPage) {
                 case 0: 
                     this.backButton.classList.add('hidden')
@@ -167,6 +160,16 @@ export default class Instructions {
         })
     }
 
+    // buttonSetup(backButton, forwardButton)
+    //     if (backButton) {
+            
+    //     }
+
+    pageSetup() {
+        this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]
+        this.instructionsText.innerHTML = this.texts[this.currentPage]
+        this.gifOne.src = this.gifs[`page${this.currentPage}`].gif1
+    }
 
     show() {
         this.instructions.classList.remove('hide')
@@ -178,23 +181,19 @@ export default class Instructions {
         this.instructions.classList.add('hide')
     }
 
-    hideArrow(isBack) { 
-        if (isBack) this.backButton.classList.add("hide")
-        else this.forwardButton.classList.add("hide")
-    }
-    
-    showArrow(isBack) { 
-        if (isBack) this.backButton.classList.remove("hide")
-        else this.forwardButton.classList.remove("hide")
-    }
-
-    changeSlide(pageNumber) { 
-        this.subheading.innerHTML = this.subheadings[pageNumber]
-        this.text = this.texts[pageNumber]
+    reset() { 
+        this.currentPage = 0
+        this.gifOne.src = this.gifs['page0'].gif1
+        this.gifTwo.src = this.gifs['page0'].gif2
+        this.instructionsText.innerHTML = this.texts[0]
+        this.backButton.classList.add("hidden")
+        this.forwardButton.classList.remove("hidden")
+        this.pageNumber.textContent = `${this.currentPage + 1}/4`
     }
 
     addQuestionButton(button) {
         button.addEventListener("click", () => {
+            this.reset()
             this.show()
         })
     }
