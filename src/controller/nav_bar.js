@@ -4,7 +4,7 @@ export default class NavBar {
         this.navArea.classList.add('nav-area')
         
         const title = document.createElement('h1')
-        title.textContent = "Dendriform"
+        title.textContent = "DENDRIFORM"
         this.navArea.appendChild(title)
 
         const name = document.createElement('h2')
