@@ -1,11 +1,18 @@
 .default-funcs {
     display: flex; 
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 10%;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 20%;
 }
 
-.default-funcs > button {
+.default-left, .default-right {
+    display: flex; 
+    flex-direction: column;
+    justify-content: space-evenly;
+    width: 40%;
+}
+
+.default-funcs button {
     background: #CC704B;
     font-family: $sans-serif;
     color: white;
@@ -14,4 +21,13 @@
     border-radius: 8px;
     border: transparent;
     word-spacing: 5px;
+
+    &:hover {
+        filter: brightness(0.9);
+        cursor: pointer;
+    }
+}
+
+button.custom-function { 
+    background: $color3;
 }

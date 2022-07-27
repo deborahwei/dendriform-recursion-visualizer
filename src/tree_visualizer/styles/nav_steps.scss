@@ -15,7 +15,12 @@
     color: #E8C07D;
 }
 
-.nav-steps > button {
+.fa-solid:hover {
+    filter: brightness(0.9);
+    cursor: pointer;
+}
+
+.nav-steps button {
     background-color: #9FC088;
     padding: 10px 50px;
     border: transparent;
@@ -25,6 +30,7 @@
     letter-spacing: 5px;
     &:hover {
         filter: brightness(0.9);
+        cursor: pointer;
     }
 }
 

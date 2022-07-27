@@ -6,6 +6,7 @@ export default class FuncRunner {
         const originalFunc = [functionHeader, functionBody, "};"].join("\n");
         const sourceCode = getSourceCode(originalFunc, params); // gives us back a string
         this.func = Function(sourceCode); // gives us back the string converted to a function 
+        console.log(this.func)
     }
 
     getFunc() {

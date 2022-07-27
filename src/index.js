@@ -35,8 +35,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
 
-        const func = new FuncRunner(args, fB, params)
         try {
+            const func = new FuncRunner(args, fB, params)
             const treeData = func.runFunc()
             const positionCalculator = new PositionCalculator(treeData)
             

@@ -21,10 +21,16 @@ export default class NavBar {
         const linkedIn = document.createElement('i')
         linkedIn.classList.add("fa-brands", "fa-linkedin", "fa-2xl")
         this.socials.appendChild(linkedIn)
+        linkedIn.addEventListener("click", () => {
+            window.open("https://www.linkedin.com/in/deborah-wei-163b10152/")
+        })
 
         const gitHub = document.createElement('i')
         gitHub.classList.add("fa-brands", "fa-github-square", "fa-2xl")
         this.socials.appendChild(gitHub)
+        gitHub.addEventListener("click", () => {
+            window.open("https://github.com/deborahwei?tab=repositories")
+        })
     }
 
     getDOMObject() { 

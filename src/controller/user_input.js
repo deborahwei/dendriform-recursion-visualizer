@@ -42,6 +42,30 @@ export default class UserInput {
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
+
+        this.defaultFunctions.addClickEventListener('binomialButton', () => { 
+            this.defaultFunc = this.defaultFunctions.getFunction('Binomial Coefficient')
+            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
+            this.userParams.textContent = this.defaultFunc.params
+        })
+
+        this.defaultFunctions.addClickEventListener('exponentialButton', () => {
+            this.defaultFunc = this.defaultFunctions.getFunction('Exponent Base')
+            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
+            this.userParams.textContent = this.defaultFunc.params
+        })
+
+        this.defaultFunctions.addClickEventListener('sumDigitsButton', () => {
+            this.defaultFunc = this.defaultFunctions.getFunction('Sum of Digits')
+            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
+            this.userParams.textContent = this.defaultFunc.params
+        })
+
+        this.defaultFunctions.addClickEventListener('tempButton', () => {
+            this.defaultFunc = this.defaultFunctions.getFunction('Temp Function')
+            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
+            this.userParams.textContent = this.defaultFunc.params
+        })
     }
 
     createTextArea() { 
