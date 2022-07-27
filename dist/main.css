@@ -413,7 +413,7 @@ button.selected {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 50%;
+  width: 55%;
   height: 70%;
   background-color: white;
   position: relative;
@@ -475,9 +475,7 @@ button.selected {
   border: transparent;
 }
 .instructions-content img {
-  width: 50%;
   height: 100%;
-  border-radius: 10px;
 }
 .instructions-content .instructions-text {
   display: flex;

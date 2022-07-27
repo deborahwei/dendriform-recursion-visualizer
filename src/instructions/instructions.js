@@ -17,7 +17,7 @@ export default class Instructions {
         ]
 
         this.gifs = {
-            'page1': {'gif1': 'assets/gifs/pg1selecting.gif', 'gif2': 'assets/gifs/pg1addingconstants.gif'}
+            'page1': {'gif1': 'assets/gifs/pg1selecting.gif', 'gif2': 'assets/gifs/pg1constants.gif'}
         }
 
         this.instructions = document.createElement('div')
