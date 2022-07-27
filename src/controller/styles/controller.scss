@@ -30,21 +30,51 @@
     align-items: center;
 }
 
+.socials img { 
+    height: 100px;
+}
+
+.socials img:hover {
+    cursor:pointer; 
+    filter: brightness(0.5)
+}
+
 .fa-brands {
     color: $color2;
     padding: 5px;
     cursor: pointer;
+
+    &:hover {
+        filter: brightness(0.8)
+    }
 }
 
-.nav-area > h1 {
-    font-size: 35px;
+.top-nav {
+    display: flex; 
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    color: $color4;
+}
+
+.top-nav h1 {
     letter-spacing: 12px;
-    font-weight: bold;
     text-indent:-1em;;
     direction:rtl;
+    font-size: 35px;
+    font-weight: bold;
 }
 
+.top-nav h3 {
+    letter-spacing: 1px;
+}
+
+.nav-area > h3 {
+    color: rgb(159, 90, 21);
+}
 
 .nav-area > h2 { 
+    color: rgb(159, 90, 21);
+    font-size: 20px;
     font-weight: 500;
 }

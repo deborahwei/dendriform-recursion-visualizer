@@ -23,8 +23,11 @@
     word-spacing: 5px;
 
     &:hover {
-        filter: brightness(0.9);
+        filter: brightness(0.95);
         cursor: pointer;
+    }
+    &:active {
+        box-shadow: inset 3px 4px 5px $color4;
     }
 }
 
