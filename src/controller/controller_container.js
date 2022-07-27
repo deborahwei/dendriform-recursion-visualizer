@@ -1,4 +1,3 @@
-import DefaultFunctions from "./default_functions";
 import NavBar from "./nav_bar";
 
 export default class ControllerContainer {
