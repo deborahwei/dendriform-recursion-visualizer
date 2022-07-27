@@ -12,7 +12,7 @@ export default class FuncRunner {
         return this.func;
     }
 
-    runFunc() {
+    runFunc() { // gives back treeData 
         return this.func();
     }
 };

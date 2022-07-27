@@ -20,14 +20,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const graph = new Graph();
     bottomContainer.appendChild(graph.getDOMObject())
 
-    // const error = new Error("uh oh")
-    // console.log(error)
-    // graph.getDOMObject().appendChild(error.getDOMObject())
-
-    
     const userInputs = new UserInput()
     controller.getDOMObject().appendChild(userInputs.getDOMObject())
     controller.getDOMObject().appendChild(userInputs.getdefaultFunction())
+
+    const err = new Error()
+    bottomContainer.appendChild(err.getDOMObject())
 
     graph.navSteps.addClickEventListener('runButton', (e) => { 
         e.preventDefault()
@@ -37,15 +35,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
 
-        // console.log('fb:', fB, 'args: '. args, 'params: ', params)
-        // console.log(args)
-
         const func = new FuncRunner(args, fB, params)
-        const treeData = func.runFunc()
-        const positionCalculator = new PositionCalculator(treeData)
-        
-        graph.resizeViewBox(positionCalculator.getTreeDimensions())
-        graph.animate(positionCalculator.getRoot());
+        try {
+            const treeData = func.runFunc()
+            const positionCalculator = new PositionCalculator(treeData)
+            
+            graph.resizeViewBox(positionCalculator.getTreeDimensions())
+            graph.animate(positionCalculator.getRoot());
+        }
+        catch(e) {
+            console.log(e)
+            err.updateMessage(e)
+            err.show()
+        }
     });
     
 });

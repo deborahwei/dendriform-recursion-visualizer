@@ -1,13 +1,16 @@
+import { setAttributes } from "../utilities/util"
+
 export default class Error { 
-    constructor(message) { 
-        this.message = message
+    constructor() { 
+        this.message = ''
         
         this.modal = document.createElement('div')
         this.modal.classList.add('error-container')
         
         this.modalContent = document.createElement("div")
-        this.modalContent.classList.add("modal-content")
         this.modal.appendChild(this.modalContent)
+
+        this.hide()
         
         this.errorHeader = document.createElement("h2")
         this.errorHeader.classList.add("error-header")
@@ -17,7 +20,7 @@ export default class Error {
         this.errorMessage = document.createElement("p")
         this.errorMessage.classList.add("error-message")
         this.modalContent.appendChild(this.errorMessage)
-        this.errorMessage.innerHTML = message
+        this.errorMessage.innerHTML = this.message
         
         this.close = document.createElement("div")
         this.errorHeader.appendChild(this.close)
@@ -31,13 +34,28 @@ export default class Error {
         this.closeError()
     }
 
+    updateMessage(message) { 
+        this.message = message
+        this.errorMessage.innerHTML = message
+    }
+
     closeError() { 
         this.x.addEventListener('click', () => {
-            this.modal.style.display = "none"
+            this.hide()
         });
     }
 
     getDOMObject() { 
         return this.modal
+    }
+
+    show() {
+        this.modal.classList.remove('hide-error')
+        this.modalContent.classList.add("modal-content")
+    }
+    
+    hide() { 
+        this.modalContent.classList.remove("modal-content")
+        this.modal.classList.add('hide-error')
     }
 }

@@ -314,6 +314,10 @@
   opacity: 30%;
 }
 
+.hide-error {
+  display: none;
+}
+
 #root {
   width: 100%;
   display: flex;

@@ -1,7 +1,7 @@
 export default function getSourceCode(originalCode, params) {
     const bottomLines = `
         fn(${params.join(",")});
-        return errorMessage ?? treeData;
+        return treeData;
     `;
     return [originalCode,
             injectedFunc,
@@ -12,14 +12,12 @@ export default function getSourceCode(originalCode, params) {
 const injectedFunc = `
 const stack = [];
 const treeData = {};
-const MAX_CALL_STACK_SIZE = 12;
-let errorMessage = null;
+const MAX_CALLS = 65;
 let nodeId = -1;
 
 function fn(...args) {
-    if (MAX_CALL_STACK_SIZE < stack.length || errorMessage != null) {
-        errorMessage = "MAXIMUM CALL STACK EXCEEDED";
-        return null;
+    if (MAX_CALLS < Object.keys(treeData).length) {
+        throw "MAXIMUM CALL STACK EXCEEDED";
     }
     nodeId++; // keeps track of what the node's unique id is 
 
