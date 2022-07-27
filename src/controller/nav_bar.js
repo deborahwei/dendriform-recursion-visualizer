@@ -44,7 +44,7 @@ export default class NavBar {
         gitHub.classList.add("fa-brands", "fa-github-square", "fa-2xl")
         this.socials.appendChild(gitHub)
         gitHub.addEventListener("click", () => {
-            window.open("https://github.com/deborahwei?tab=repositories")
+            window.open("https://github.com/deborahwei/dendriform")
         })
 
     }

@@ -27,7 +27,7 @@ export default class Graph {
 
         this.steps = []
         this.currentStep = 0 
-        this.noSkip = true
+        this.skipToEnd = true
     };
 
     reset() { 
@@ -37,7 +37,8 @@ export default class Graph {
 
         this.steps = []
         this.currentStep = 0 
-        this.noSkip = true
+        this.skipToEnd = false
+        this.skipToBeg = false
     }
 
 
@@ -46,7 +47,8 @@ export default class Graph {
         this.addElementsToHash(node)
         for (let i = 0; i < this.steps.length; i++) { 
             this.currentStep = i
-            if (this.noSkip) {
+            if (!this.skipToEnd && !this.skipToBeg) {
+                console.log(i)
                 const doSteps = this.steps.slice(0, i + 1)
                 await this.doStep(this.steps[i], doSteps)
             }
@@ -85,6 +87,7 @@ export default class Graph {
     
     addNavButtonListeners() { 
         this.navSteps.addClickEventListener('beginningButton', () => {
+            this.skipToBeg = true
             this.currentStep = 0;
             this.jumpToStep(this.currentStep);
         })
@@ -95,23 +98,28 @@ export default class Graph {
             if (this.currentStep + 1 < this.steps.length) this.jumpToStep(++this.currentStep);
         })
         this.navSteps.addClickEventListener('endButton', () => {
-            this.noSkip = false
+            this.skipToEnd = true
             this.currentStep = this.steps.length - 1
             this.jumpToStep(this.currentStep)
         })
     }
 
     jumpToStep(step) { 
-        const doSteps = this.steps.slice(0, step + 1) 
-        const hiddenSteps = this.steps.slice(step + 1)
-        for (let i = 0; i < this.steps.length; i++) {
-            if (i <= step) {
-                this.doStep(this.steps[i], doSteps)
-            }
-            else if (i > step) {
-                this.undoStep(this.steps[i], hiddenSteps)
-            }
-        }
+        return new Promise(resolve => { 
+            setTimeout( () => {
+                const doSteps = this.steps.slice(0, step + 1) 
+                const undoSteps = this.steps.slice(step + 1)
+                for (let i = 0; i < this.steps.length; i++) {
+                    if (i <= step) {
+                        this.doStep(this.steps[i], doSteps)
+                    }
+                    else if (i > step) {
+                        this.undoStep(this.steps[i], undoSteps)
+                    }
+                }
+                resolve()
+            }, TIME_GAP)
+        })
     }
 
     doStep(object, doSteps) { 
@@ -149,28 +157,33 @@ export default class Graph {
         })
     }
 
-    undoStep(object, hiddenSteps) {
-        if (object instanceof Arrow) {
-            let count = 0
-            hiddenSteps.forEach( (step) => { 
-                if (step.id === object.id) {
-                    count += 1
+    undoStep(object, undoSteps) {
+        return new Promise(resolve => {
+            setTimeout (() => {
+                if (object instanceof Arrow) {
+                    let count = 0
+                    undoSteps.forEach( (step) => { 
+                        if (step.id === object.id) {
+                            count += 1
+                        }
+                    })
+                    if (count === 1) { 
+                        const arrowId = object.getId() // node that becomes complete has the same id as arrow
+                        const nodeReturning = this.nodes[`node-${arrowId}`]
+                        object.hideReturnArrow(nodeReturning)
+                    }
+                    else if (count === 2) {
+                        object.hideCallArrow()
+                    }
+                    object.setReturn(false)
                 }
-            })
-            if (count === 1) { 
-                const arrowId = object.getId() // node that becomes complete has the same id as arrow
-                const nodeReturning = this.nodes[`node-${arrowId}`]
-                object.hideReturnArrow(nodeReturning)
-            }
-            else if (count === 2) {
-                object.hideCallArrow()
-            }
-            object.setReturn(false)
-        }
-        else if (object instanceof TreeNode) {
-            object.setComplete(false)
-            object.hideProcessingNode()
-        }
+                else if (object instanceof TreeNode) {
+                    object.setComplete(false)
+                    object.hideProcessingNode()
+                }
+                resolve()
+            }, TIME_GAP)
+        })
     }
 
 
