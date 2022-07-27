@@ -298,7 +298,7 @@
   box-shadow: inset 3px 4px 5px #614124;
 }
 
-button.custom-function {
+button.selected {
   background: #E8C07D;
 }
 
@@ -318,7 +318,7 @@ button.custom-function {
 
 .error-header {
   padding: 2px 16px;
-  background-color: #CC704B;
+  background-color: #614124;
   color: white;
   text-align: center;
 }

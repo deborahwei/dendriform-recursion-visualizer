@@ -58,6 +58,9 @@ export default class Arrow {
         this.line.classList.add("call-arrow")
         this.text.classList.add("result-text")
         this.gTag.classList.add("arrow-wrapper")
+        
+        if (this.result === Infinity) this.result = '∞'
+        if (this.result === -Infinity) this.result = '-∞'
         this.text.textContent = this.result
 
         this.gTag.appendChild(this.defs)

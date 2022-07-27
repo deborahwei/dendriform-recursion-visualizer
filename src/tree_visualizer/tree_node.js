@@ -3,6 +3,7 @@ import { RADIUS, STROKE_WIDTH, TIME_GAP} from "./constants";
 
 export default class TreeNode {
     constructor(cx, cy, value) {
+        this.value = value
         this.r = RADIUS;
         this.complete = false
         this.gTag = document.createElementNS(svgNameSpace, "g");
@@ -28,7 +29,7 @@ export default class TreeNode {
     
 
         this.text.classList.add("param-text");
-        this.text.textContent = value;
+        this.text.textContent = this.value;
 
         this.gTag.appendChild(this.circle);
         this.gTag.appendChild(this.text);
@@ -37,18 +38,6 @@ export default class TreeNode {
     getDOMObject() {
         return this.gTag;
     }
-
-    // show() { 
-    //     return new Promise(resolve => { 
-    //         setTimeout (() => {
-    //             this.gTag.classList.remove('hidden');
-    //             this.gTag.classList.remove('completed')
-    //             this.gTag.classList.add('processing')
-    //             resolve();
-    //         }, TIME_GAP)
-    //     })
-    //     // show, wait, highlight, processing
-    // }
 
     showProcessingNode() { // makes initial node
         this.gTag.classList.remove('hidden');
@@ -59,7 +48,6 @@ export default class TreeNode {
     hideProcessingNode() { 
         this.gTag.classList.add("hidden") 
     }
-
 
     showCompletedNode() { 
         this.gTag.classList.remove("processing")

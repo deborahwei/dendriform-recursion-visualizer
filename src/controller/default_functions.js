@@ -16,20 +16,20 @@ export default class DefaultFunctions {
                 'functionBody': `  if (k == 0 || n == k)\n    return 1\n  return fn(n-1, k-1) + fn(n-1, k)`,
                 'params': '5, 2'
             }, 
-            'Exponent Base': {
-                'arg': 'b, e',
-                'functionBody': `  if (e == 0)\n    return 1\n  else\n  return b * fn(b, e - 1)`,
-                'params': '3, 5'
+            'Coin Change': {
+                'arg': 'v',
+                'functionBody': `  const coins = [1, 3, 4, 5]\n  if (v == 0) return 0\n  if (v < 0) return Infinity\n  let ans = Infinity\n  for (const coin of coins)\n  ans = Math.min(ans, 1 +fn(v- coin))\n  return ans`,
+                'params': '4'
             },
             'Sum of Digits': {
                 'arg': 'n',
                 'functionBody': `  if (n < 10)\n    return n\n  const lastDigit = n % 10\n  const remainingNum = Math.floor(n / 10)\n  return fn(lastDigit + fn(remainingNum))`,
                 'params': '123'
             },
-            'Temp Function': {
-                'arg': 'n',
-                'functionBody': `    if (n < 10)\n    return n\n  const lastDigit = n % 10\n  const remainingNum = Math.floor(n / 10)\n   return fn(lastDigit + fn(remainingNum))`,
-                'params': '123'
+            'Longest Common Subsequence': {
+                'arg': 'i, j',
+                'functionBody': `  const a = "DEBO"\n  const b = "EBWDO"\n  if (i == a.length || j == b.length)\n  return 0\n  if (a[i] == b[j])\n    return 1+fn(i+1, j+1)\n  return Math.max(fn(i+1, j), fn(i, j+1))`,
+                'params': '1, 1'
             }
         }
 
@@ -46,7 +46,7 @@ export default class DefaultFunctions {
         
         const customButton = document.createElement("button")
         customButton.innerHTML = "CUSTOM FUNCTION"
-        customButton.classList.add('custom-function')
+        customButton.classList.add('selected')
         
         const fibButton = document.createElement("button")
         fibButton.innerHTML = "FIBONACCI SUM"
@@ -54,29 +54,29 @@ export default class DefaultFunctions {
         const binomialButton = document.createElement("button")
         binomialButton.innerHTML = "BINOMIAL COEFFICIENT"
 
-        const exponentialButton = document.createElement("button")
-        exponentialButton.innerHTML = "EXPONENT BASE"
+        const coinButton = document.createElement("button")
+        coinButton.innerHTML = "COIN CHANGE"
         
         const sumDigitsButton = document.createElement("button")
         sumDigitsButton.innerHTML = "SUM OF DIGITS"
         
-        const tempButton = document.createElement("button")
-        tempButton.innerHTML = "TEMP"
+        const subsequenceButton = document.createElement("button")
+        subsequenceButton.innerHTML = "LONGEST COMMON SUBSEQUENCE"
 
         this.leftColumn.appendChild(customButton)
         this.leftColumn.appendChild(fibButton)
         this.leftColumn.appendChild(binomialButton)
-        this.rightColumn.appendChild(exponentialButton)
+        this.rightColumn.appendChild(coinButton)
         this.rightColumn.appendChild(sumDigitsButton)
-        this.rightColumn.appendChild(tempButton)
+        this.rightColumn.appendChild(subsequenceButton)
         
         this.buttons = {
             'customButton': customButton,
             'fibButton': fibButton, 
             'binomialButton': binomialButton,
-            'exponentialButton': exponentialButton,
+            'coinButton': coinButton,
             'sumDigitsButton': sumDigitsButton,
-            'tempButton': tempButton
+            'subsequenceButton': subsequenceButton
         }
     }
 
@@ -92,4 +92,5 @@ export default class DefaultFunctions {
     getFunction(functionName) { 
         return this.functionLibrary[functionName]
     }
+
 }

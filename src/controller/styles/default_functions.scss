@@ -29,8 +29,9 @@
     &:active {
         box-shadow: inset 3px 4px 5px $color4;
     }
+
 }
 
-button.custom-function { 
+button.selected {
     background: $color3;
 }

@@ -15,6 +15,8 @@ export default class UserInput {
         this.defaultFunctions = new DefaultFunctions()
         this.defaultDiv = this.defaultFunctions.getDOMObject()
 
+        this.selectedButton = this.defaultFunctions.buttons['customButton']
+
         this.createTextArea() 
         this.addFunctionButtonEventListeners()
         this.createParams()
@@ -23,46 +25,53 @@ export default class UserInput {
     getdefaultFunction() {
         return this.defaultDiv
     }
+
+    selectFunction(functionName) {
+        this.selectedButton?.classList.remove("selected")
+        const button = this.defaultFunctions.buttons[functionName]
+        button.classList.add('selected')
+        this.selectedButton = button
+    }
     
     addFunctionButtonEventListeners() { 
         this.defaultFunctions.addClickEventListener('customButton', () => { 
-            this.defaultFunc = this.defaultFunctions.getFunction('Custom')
+            this.defaultFunc = this.defaultFunctions.getFunction('Custom') 
+            this.selectFunction("customButton")
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
         
         this.defaultFunctions.addClickEventListener('fibButton', () => { 
             this.defaultFunc = this.defaultFunctions.getFunction('Fibonacci Sum')
+            this.selectFunction("fibButton")
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
         
         this.defaultFunctions.addClickEventListener('binomialButton', () => { 
             this.defaultFunc = this.defaultFunctions.getFunction('Binomial Coefficient')
+            this.selectFunction("binomialButton")
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
 
-        this.defaultFunctions.addClickEventListener('binomialButton', () => { 
-            this.defaultFunc = this.defaultFunctions.getFunction('Binomial Coefficient')
-            this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
-            this.userParams.textContent = this.defaultFunc.params
-        })
-
-        this.defaultFunctions.addClickEventListener('exponentialButton', () => {
-            this.defaultFunc = this.defaultFunctions.getFunction('Exponent Base')
+        this.defaultFunctions.addClickEventListener('coinButton', () => {
+            this.defaultFunc = this.defaultFunctions.getFunction('Coin Change')
+            this.selectFunction("coinButton")
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
 
         this.defaultFunctions.addClickEventListener('sumDigitsButton', () => {
             this.defaultFunc = this.defaultFunctions.getFunction('Sum of Digits')
+            this.selectFunction("sumDigitsButton")
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
 
-        this.defaultFunctions.addClickEventListener('tempButton', () => {
-            this.defaultFunc = this.defaultFunctions.getFunction('Temp Function')
+        this.defaultFunctions.addClickEventListener('subsequenceButton', () => {
+            this.defaultFunc = this.defaultFunctions.getFunction('Longest Common Subsequence')
+            this.selectFunction("subsequenceButton")
             this.fBFlask.updateCode(`function fn(${this.defaultFunc.arg}) {\n${this.defaultFunc.functionBody} \n}`)
             this.userParams.textContent = this.defaultFunc.params
         })
