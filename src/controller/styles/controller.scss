@@ -49,6 +49,18 @@
     }
 }
 
+.fas {
+    position: absolute;
+    left: 55;
+    bottom: 700;
+    color: $color4;
+    cursor: pointer;
+
+    &:hover {
+        filter: brightness(0.8)
+    }
+}
+
 .top-nav {
     display: flex; 
     flex-direction: column;

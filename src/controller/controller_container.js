@@ -13,4 +13,8 @@ export default class ControllerContainer {
     getDOMObject() {
         return this.mainContainer;
     }
+
+    getNavBar() {
+        return this.navBar
+    }
 };

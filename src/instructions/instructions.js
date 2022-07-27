@@ -99,6 +99,7 @@ export default class Instructions {
         this.forwardButton.classList.add("fa-solid", "fa-chevron-right", "fa-2xl")
 
         this.switchPage()
+
     }
 
     getDOMObject() { 
@@ -190,5 +191,11 @@ export default class Instructions {
     changeSlide(pageNumber) { 
         this.subheading.innerHTML = this.subheadings[pageNumber]
         this.text = this.texts[pageNumber]
+    }
+
+    addQuestionButton(button) {
+        button.addEventListener("click", () => {
+            this.show()
+        })
     }
 }
