@@ -160,11 +160,6 @@ export default class Instructions {
         })
     }
 
-    // buttonSetup(backButton, forwardButton)
-    //     if (backButton) {
-            
-    //     }
-
     pageSetup() {
         this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]
         this.instructionsText.innerHTML = this.texts[this.currentPage]

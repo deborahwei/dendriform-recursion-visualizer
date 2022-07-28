@@ -97,3 +97,9 @@
   .codeflask .token.attr-value {
     color: #678056;
   }
+
+@media only screen and (max-width:1000px) {
+    .user-inputs { 
+        width: 60%;
+    }
+}

@@ -118,9 +118,6 @@
   .nav-area {
     display: none;
   }
-  .default-funcs {
-    display: none;
-  }
 }
 .param-text {
   font-size: 13;
@@ -303,6 +300,11 @@ button.running {
   color: #678056;
 }
 
+@media only screen and (max-width: 1000px) {
+  .user-inputs {
+    width: 60%;
+  }
+}
 .default-funcs {
   display: flex;
   flex-direction: row;
@@ -341,6 +343,14 @@ button.selected {
   background: #E8C07D;
 }
 
+@media only screen and (max-width: 1000px) {
+  .default-funcs {
+    display: none;
+  }
+  .default-funcs button {
+    font-size: 8px;
+  }
+}
 .error-container {
   display: block;
   position: fixed;
@@ -542,6 +552,23 @@ button.selected {
   padding: 8px;
 }
 
+@media only screen and (max-width: 750px) {
+  .instructions-content {
+    width: 50%;
+  }
+  .instructions-content h1 {
+    font-size: 20px;
+  }
+  .instructions-content h2 {
+    font-size: 16px;
+  }
+  .instructions-content img {
+    display: none;
+  }
+  .instructions-content footer div {
+    display: none;
+  }
+}
 #root {
   width: 100%;
   display: flex;
