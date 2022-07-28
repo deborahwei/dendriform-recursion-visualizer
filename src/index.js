@@ -7,7 +7,6 @@ import Error from "./error/error";
 import Instructions from "./instructions/instructions"
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM content loaded!");
 
     const root = document.getElementById("root");
 
@@ -36,24 +35,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     graph.navSteps.addClickEventListener('runButton', (e) => { 
         e.preventDefault()
-        graph.reset()
 
         const fB = userInputs.getFunctionBody()
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
 
         try {
-            const func = new FuncRunner(args, fB, params)
-            const treeData = func.runFunc()
-            const positionCalculator = new PositionCalculator(treeData)
-            
-            graph.resizeViewBox(positionCalculator.getTreeDimensions())
-            graph.animate(positionCalculator.getRoot());
+            const func = new FuncRunner(args, fB, params);
+            const treeData = func.runFunc();
+            const positionCalculator = new PositionCalculator(treeData);
+            graph.reset().then( () => {
+                graph.resizeViewBox(positionCalculator.getTreeDimensions())
+                graph.generateSteps(positionCalculator.getRoot());
+                graph.animate();
+            })
         }
         catch(e) {
             err.updateMessage(e)
             err.show()
         }
     });
-    
+            
 });

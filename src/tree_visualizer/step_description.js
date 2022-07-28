@@ -1,19 +1,20 @@
 export default class StepDescription {
-    constructor(state, functionCalling, functionCalled) {
-        this.state = state
-        this.functionCalling = functionCalling
-        this.functionCalled = functionCalled
-        this.description = ''
+    constructor()  {
+
+        this.description = '' 
+
+        this.descriptionContainer = document.createElement("div")
+        this.descriptionContainer.classList.add("step-description")
+        
+        this.descriptionText = document.createElement("p")
+        this.descriptionText.innerHTML = this.description
     }
 
-    createTextDescription () {
-        if (state === 'calling') {
-            this.description = `fn(${this.functionCalling}) is calling fn(${this.functionCalled})`
-        }
-        else if (state === 'processing') {
-            this.description = `fn(${this.functionCalled}) is being called`
-        }
-        
+    updateDescription(description) {
+        this.description = description 
+    }
 
+    getDOMObject() {
+        return this.descriptionContainer
     }
 }

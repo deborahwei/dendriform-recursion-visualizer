@@ -1,5 +1,5 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH, TIME_GAP} from "./constants";
+import { RADIUS, STROKE_WIDTH} from "./constants";
 
 export default class TreeNode {
     constructor(cx, cy, value) {
@@ -9,9 +9,9 @@ export default class TreeNode {
         this.gTag = document.createElementNS(svgNameSpace, "g");
         setAttributes(this.gTag, {
             "fill": "white",
-            "stroke": "#614124",
             "stroke-width": STROKE_WIDTH
         });
+        this.gTag.classList.add("processing");
 
         this.circle = document.createElementNS(svgNameSpace, "circle");
         setAttributes(this.circle, {
@@ -44,24 +44,5 @@ export default class TreeNode {
         this.gTag.classList.remove('completed')
         this.gTag.classList.add('processing')
     }
-
-    hideProcessingNode() { 
-        this.gTag.classList.add("hidden") 
-    }
-
-    showCompletedNode() { 
-        this.gTag.classList.remove("processing")
-        this.gTag.classList.add("completed") // node outline green 
-    }
-
-    hideCompletedNode() { 
-        this.gTag.classList.add("processing")
-        this.gTag.classList.remove("completed")    
-    }   
-
-    setComplete(status) { 
-        this.complete = status
-    }
-
 
 };

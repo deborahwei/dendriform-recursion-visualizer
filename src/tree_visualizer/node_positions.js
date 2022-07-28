@@ -12,7 +12,7 @@ export default class NodePosition { // this class finds the position and adds it
         this.children = [];
         this.prevNode = null;
         this.level = -1;
-        this.treeNode = 0;
+        this.treeNode = null;
         this.thread = null;
     }
 
@@ -22,7 +22,6 @@ export default class NodePosition { // this class finds the position and adds it
             this.children[i].traverse(cb);
         }
     }
-
 
     getDOMObject() {
         if (!this.treeNode)

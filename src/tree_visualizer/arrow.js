@@ -1,8 +1,8 @@
-import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH, TIME_GAP } from "./constants";
+import { setAttributes, svgNameSpace, sleep } from "../utilities/util";
+import { RADIUS, STROKE_WIDTH, ARROW_ANIMATION_TIME } from "./constants";
 
 export default class Arrow {
-    constructor(id, result, startCoor, endCoor) {  // 
+    constructor(id, result, startCoor, endCoor, isReturn) {  // 
         this.id = `line-${id}`
         this.markerWidth = 50
         this.returned = false
@@ -11,7 +11,7 @@ export default class Arrow {
         this.endCoor = endCoor 
         this.result = result 
         this.midPoint = 0
-        this.generateCoors(this.startCoor, this.endCoor)
+        this.generateCoors(this.startCoor, this.endCoor, isReturn);
         this.findMidpoint()
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g");
@@ -25,7 +25,6 @@ export default class Arrow {
             "orient": 'auto', 
             "markerUnits": 'strokeWidth'
         });
-
         this.line = document.createElementNS(svgNameSpace, "line")
         setAttributes(this.line, {
             "x1": `${this.startCoor[0]}`, // where the line starts
@@ -67,11 +66,13 @@ export default class Arrow {
         this.gTag.appendChild(this.line)
         this.defs.appendChild(this.marker)
         this.marker.appendChild(this.path)
-        this.gTag.appendChild(this.circle)
-        this.gTag.appendChild(this.text)
+        if (isReturn) {
+            this.gTag.appendChild(this.circle)
+            this.gTag.appendChild(this.text);
+        }
     }
 
-    generateCoors(start, end) {
+    generateCoors(start, end, isReturn) {
         const [x1, y1] = start;
         const [x2, y2] = end;
 
@@ -80,12 +81,13 @@ export default class Arrow {
         const endRatio = arrowLength / (RADIUS+4)
         const bigX = x2 - x1 // there are two triangles that are similar
         const bigY = y2 - y1
-
-        this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
-        this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
-        
-        this.flippedStartCoor = [x2 - (bigX / startRatio), y2 - (bigY / startRatio)]
-        this.flippedEndCoor = [x1 + (bigX / endRatio), y1 + (bigY / endRatio)] 
+        if (!isReturn) {
+            this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
+            this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
+        } else {
+            this.startCoor = [x2 - (bigX / startRatio), y2 - (bigY / startRatio)]
+            this.endCoor = [x1 + (bigX / endRatio), y1 + (bigY / endRatio)] 
+        }
     }
 
     findMidpoint() { 
@@ -99,60 +101,30 @@ export default class Arrow {
         return this.gTag;
     }
 
-    hideReturnArrow(node) {
-        this.unflipCoors() // renders arrow
-        this.text.classList.add("hidden")
-        this.circle.classList.add("hidden")
-
-        node.setComplete(false) // changes node to processing
-    } 
-
-    showReturnArrow(node) { 
-        this.flipCoors()
-        this.line.classList.remove("hidden")
-        this.text.classList.remove("hidden")
-        this.circle.classList.remove("hidden")
-
-        node.setComplete(true) // changes node to completed
-        node.showCompletedNode()
+    addAnimateTag() {
+        if (!(this.animTagX && this.animTagY)) {
+            this.animTagX = document.createElementNS(svgNameSpace, "animate");
+            setAttributes(this.animTagX, {
+                attributeName: "x2",
+                from: this.startCoor[0],
+                to: this.endCoor[0],
+                repeatCount: "1",
+                dur: ARROW_ANIMATION_TIME,
+                restart: "whenNotActive"
+            })
+            this.animTagY = document.createElementNS(svgNameSpace, "animate");
+            setAttributes(this.animTagY, {
+                attributeName: "y2",
+                from: this.startCoor[1],
+                to: this.endCoor[1],
+                repeatCount: "1",
+                dur: ARROW_ANIMATION_TIME,
+                restart: "whenNotActive"
+            })
+            this.line.appendChild(this.animTagX);
+            this.line.appendChild(this.animTagY);
+            this.animTagX.beginElement();
+            this.animTagY.beginElement();
+        }
     }
-    
-    showCallArrow() { 
-        this.line.classList.remove('hidden');
-        this.text.classList.add("hidden")
-        this.circle.classList.add("hidden")
-    }
-
-    hideCallArrow() { 
-        this.line.classList.add('hidden')
-        this.text.classList.add("hidden")
-        this.circle.classList.add("hidden")
-    }
-
-    getId() { 
-        return this.id.slice(5)
-    }
-
-    flipCoors() {
-        setAttributes(this.line, {
-            "x1": `${this.flippedStartCoor[0]}`,
-            "y1": `${this.flippedStartCoor[1]}`, 
-            "x2": `${this.flippedEndCoor[0]}`, 
-            "y2": `${this.flippedEndCoor[1]}`,
-        }) 
-    }
-
-    unflipCoors() { 
-        setAttributes(this.line, {
-            "x1": `${this.startCoor[0]}`,
-            "y1": `${this.startCoor[1]}`, 
-            "x2": `${this.endCoor[0]}`, 
-            "y2": `${this.endCoor[1]}`,  
-        })
-    }
-
-    setReturn(status) { 
-        this.returned = status
-    }
-
 }
