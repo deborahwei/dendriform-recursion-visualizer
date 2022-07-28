@@ -1,5 +1,6 @@
-# Dendriform | Recursion Visualizer
-(https://user-images.githubusercontent.com/106613342/181576128-2d7ee448-1aaa-48a8-8bfa-449c3e35b1a4.png)
+<p align="center">
+  <img width="550" height="300" src="https://github.com/deborahwei/dendriform/blob/main/assets/images/logo.png">
+</p>
 
 ## Background 
 
