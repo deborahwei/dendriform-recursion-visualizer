@@ -10,9 +10,16 @@ By Deborah Wei
 Users are able to
 
 * Select default functions 
+
 ![](https://github.com/deborahwei/dendriform/blob/main/assets/gifs/1a.gif)
+
 * Insert their own recursive function 
+
+![](https://github.com/deborahwei/dendriform/blob/main/assets/gifs/1b.gif)
+
 * Iterate through the branches (steps) of the recursive calls 
+
+![](https://github.com/deborahwei/dendriform/blob/main/assets/gifs/4a.gif)
 
 ## Code Snippets 
 
