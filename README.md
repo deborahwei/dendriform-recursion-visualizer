@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="700" height="300" src="https://github.com/deborahwei/dendriform/blob/main/assets/images/logo.png">
+  <img width="600" height="300" src="https://github.com/deborahwei/dendriform/blob/main/assets/images/logo.png">
 </p>
 
 ## Background 
