@@ -101,10 +101,6 @@ export default class Arrow {
         return this.gTag;
     }
 
-    setReturn(status) { 
-        this.returned = status
-    }
-
     addAnimateTag() {
         const dur = `0.3s`
         if (!(this.animTagX && this.animTagY)) {

@@ -2,7 +2,7 @@ import { setAttributes, svgNameSpace, sleep} from "../utilities/util";
 import Arrow from "./arrow";
 import { NODE_SLEEP_MS, ARROW_SLEEP_TIME } from "./constants";
 import NavSteps from "./nav_steps";
-import TreeNode from "./tree_node";
+import StepDescription from "./step_description";
 
 export default class Graph {
     constructor() {
@@ -26,6 +26,9 @@ export default class Graph {
         this.currentStep = -1;
         this.animating = false;
         this.currentAnimation = new Promise(res => res());
+
+        this.stepDescription = new StepDescription
+        this.graphContainer.append(this.stepDescription.getDOMObject())
     };
 
     reset() {
@@ -48,7 +51,7 @@ export default class Graph {
         return new Promise(async res => {
             for (const step of this.steps) {
                 if (!this.animating) break;
-                const {doIt, description, obj, sleepTime} = step;
+                const {doIt, description, obj, sleepTime} = step; // need description?
                 await sleep(doIt, sleepTime, obj, true);
                 // doIt(obj);
                 this.currentStep++;
@@ -58,7 +61,6 @@ export default class Graph {
         })
     }
 // doIt: add dom elements to document w/ or w/o animation
-// undoIt: remove dom elements from document
 // obj: obj to act on
 // description: describe step
 // sleep_time: ms to wait
@@ -72,10 +74,7 @@ export default class Graph {
         }
         initialStep.description = `fn(${node.input}) is called`;
         initialStep.obj = node.getDOMObject();
-        initialStep.undoIt = (obj) => {
-            if (obj.parentElement === this.graphWindow)
-                this.graphWindow.removeChild(obj);
-        };
+
         initialStep.sleepTime = NODE_SLEEP_MS;
         this.steps.push(initialStep);
 
@@ -89,11 +88,6 @@ export default class Graph {
                     obj[1].addAnimateTag();
             }
             callArrowStep.description = `fn(${node.input}) calls fn(${child.input})`;
-            callArrowStep.undoIt = (obj) => {
-                obj[1].stopAnimate();
-                if (obj[0].parentElement === this.graphWindow)
-                    this.graphWindow.removeChild(obj[0]);
-            }
             callArrowStep.sleepTime = ARROW_SLEEP_TIME;
             this.steps.push(callArrowStep);
 
@@ -106,10 +100,6 @@ export default class Graph {
         finishedRunningStep.doIt = (obj) => {
             obj.classList.remove("processing");
             obj.classList.add("completed");
-        }
-        finishedRunningStep.undoIt = (obj) => {
-            obj.classList.remove("completed");
-            obj.classList.add("processing");
         }
         finishedRunningStep.sleepTime = NODE_SLEEP_MS;
         this.steps.push(finishedRunningStep);
@@ -125,18 +115,12 @@ export default class Graph {
                 if (obj[1].parentElement === this.graphWindow)
                     this.graphWindow.removeChild(obj[1]);
             }
-            returnArrowStep.undoIt = (obj) => {
-                obj[2].stopAnimate();
-                if (obj[0].parentElement === this.graphWindow)
-                    this.graphWindow.removeChild(obj[0]);
-            }
             returnArrowStep.description = `fn(${node.input}) returns ${node.result}`;
             returnArrowStep.sleepTime = ARROW_SLEEP_TIME;
             this.steps.push(returnArrowStep);
         } else {
             const returnNoArrow = {};
             returnNoArrow.doIt = () => {};
-            returnNoArrow.undoIt = () => {};
             returnNoArrow.description = `fn(${node.input}) returns ${node.result}`;
             returnNoArrow.sleepTime = 0;
             this.steps.push(returnNoArrow);
@@ -165,14 +149,10 @@ export default class Graph {
     jumpToStep(step) {
         this.animating = false;
         return this.currentAnimation.then(() => {
-                this.animating = false;
                 this.graphWindow.innerHTML = "";
-                for (let i = this.steps.length-1; i >= 0; i--) {
-                    let {undoIt, obj} = this.steps[i];
-                    undoIt(obj);
-                }
                 for (let i = 0; i <= step; i++) {
                     let {doIt, obj, description} = this.steps[i];
+                    this.stepDescription.updateDescription(description)
                     doIt(obj, false);
                 }
                 this.currentStep = step;

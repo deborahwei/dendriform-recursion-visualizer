@@ -5,6 +5,7 @@ import PositionCalculator from "./tree_visualizer/position_calculator";
 import UserInput from "./controller/user_input";
 import Error from "./error/error";
 import Instructions from "./instructions/instructions"
+import StepDirections from "./tree_visualizer/step_description"
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -35,29 +36,25 @@ document.addEventListener("DOMContentLoaded", () => {
 
     graph.navSteps.addClickEventListener('runButton', (e) => { 
         e.preventDefault()
-        
+
         const fB = userInputs.getFunctionBody()
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
-        
-        let func;
-        let treeData;
-        let positionCalculator;
+
         try {
-            func = new FuncRunner(args, fB, params)
-            treeData = func.runFunc()
-            positionCalculator = new PositionCalculator(treeData)
-            
+            const func = new FuncRunner(args, fB, params);
+            const treeData = func.runFunc();
+            const positionCalculator = new PositionCalculator(treeData);
+            graph.reset().then( () => {
+                graph.resizeViewBox(positionCalculator.getTreeDimensions())
+                graph.generateSteps(positionCalculator.getRoot());
+                graph.animate();
+            })
         }
         catch(e) {
             err.updateMessage(e)
             err.show()
         }
-        graph.reset().then( () => {
-            graph.resizeViewBox(positionCalculator.getTreeDimensions())
-            graph.generateSteps(positionCalculator.getRoot());
-            graph.animate();
-        })
     });
             
 });
