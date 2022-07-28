@@ -1,5 +1,5 @@
-import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH, TIME_GAP } from "./constants";
+import { setAttributes, svgNameSpace, sleep } from "../utilities/util";
+import { RADIUS, STROKE_WIDTH, ARROW_ANIMATION_MS, ARROW_ANIMATION_FRAME } from "./constants";
 
 export default class Arrow {
     constructor(id, result, startCoor, endCoor, isReturn) {  // 
@@ -11,7 +11,7 @@ export default class Arrow {
         this.endCoor = endCoor 
         this.result = result 
         this.midPoint = 0
-        this.generateCoors(this.startCoor, this.endCoor);
+        this.generateCoors(this.startCoor, this.endCoor, isReturn);
         this.findMidpoint()
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g");
@@ -25,14 +25,12 @@ export default class Arrow {
             "orient": 'auto', 
             "markerUnits": 'strokeWidth'
         });
-        const start = isReturn ? this.flippedStartCoor : this.startCoor;
-        const end = isReturn ? this.flippedEndCoor : this.endCoor;
         this.line = document.createElementNS(svgNameSpace, "line")
         setAttributes(this.line, {
-            "x1": `${start[0]}`, // where the line starts
-            "y1": `${start[1]}`, 
-            "x2": `${end[0]}`, // where the line ends
-            "y2": `${end[1]}`, 
+            "x1": `${this.startCoor[0]}`, // where the line starts
+            "y1": `${this.startCoor[1]}`, 
+            "x2": `${this.endCoor[0]}`, // where the line ends
+            "y2": `${this.endCoor[1]}`, 
             "marker-end": `url(#arrowhead-${this.id})`, 
             "id": `${this.id}`
         })
@@ -74,7 +72,7 @@ export default class Arrow {
         }
     }
 
-    generateCoors(start, end) {
+    generateCoors(start, end, isReturn) {
         const [x1, y1] = start;
         const [x2, y2] = end;
 
@@ -83,12 +81,13 @@ export default class Arrow {
         const endRatio = arrowLength / (RADIUS+4)
         const bigX = x2 - x1 // there are two triangles that are similar
         const bigY = y2 - y1
-
-        this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
-        this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
-        
-        this.flippedStartCoor = [x2 - (bigX / startRatio), y2 - (bigY / startRatio)]
-        this.flippedEndCoor = [x1 + (bigX / endRatio), y1 + (bigY / endRatio)] 
+        if (!isReturn) {
+            this.startCoor = [x1 + (bigX / startRatio), y1 + (bigY / startRatio)] 
+            this.endCoor = [x2 - (bigX / endRatio), y2 - (bigY / endRatio)]
+        } else {
+            this.startCoor = [x2 - (bigX / startRatio), y2 - (bigY / startRatio)]
+            this.endCoor = [x1 + (bigX / endRatio), y1 + (bigY / endRatio)] 
+        }
     }
 
     findMidpoint() { 
@@ -102,60 +101,62 @@ export default class Arrow {
         return this.gTag;
     }
 
-    hideReturnArrow(node) {
-        this.unflipCoors() // renders arrow
-        this.text.classList.add("hidden")
-        this.circle.classList.add("hidden")
-
-        node.setComplete(false) // changes node to processing
-    } 
-
-    showReturnArrow(node) { 
-        this.flipCoors()
-        this.line.classList.remove("hidden")
-        this.text.classList.remove("hidden")
-        this.circle.classList.remove("hidden")
-
-        node.setComplete(true) // changes node to completed
-        node.showCompletedNode()
-    }
-    
-    showCallArrow() { 
-        this.line.classList.remove('hidden');
-        this.text.classList.add("hidden")
-        this.circle.classList.add("hidden")
-    }
-
-    hideCallArrow() { 
-        this.line.classList.add('hidden')
-        this.text.classList.add("hidden")
-        this.circle.classList.add("hidden")
-    }
-
-    getId() { 
-        return this.id.slice(5)
-    }
-
-    flipCoors() {
-        setAttributes(this.line, {
-            "x1": `${this.flippedStartCoor[0]}`,
-            "y1": `${this.flippedStartCoor[1]}`, 
-            "x2": `${this.flippedEndCoor[0]}`, 
-            "y2": `${this.flippedEndCoor[1]}`,
-        }) 
-    }
-
-    unflipCoors() { 
-        setAttributes(this.line, {
-            "x1": `${this.startCoor[0]}`,
-            "y1": `${this.startCoor[1]}`, 
-            "x2": `${this.endCoor[0]}`, 
-            "y2": `${this.endCoor[1]}`,  
-        })
-    }
-
     setReturn(status) { 
         this.returned = status
+    }
+
+    async animateLine() {
+        let [curX, curY] = this.startCoor;
+        setAttributes(this.line, {
+            x2: curX,
+            y2: curY
+        });
+        const xDelta = (this.endCoor[0]-this.startCoor[0])/ ARROW_ANIMATION_FRAME;
+        const yDelta = (this.endCoor[1]-this.startCoor[1])/ ARROW_ANIMATION_FRAME;
+        const xCheck = curX < this.endCoor[0]
+                       ? () => curX < this.endCoor[0]
+                       : () => curX > this.endCoor[0];
+
+        const yCheck = curY < this.endCoor[1]
+                       ? () => curY < this.endCoor[1]
+                       : () => curY > this.endCoor[1];
+        while (xCheck() && yCheck()) {
+            curX += xDelta;
+            curY += yDelta;
+            await sleep((x,y) => {
+                setAttributes(this.line, {
+                    x2: x,
+                    y2: y
+                })
+            }, ARROW_ANIMATION_MS, curX, curY);
+        }
+    }
+
+    addAnimateTag() {
+        const dur = `0.3s`
+        const animTagX = document.createElementNS(svgNameSpace, "animate");
+        console.log(animTagX);
+        setAttributes(animTagX, {
+            attributeName: "x2",
+            from: this.startCoor[0],
+            to: this.endCoor[0],
+            repeatCount: "1",
+            dur: dur,
+            restart: "whenNotActive"
+        })
+        const animTagY = document.createElementNS(svgNameSpace, "animate");
+        setAttributes(animTagY, {
+            attributeName: "y2",
+            from: this.startCoor[1],
+            to: this.endCoor[1],
+            repeatCount: "1",
+            dur: dur,
+            restart: "whenNotActive"
+        })
+        this.line.appendChild(animTagX);
+        this.line.appendChild(animTagY);
+        animTagX.beginElement();
+        animTagY.beginElement();
     }
 
 }
