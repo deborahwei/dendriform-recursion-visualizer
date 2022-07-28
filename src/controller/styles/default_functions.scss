@@ -37,9 +37,15 @@ button.selected {
     background: $color3;
 }
 
-@media only screen and (max-width:1000px) {
+@media all and (max-width: 600px) {
     .default-funcs { 
         display: none;
+    }
+}
+
+@media all and (max-width: 1200px) {
+    .default-funcs button{ 
+        font-size: 11px;
     }
 }
   

@@ -28,7 +28,7 @@ export default class Graph {
         this.currentAnimation = new Promise(res => res());
 
         this.stepDescription = new StepDescription
-        this.graphContainer.append(this.stepDescription.getDOMObject())
+        this.graphContainer.appendChild(this.stepDescription.getDOMObject())
     };
 
     reset() {

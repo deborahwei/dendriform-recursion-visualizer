@@ -1,5 +1,22 @@
-.description-container {
-    background: pink;
-    height: 10%;
-    width: 40%;
+.step-description {
+    background: $color4;
+    height: 8%;
+    width: 30%;
+    color: white;
+    display: flex; 
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    font-family: $sans-serif;
+    font-size: 12px;
+    letter-spacing: 5px;
+    border-top-right-radius: 8px;
+    border-top-left-radius: 8px;
+    word-spacing: 4px;
+}
+
+@media only screen and (max-width: 930px) {
+    .step-description {
+        display: none;  
+    }
 }

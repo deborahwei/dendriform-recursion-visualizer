@@ -354,9 +354,14 @@ button.selected {
   background: #E8C07D;
 }
 
-@media only screen and (max-width: 1000px) {
+@media all and (max-width: 600px) {
   .default-funcs {
     display: none;
+  }
+}
+@media all and (max-width: 1200px) {
+  .default-funcs button {
+    font-size: 11px;
   }
 }
 .error-container {
@@ -574,6 +579,28 @@ button.selected {
     display: none;
   }
   .instructions-content footer div {
+    display: none;
+  }
+}
+.step-description {
+  background: #614124;
+  height: 8%;
+  width: 30%;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  font-family: "Lato", sans-serif;
+  font-size: 12px;
+  letter-spacing: 5px;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  word-spacing: 4px;
+}
+
+@media only screen and (max-width: 930px) {
+  .step-description {
     display: none;
   }
 }
