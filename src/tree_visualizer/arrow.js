@@ -105,58 +105,37 @@ export default class Arrow {
         this.returned = status
     }
 
-    async animateLine() {
-        let [curX, curY] = this.startCoor;
-        setAttributes(this.line, {
-            x2: curX,
-            y2: curY
-        });
-        const xDelta = (this.endCoor[0]-this.startCoor[0])/ ARROW_ANIMATION_FRAME;
-        const yDelta = (this.endCoor[1]-this.startCoor[1])/ ARROW_ANIMATION_FRAME;
-        const xCheck = curX < this.endCoor[0]
-                       ? () => curX < this.endCoor[0]
-                       : () => curX > this.endCoor[0];
-
-        const yCheck = curY < this.endCoor[1]
-                       ? () => curY < this.endCoor[1]
-                       : () => curY > this.endCoor[1];
-        while (xCheck() && yCheck()) {
-            curX += xDelta;
-            curY += yDelta;
-            await sleep((x,y) => {
-                setAttributes(this.line, {
-                    x2: x,
-                    y2: y
-                })
-            }, ARROW_ANIMATION_MS, curX, curY);
+    addAnimateTag() {
+        const dur = `0.3s`
+        if (!(this.animTagX && this.animTagY)) {
+            this.animTagX = document.createElementNS(svgNameSpace, "animate");
+            setAttributes(this.animTagX, {
+                attributeName: "x2",
+                from: this.startCoor[0],
+                to: this.endCoor[0],
+                repeatCount: "1",
+                dur: dur,
+                restart: "whenNotActive"
+            })
+            this.animTagY = document.createElementNS(svgNameSpace, "animate");
+            setAttributes(this.animTagY, {
+                attributeName: "y2",
+                from: this.startCoor[1],
+                to: this.endCoor[1],
+                repeatCount: "1",
+                dur: dur,
+                restart: "whenNotActive"
+            })
+            this.line.appendChild(this.animTagX);
+            this.line.appendChild(this.animTagY);
+            this.animTagX.beginElement();
+            this.animTagY.beginElement();
         }
     }
 
-    addAnimateTag() {
-        const dur = `0.3s`
-        const animTagX = document.createElementNS(svgNameSpace, "animate");
-        console.log(animTagX);
-        setAttributes(animTagX, {
-            attributeName: "x2",
-            from: this.startCoor[0],
-            to: this.endCoor[0],
-            repeatCount: "1",
-            dur: dur,
-            restart: "whenNotActive"
-        })
-        const animTagY = document.createElementNS(svgNameSpace, "animate");
-        setAttributes(animTagY, {
-            attributeName: "y2",
-            from: this.startCoor[1],
-            to: this.endCoor[1],
-            repeatCount: "1",
-            dur: dur,
-            restart: "whenNotActive"
-        })
-        this.line.appendChild(animTagX);
-        this.line.appendChild(animTagY);
-        animTagX.beginElement();
-        animTagY.beginElement();
+    stopAnimate() {
+        this.animTagX?.endElement();
+        this.animTagY?.endElement();
     }
 
 }

@@ -35,25 +35,29 @@ document.addEventListener("DOMContentLoaded", () => {
 
     graph.navSteps.addClickEventListener('runButton', (e) => { 
         e.preventDefault()
-        graph.reset()
-
+        
         const fB = userInputs.getFunctionBody()
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
-
-        // try {
-            const func = new FuncRunner(args, fB, params)
-            const treeData = func.runFunc()
-            const positionCalculator = new PositionCalculator(treeData)
+        
+        let func;
+        let treeData;
+        let positionCalculator;
+        try {
+            func = new FuncRunner(args, fB, params)
+            treeData = func.runFunc()
+            positionCalculator = new PositionCalculator(treeData)
             
+        }
+        catch(e) {
+            err.updateMessage(e)
+            err.show()
+        }
+        graph.reset().then( () => {
             graph.resizeViewBox(positionCalculator.getTreeDimensions())
             graph.generateSteps(positionCalculator.getRoot());
             graph.animate();
-        // }
-        // catch(e) {
-        //     err.updateMessage(e)
-        //     err.show()
-        // }
+        })
     });
-    
+            
 });

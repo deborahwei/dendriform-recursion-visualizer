@@ -22,32 +22,40 @@ export default class Graph {
         this.graphContainer.appendChild(this.graphWindow);
         this.addNavButtonListeners()
 
-        this.arrows = {}
-        this.nodes = {}
-
         this.steps = []
         this.currentStep = -1;
-        this.skipToEnd = true
+        this.animating = false;
+        this.currentAnimation = new Promise(res => res());
     };
 
-    reset() { 
-        this.graphWindow.innerHTML = ''
-        this.arrows = {}
-        this.nodes = {}
-
-        this.steps = []
-        this.currentStep = -1;
-        this.skipToEnd = false
-        this.skipToBeg = false
+    reset() {
+        return this.jumpToStep(-1).then(() => {
+            this.animating = false;
+            this.graphWindow.innerHTML = ''
+    
+            this.steps = []
+            this.currentStep = -1;
+        })
     }
 
-    async animate() {
-        for (const step of this.steps) {
-            const {doIt, description, obj, sleepTime} = step;
-            await sleep(doIt, sleepTime, obj, true);
-            // doIt(obj);
-            this.currentStep++;
-        }
+    animate() {
+        if (this.animating) return;
+        this.animating = true;
+        this.currentAnimation = this.startAnimation();
+    }
+
+    startAnimation() {
+        return new Promise(async res => {
+            for (const step of this.steps) {
+                if (!this.animating) break;
+                const {doIt, description, obj, sleepTime} = step;
+                await sleep(doIt, sleepTime, obj, true);
+                // doIt(obj);
+                this.currentStep++;
+            }
+            this.animating = false;
+            res();
+        })
     }
 // doIt: add dom elements to document w/ or w/o animation
 // undoIt: remove dom elements from document
@@ -82,6 +90,7 @@ export default class Graph {
             }
             callArrowStep.description = `fn(${node.input}) calls fn(${child.input})`;
             callArrowStep.undoIt = (obj) => {
+                obj[1].stopAnimate();
                 if (obj[0].parentElement === this.graphWindow)
                     this.graphWindow.removeChild(obj[0]);
             }
@@ -117,6 +126,7 @@ export default class Graph {
                     this.graphWindow.removeChild(obj[1]);
             }
             returnArrowStep.undoIt = (obj) => {
+                obj[2].stopAnimate();
                 if (obj[0].parentElement === this.graphWindow)
                     this.graphWindow.removeChild(obj[0]);
             }
@@ -152,15 +162,22 @@ export default class Graph {
         })
     }
 
-    jumpToStep(step) { 
-        this.graphWindow.innerHTML = "";
-
-        for (let i = 0; i <= step; i++) {
-            let {doIt, obj, description} = this.steps[i];
-            doIt(obj, false);
-        }
-        console.log(this.steps[step].description);
-        this.currentStep = step;
+    jumpToStep(step) {
+        this.animating = false;
+        return this.currentAnimation.then(() => {
+                this.animating = false;
+                this.graphWindow.innerHTML = "";
+                for (let i = this.steps.length-1; i >= 0; i--) {
+                    let {undoIt, obj} = this.steps[i];
+                    undoIt(obj);
+                }
+                for (let i = 0; i <= step; i++) {
+                    let {doIt, obj, description} = this.steps[i];
+                    doIt(obj, false);
+                }
+                this.currentStep = step;
+            }
+        )
     }
 
     getDOMObject() {
