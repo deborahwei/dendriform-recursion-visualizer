@@ -25,6 +25,9 @@ export default class Error {
         
         this.close = document.createElement("div")
         this.errorHeader.appendChild(this.close)
+        setAttributes(this.close, {
+            title: 'Close'
+        })
         this.close.classList.add("close")
 
         this.x = document.createElement("div")

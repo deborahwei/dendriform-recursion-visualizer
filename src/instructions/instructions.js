@@ -42,14 +42,15 @@ export default class Instructions {
         const exit = document.createElement("div")
         instructionsHeader.appendChild(exit)
         setAttributes(exit, {
-            id: 'exit-instructions'
+            id: 'exit-instructions',
+            title: 'Close'
         })
 
         this.x = document.createElement('div')
         this.x.innerText = "✖"
         exit.appendChild(this.x)
         setAttributes(this.x, {
-            id: 'x-instructions' 
+            id: 'x-instructions'
         })
         
         this.closeInstructions()
@@ -87,6 +88,9 @@ export default class Instructions {
 
         this.backButton = document.createElement('i')
         this.backButton.classList.add("fa-solid", "fa-chevron-left", "fa-2xl")
+        setAttributes(this.backButton, {
+            title: 'Previous step'
+        })
         instructionsFooter.appendChild(this.backButton)
         
         this.pageNumber = document.createElement('div')
@@ -94,6 +98,9 @@ export default class Instructions {
 
         this.forwardButton = document.createElement('i')
         instructionsFooter.appendChild(this.forwardButton)
+        setAttributes(this.forwardButton, {
+            title: 'Next step'
+        })
         this.forwardButton.classList.add("fa-solid", "fa-chevron-right", "fa-2xl")
 
         this.reset()

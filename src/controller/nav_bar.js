@@ -31,14 +31,15 @@ export default class NavBar {
         const linkedIn = document.createElement('i')
         linkedIn.classList.add("fa-brands", "fa-linkedin", "fa-2xl")
         this.socials.appendChild(linkedIn)
+        setAttributes(linkedIn, {
+            title: 'LinkedIn'
+        })
         linkedIn.addEventListener("click", () => {
             window.open("https://www.linkedin.com/in/deborah-wei-163b10152/")
         })
 
         const personalSite = document.createElement('img')
         personalSite.src = "assets/images/tree.png"
-        const personalSiteHover = document.createElement('span')
-        personalSite.appendChild(personalSiteHover)
         setAttributes(personalSite, {
             title: 'Personal Site'
         })
@@ -50,6 +51,9 @@ export default class NavBar {
         const gitHub = document.createElement('i')
         gitHub.classList.add("fa-brands", "fa-github-square", "fa-2xl")
         this.socials.appendChild(gitHub)
+        setAttributes(gitHub, {
+            title: 'Github'
+        })
         gitHub.addEventListener("click", () => {
             window.open("https://github.com/deborahwei/dendriform")
         })
