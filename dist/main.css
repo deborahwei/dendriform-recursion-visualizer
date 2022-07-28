@@ -582,6 +582,29 @@ button.selected {
     display: none;
   }
 }
+@media only screen and (max-width: 660px) {
+  .instructions-content h1 {
+    font-size: 12px;
+    letter-spacing: 3px;
+  }
+  .instructions-content h2 {
+    font-size: 10px;
+  }
+  .instructions-content img {
+    display: none;
+  }
+  .instructions-content footer div {
+    display: none;
+  }
+  #instructions-p {
+    font-size: 12px;
+  }
+}
+@media only screen and (max-width: 335px) {
+  .instructions-content {
+    display: none;
+  }
+}
 .step-description {
   background: #614124;
   height: 8%;

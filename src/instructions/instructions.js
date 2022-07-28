@@ -78,7 +78,10 @@ export default class Instructions {
         
         this.instructionsText = document.createElement('p')
         this.instructionsTextContainer.append(this.instructionsText)
-
+        setAttributes(this.instructionsText, {
+            id: 'instructions-p'
+        })
+        
         const instructionsFooter = document.createElement('footer')
         this.instructionsContent.appendChild(instructionsFooter)
 
