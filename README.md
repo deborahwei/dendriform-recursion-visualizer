@@ -10,8 +10,8 @@ Dendriform (link to site) is a recursion tree visualizer that uses DFS to recurs
 Users are able to
 
 * Select default functions 
-“*” Insert their own recursive function 
-"*" Iterate through the branches (steps) of the recursive calls 
+* Insert their own recursive function 
+* Iterate through the branches (steps) of the recursive calls 
 
 ## Code Snippets 
 
