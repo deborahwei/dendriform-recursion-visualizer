@@ -38,10 +38,10 @@ The **Reingold-Tilford** algorithm was used to generate the trees dynamically th
             })
             
             let leftContour = Infinity;
-            node.children[i+1].traverse((curNode) => { // want to find the node next to it's left contour because the right of one tree collides with the left of another 
+            node.children[i+1].traverse((curNode) => { 
                 leftContour = Math.min(leftContour, curNode.x);
             })
-            if (rightContour >= leftContour) { // if the right part of the left tree is overlapping, iterate through the right tree and move everything over
+            if (rightContour >= leftContour) { 
                 node.children[i+ 1].traverse( (curNode) => {
                     curNode.x += (rightContour - leftContour + SPACE_X)
                 })
@@ -51,7 +51,7 @@ The **Reingold-Tilford** algorithm was used to generate the trees dynamically th
 ```
 
 
-In order to create the algorithm that takes in the functions to create the data necessary to create the tree, the recursive function has to be run while recording what the params, results, and children of each call (node). In order to do this, another function was created that runs the user's defined function while storing those variables into a hash. This is stored as a string constant called **injectedFunc**. This string is then passed through Function which runs the code and returns the tree data. 
+In order to create the algorithm that takes in the functions to create the data necessary to create the tree, the recursive function has to be run while recording what the params, results, and children of each call (node). In order to do this, another function was created that runs the user's defined function while storing those variables into a hash. This is stored as a string constant called **injectedFunc**. This string is then passed through Function which runs the code and returns the tree data. A max call limit to prevent an infinite call stack and creates a tree with not too many nodes so that it is no longer comprehensible to the user.
 
 ```
 const injectedFunc = `
@@ -71,14 +71,13 @@ function fn(...args) {
         result: null,
         children: []
     }
-    treeData[nodeId] = currNode; // stores the node's unique id (nodeId variable is strictly increasing) 
+    treeData[nodeId] = currNode; 
 
-    // checks if stack isn't empty and then push itself as its parent's child 
     if (stack.length)
         treeData[stack[stack.length-1]].children.push(nodeId);
     
     stack.push(nodeId);
-    currNode.result = _fn(...args); // runs user defined function (which might not even be recursive)
+    currNode.result = _fn(...args);
     stack.pop(); // pops off after something is return 
     return currNode.result;
 }
