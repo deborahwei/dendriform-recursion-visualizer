@@ -1,5 +1,5 @@
 import { setAttributes, svgNameSpace, sleep } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH, ARROW_ANIMATION_MS, ARROW_ANIMATION_FRAME } from "./constants";
+import { RADIUS, STROKE_WIDTH, ARROW_ANIMATION_TIME } from "./constants";
 
 export default class Arrow {
     constructor(id, result, startCoor, endCoor, isReturn) {  // 
@@ -102,7 +102,6 @@ export default class Arrow {
     }
 
     addAnimateTag() {
-        const dur = `0.3s`
         if (!(this.animTagX && this.animTagY)) {
             this.animTagX = document.createElementNS(svgNameSpace, "animate");
             setAttributes(this.animTagX, {
@@ -110,7 +109,7 @@ export default class Arrow {
                 from: this.startCoor[0],
                 to: this.endCoor[0],
                 repeatCount: "1",
-                dur: dur,
+                dur: ARROW_ANIMATION_TIME,
                 restart: "whenNotActive"
             })
             this.animTagY = document.createElementNS(svgNameSpace, "animate");
@@ -119,7 +118,7 @@ export default class Arrow {
                 from: this.startCoor[1],
                 to: this.endCoor[1],
                 repeatCount: "1",
-                dur: dur,
+                dur: ARROW_ANIMATION_TIME,
                 restart: "whenNotActive"
             })
             this.line.appendChild(this.animTagX);
@@ -128,10 +127,4 @@ export default class Arrow {
             this.animTagY.beginElement();
         }
     }
-
-    stopAnimate() {
-        this.animTagX?.endElement();
-        this.animTagY?.endElement();
-    }
-
 }

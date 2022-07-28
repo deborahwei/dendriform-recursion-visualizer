@@ -1,6 +1,6 @@
 import { setAttributes, svgNameSpace, sleep} from "../utilities/util";
 import Arrow from "./arrow";
-import { NODE_SLEEP_MS, ARROW_SLEEP_TIME } from "./constants";
+import { SLEEP_TIME } from "./constants";
 import NavSteps from "./nav_steps";
 import StepDescription from "./step_description";
 
@@ -49,11 +49,11 @@ export default class Graph {
 
     startAnimation() {
         return new Promise(async res => {
-            for (const step of this.steps) {
+            for (let i = 0; i < this.steps.length; i++) {
                 if (!this.animating) break;
-                const {doIt, description, obj, sleepTime} = step; // need description?
-                await sleep(doIt, sleepTime, obj, true);
-                // doIt(obj);
+                const step = this.steps[i];
+                const {doIt, description, obj} = step;
+                await sleep(doIt, i == 0 ? 0 : SLEEP_TIME, obj, true);
                 this.currentStep++;
             }
             this.animating = false;
@@ -75,20 +75,17 @@ export default class Graph {
         initialStep.description = `fn(${node.input}) is called`;
         initialStep.obj = node.getDOMObject();
 
-        initialStep.sleepTime = NODE_SLEEP_MS;
         this.steps.push(initialStep);
 
         for (const child of node.children) {
             const callArrowStep = {};
             const arrow = new Arrow(child.id, child.result, [node.x, node.y], [child.x, child.y], false);
-            callArrowStep.obj = [arrow.getDOMObject(), arrow];
+            callArrowStep.obj = arrow;
             callArrowStep.doIt = (obj, shouldAnimate) => {
-                this.graphWindow.appendChild(obj[0]);
-                if (shouldAnimate)
-                    obj[1].addAnimateTag();
+                this.graphWindow.appendChild(obj.getDOMObject());
+                if (shouldAnimate) obj.addAnimateTag();
             }
             callArrowStep.description = `fn(${node.input}) calls fn(${child.input})`;
-            callArrowStep.sleepTime = ARROW_SLEEP_TIME;
             this.steps.push(callArrowStep);
 
             this.generateSteps(child, node, arrow.getDOMObject());
@@ -101,47 +98,42 @@ export default class Graph {
             obj.classList.remove("processing");
             obj.classList.add("completed");
         }
-        finishedRunningStep.sleepTime = NODE_SLEEP_MS;
         this.steps.push(finishedRunningStep);
 
         if (parent !== null) {
             const arrow = new Arrow(node.id, node.result,[parent.x, parent.y],[node.x, node.y], true);
             const returnArrowStep = {};
-            returnArrowStep.obj = [arrow.getDOMObject(), callArrow, arrow];
+            returnArrowStep.obj = [arrow, callArrow];
             returnArrowStep.doIt = (obj, shouldAnimate) => {
-                this.graphWindow.appendChild(obj[0]);
+                this.graphWindow.appendChild(obj[0].getDOMObject());
                 if (shouldAnimate)
-                    obj[2].addAnimateTag();
+                    obj[0].addAnimateTag();
                 if (obj[1].parentElement === this.graphWindow)
                     this.graphWindow.removeChild(obj[1]);
             }
             returnArrowStep.description = `fn(${node.input}) returns ${node.result}`;
-            returnArrowStep.sleepTime = ARROW_SLEEP_TIME;
             this.steps.push(returnArrowStep);
         } else {
             const returnNoArrow = {};
             returnNoArrow.doIt = () => {};
             returnNoArrow.description = `fn(${node.input}) returns ${node.result}`;
-            returnNoArrow.sleepTime = 0;
             this.steps.push(returnNoArrow);
         }
     }
 
     addNavButtonListeners() { 
         this.navSteps.addClickEventListener('beginningButton', () => {
-            this.skipToBeg = true
             this.jumpToStep(0);
         })
         this.navSteps.addClickEventListener('previousStepButton', () => {
             if (this.currentStep - 1 >= 0)
-                this.jumpToStep(this.currentStep-1);
+                this.jumpToStep(this.currentStep - 1);
         })
         this.navSteps.addClickEventListener('nextStepButton', () => {
             if (this.currentStep + 1 < this.steps.length)
-                this.jumpToStep(this.currentStep+1);
+                this.jumpToStep(this.currentStep + 1);
         })
         this.navSteps.addClickEventListener('endButton', () => {
-            this.skipToEnd = true
             this.jumpToStep(this.steps.length - 1)
         })
     }
@@ -150,6 +142,7 @@ export default class Graph {
         this.animating = false;
         return this.currentAnimation.then(() => {
                 this.graphWindow.innerHTML = "";
+
                 for (let i = 0; i <= step; i++) {
                     let {doIt, obj, description} = this.steps[i];
                     this.stepDescription.updateDescription(description)

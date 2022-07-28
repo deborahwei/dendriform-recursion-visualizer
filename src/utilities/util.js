@@ -9,7 +9,7 @@ export const svgNameSpace = "http://www.w3.org/2000/svg";
 function timeout(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
-export async function sleep(fn, ms, ...args) {
+export async function sleep(cb, ms, ...args) {
     await timeout(ms);
-    return fn(...args);
+    return cb(...args);
 }

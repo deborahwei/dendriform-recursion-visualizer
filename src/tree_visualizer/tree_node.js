@@ -1,5 +1,5 @@
 import { setAttributes, svgNameSpace } from "../utilities/util";
-import { RADIUS, STROKE_WIDTH, TIME_GAP} from "./constants";
+import { RADIUS, STROKE_WIDTH} from "./constants";
 
 export default class TreeNode {
     constructor(cx, cy, value) {

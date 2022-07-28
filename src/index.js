@@ -5,7 +5,6 @@ import PositionCalculator from "./tree_visualizer/position_calculator";
 import UserInput from "./controller/user_input";
 import Error from "./error/error";
 import Instructions from "./instructions/instructions"
-import StepDirections from "./tree_visualizer/step_description"
 
 document.addEventListener("DOMContentLoaded", () => {
 
