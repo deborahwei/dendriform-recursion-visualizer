@@ -49,6 +49,7 @@ export default class Graph {
                 if (!this.animating) break;
                 const step = this.steps[i];
                 const {doIt, description, obj} = step;
+                this.stepDescription.updateDescription(description)
                 await sleep(doIt, i == 0 ? 0 : SLEEP_TIME, obj, true);
                 this.currentStep++;
             }
