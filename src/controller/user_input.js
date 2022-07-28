@@ -91,7 +91,7 @@ export default class UserInput {
             const lines = code.split('\n')
             if (lines[0].slice(0, 12) !== 'function fn(' || lines[0].slice(lines[0].length - 3) !== ') {') {
                 lines[0] =  this.lastValidFirstLine
-                this.fBFlask.updateCode(lines.join('\n)'))
+                this.fBFlask.updateCode(lines.join('\n'))
             }
             else { 
                 this.lastValidFirstLine = lines[0]
