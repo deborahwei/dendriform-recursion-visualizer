@@ -1,5 +1,5 @@
 # Dendriform | Recursion Visualizer
-By Deborah Wei 
+(https://user-images.githubusercontent.com/106613342/181576128-2d7ee448-1aaa-48a8-8bfa-449c3e35b1a4.png)
 
 ## Background 
 
