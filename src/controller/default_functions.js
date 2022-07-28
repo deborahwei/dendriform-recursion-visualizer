@@ -1,3 +1,5 @@
+import { setAttributes } from "../utilities/util";
+
 const fibBody =
 `function fn(n) {
   if (n == 0 || n == 1)
@@ -94,13 +96,22 @@ export default class DefaultFunctions {
         const customButton = document.createElement("button")
         customButton.innerHTML = "CUSTOM FUNCTION"
         customButton.classList.add('selected')
+        setAttributes(customButton, {
+          id: 'custom-button'
+        })
         
         const fibButton = document.createElement("button")
         fibButton.innerHTML = "FIBONACCI SUM"
+        setAttributes(fibButton, {
+          id: 'fib-button'
+        })
         
         const binomialButton = document.createElement("button")
         binomialButton.innerHTML = "BINOMIAL COEFFICIENT"
-
+        setAttributes(binomialButton, {
+          id: 'binomial-button'
+        })
+        
         const coinButton = document.createElement("button")
         coinButton.innerHTML = "COIN CHANGE"
         
@@ -109,7 +120,11 @@ export default class DefaultFunctions {
         
         const subsequenceButton = document.createElement("button")
         subsequenceButton.innerHTML = "LONGEST COMMON SUBSEQUENCE"
-
+        subsequenceButton.classList.add('shortened-text')
+        setAttributes(subsequenceButton, {
+          id: 'subsequence-button'
+        })
+        
         this.leftColumn.appendChild(customButton)
         this.leftColumn.appendChild(fibButton)
         this.leftColumn.appendChild(binomialButton)

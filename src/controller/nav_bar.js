@@ -1,3 +1,5 @@
+import { setAttributes } from "../utilities/util"
+
 export default class NavBar {
     constructor() { 
         this.navArea = document.createElement('div')
@@ -35,6 +37,11 @@ export default class NavBar {
 
         const personalSite = document.createElement('img')
         personalSite.src = "assets/images/tree.png"
+        const personalSiteHover = document.createElement('span')
+        personalSite.appendChild(personalSiteHover)
+        setAttributes(personalSite, {
+            title: 'Personal Site'
+        })
         this.socials.appendChild(personalSite)
         personalSite.addEventListener("click", () => {
             window.open("")

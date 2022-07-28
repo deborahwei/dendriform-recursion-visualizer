@@ -43,9 +43,13 @@ button.selected {
     }
 }
 
-@media all and (max-width: 1200px) {
+@media all and (max-width: 1280px) {
     .default-funcs button{ 
-        font-size: 11px;
+        font-size: 8px;
+    }
+
+    #binomial-button, #fib-button, #custom-button, #subsequence-button {
+        font-size: 4px;
     }
 }
   

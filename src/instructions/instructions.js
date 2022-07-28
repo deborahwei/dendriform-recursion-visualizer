@@ -15,15 +15,15 @@ export default class Instructions {
         this.texts = [
         "Welcome to Dendriform: a recursion visualizer that displays the recursive function calls in a tree. You can select one of the default functions or input one of your own. When inputting your own recursive function you can also add in helper functions or global variables.",
         "Default functions will display default code and default parameters, which can be edited. You can choose to visualize the function with the default parameters or write in your own within the parenthesis. If you are inputting your custom function, you must add the parameters and arguments for your function.",
-        "Click the run button for the tree to start drawing. You can click the fast forward button to skip to the fully drawn tree. You can also skip back to the beginning if you want to iterate through the steps yourself.",
+        "Click the run button for the tree to start drawing. You can click the fast forward button to skip to the fully drawn tree. You can also skip back to the beginning if you want to iterate through the steps yourself. Clicking forward and backwards will cause the tree to stop rendering on that respective step",
         "You can click through the navigational buttons to see different branches of the recursive tree. The outer buttons skip to the beginning or the end of the tree. The inner buttons allow you to iterate through each individual step."
         ]
 
         this.gifs = {
-            'page0': {'gif1': 'assets/gifs/pg1selecting.gif', 'gif2': 'assets/gifs/pg1constants.gif'},
-            'page1': {'gif1': 'assets/gifs/pg2custom.gif', 'gif2': 'assets/gifs/pg2default.gif'},
-            'page2': {'gif1': 'assets/gifs/3.gif'},
-            'page3': {'gif1': 'assets/gifs/4.gif'}
+            'page0': {'gif1': 'assets/gifs/1a.gif', 'gif2': 'assets/gifs/1b.gif'},
+            'page1': {'gif1': 'assets/gifs/2a.gif', 'gif2': 'assets/gifs/2b.gif'},
+            'page2': {'gif1': 'assets/gifs/3a.gif'},
+            'page3': {'gif1': 'assets/gifs/4a.gif'}
         }
 
         this.instructions = document.createElement('div')
@@ -99,6 +99,7 @@ export default class Instructions {
         this.reset()
         this.switchPage()
 
+
     }
 
     getDOMObject() { 
@@ -131,6 +132,7 @@ export default class Instructions {
                     break;
                 case 3: 
                     this.forwardButton.classList.add('hidden')
+                    this.gifOne.classList.add('slide-four')
                     break;
             }    
             this.pageNumber.textContent = `${this.currentPage + 1} /4`
@@ -153,6 +155,7 @@ export default class Instructions {
                     this.backButton.classList.remove('hidden')
                     this.forwardButton.classList.remove('hidden')
                     this.gifTwo.classList.add('hide')
+                    this.gifOne.classList.remove('slide-four')
                     break;
                 case 3: 
                     break;

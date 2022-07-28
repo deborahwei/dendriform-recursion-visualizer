@@ -189,6 +189,10 @@
   cursor: pointer;
 }
 
+.fa-solid:active:active {
+  color: #614124;
+}
+
 .nav-steps button {
   background-color: #9FC088;
   padding: 10px 50px;
@@ -201,6 +205,9 @@
 .nav-steps button:hover {
   filter: brightness(0.9);
   cursor: pointer;
+}
+.nav-steps button:active {
+  box-shadow: inset 3px 4px 5px #614124;
 }
 
 button.running {
@@ -359,9 +366,12 @@ button.selected {
     display: none;
   }
 }
-@media all and (max-width: 1200px) {
+@media all and (max-width: 1280px) {
   .default-funcs button {
-    font-size: 11px;
+    font-size: 8px;
+  }
+  #binomial-button, #fib-button, #custom-button, #subsequence-button {
+    font-size: 4px;
   }
 }
 .error-container {
@@ -513,7 +523,7 @@ button.selected {
   opacity: 60%;
 }
 .instructions-content .subheading {
-  height: 10%;
+  height: 5%;
   width: 100%;
   font-family: "Ovo", serif;
   text-align: center;
@@ -522,13 +532,16 @@ button.selected {
   letter-spacing: 2px;
 }
 .instructions-content .instructions-images {
-  height: 50%;
+  height: 55%;
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-evenly;
   border: transparent;
   align-items: center;
+}
+.instructions-content .slide-four {
+  width: 600px;
 }
 .instructions-content img {
   height: auto;
@@ -563,6 +576,9 @@ button.selected {
 .instructions-content .fa-solid {
   color: #9FC088;
   padding: 8px;
+}
+.instructions-content .fa-solid:active {
+  color: #614124;
 }
 
 @media only screen and (max-width: 750px) {
