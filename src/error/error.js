@@ -1,3 +1,5 @@
+import { setAttributes } from "../utilities/util";
+
 export default class Error { 
     constructor() { 
         this.message = ''

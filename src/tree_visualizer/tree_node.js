@@ -39,10 +39,5 @@ export default class TreeNode {
         return this.gTag;
     }
 
-    showProcessingNode() { // makes initial node
-        this.gTag.classList.remove('hidden');
-        this.gTag.classList.remove('completed')
-        this.gTag.classList.add('processing')
-    }
 
 };

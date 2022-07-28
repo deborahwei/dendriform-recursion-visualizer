@@ -57,6 +57,7 @@ export default class Graph {
             res();
         })
     }
+    
 // doIt: add dom elements to document w/ or w/o animation
 // obj: obj to act on
 // description: describe step
