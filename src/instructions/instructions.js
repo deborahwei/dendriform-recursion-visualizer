@@ -117,7 +117,6 @@ export default class Instructions {
                     this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
                     break;
                 case 1: 
-                    console.log(this.backButton.classList.includes('hidden'))
                     this.backButton.classList.remove('hidden')
                     this.gifTwo.classList.remove('hide')
                     this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2

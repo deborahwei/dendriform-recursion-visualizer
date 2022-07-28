@@ -9,9 +9,9 @@ export default class TreeNode {
         this.gTag = document.createElementNS(svgNameSpace, "g");
         setAttributes(this.gTag, {
             "fill": "white",
-            "stroke": "#614124",
             "stroke-width": STROKE_WIDTH
         });
+        this.gTag.classList.add("processing");
 
         this.circle = document.createElementNS(svgNameSpace, "circle");
         setAttributes(this.circle, {

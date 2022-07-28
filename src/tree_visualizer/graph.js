@@ -41,50 +41,80 @@ export default class Graph {
         this.skipToBeg = false
     }
 
+    async animate() {
+        for (const step of this.steps) {
+            const {doIt, description, obj} = step;
+            doIt(obj);
+        }
+    }
+// do: add dom elements to document
+// undo: remove dom elements from document
+// obj: obj to act on
+// description: describe step
+    generateSteps(node, parent = null, callArrow = null) { 
+        const initialStep = {};
+        initialStep.doIt = (obj) => {
+            obj.classList.add("processing");
+            this.graphWindow.appendChild(obj);
+        }
+        initialStep.description = `fn(${node.input}) is called`;
+        initialStep.obj = node.getDOMObject();
+        initialStep.undoIt = (obj) => {
+            this.graphWindow.removeChild(obj);
+        };
+        this.steps.push(initialStep);
 
-    async animate(node) {
-        this.generateTree(node); // puts elements on document, but invisible for now
-        this.addElementsToHash(node)
-        for (let i = 0; i < this.steps.length; i++) { 
-            this.currentStep = i
-            if (!this.skipToEnd && !this.skipToBeg) {
-                console.log(i)
-                const doSteps = this.steps.slice(0, i + 1)
-                await this.doStep(this.steps[i], doSteps)
+        for (const child of node.children) {
+            const callArrowStep = {};
+            const arrow = new Arrow(child.id, child.result, [node.x, node.y], [child.x, child.y], false);
+            callArrowStep.obj = arrow.getDOMObject();
+            callArrowStep.doIt = (obj) => {
+                this.graphWindow.appendChild(obj);
             }
+            callArrowStep.description = `fn(${node.input}) calls fn(${child.input})`;
+            callArrowStep.undoIt = (obj) => {
+                this.graphWindow.removeChild(obj);
+            }
+            this.steps.push(callArrowStep);
+
+            this.generateSteps(child, node, arrow.getDOMObject());
+        }
+
+        const finishedRunningStep = {};
+        finishedRunningStep.obj = node.getDOMObject();
+        finishedRunningStep.description = `fn(${node.input}) finished running`;
+        finishedRunningStep.doIt = (obj) => {
+            obj.classList.remove("processing");
+            obj.classList.add("completed");
+        }
+        finishedRunningStep.undoIt = (obj) => {
+            obj.classList.remove("completed");
+            obj.classList.add("processing");
+        }
+        this.steps.push(finishedRunningStep);
+
+        if (parent !== null) {
+            const arrow = new Arrow(node.id, node.result,[parent.x, parent.y],[node.x, node.y], true);
+            const returnArrowStep = {};
+            returnArrowStep.obj = [arrow.getDOMObject(), callArrow];
+            returnArrowStep.doIt = (obj) => {
+                this.graphWindow.appendChild(obj[0]);
+                this.graphWindow.removeChild(obj[1])
+            }
+            returnArrowStep.undoIt = (obj) => {
+                this.graphWindow.removeChild(obj);
+            }
+            returnArrowStep.description = `fn(${node.input}) returns ${node.result}`;
+            this.steps.push(returnArrowStep);
+        } else {
+            const returnNoArrow = {};
+            returnNoArrow.doIt = () => {};
+            returnNoArrow.undoIt = () => {};
+            returnNoArrow.description = `fn(${node.input}) returns ${node.result}`;
+            this.steps.push(returnNoArrow);
         }
     }
 
-    generateTree(node) { 
-        node.traverse(cur => { // generate nodes
-            for (let child of cur.children) { // generate arrows
-                let endCoor = [child.x, child.y] 
-                let arrow = new Arrow (child.id, child.result, [cur.x, cur.y], endCoor)
-                this.arrows[`line-${arrow.getId()}`] = arrow
-                arrow.hideCallArrow() // hide them 
-                this.graphWindow.appendChild(arrow.getDOMObject())
-            }
-        })
-        node.traverse(cur => {  // generate nodes
-            this.graphWindow.appendChild(cur.getDOMObject())
-            let treeNode = cur.getTreeNode()
-            this.nodes[`node-${cur.id}`] = treeNode
-            treeNode.hideProcessingNode() // hide nodes
-        })
-    }
-
-    addElementsToHash(node) { // adds in dfs order which is call order
-        let treeNodeKey = `node-${node.id}`
-        let treeNode = this.nodes[treeNodeKey] // add node to hash
-        this.steps.push(treeNode) // add step to hash
-        for (let child of node.children) {
-            let arrow = this.arrows[`line-${child.id}`]
-            this.steps.push(arrow)
-            this.addElementsToHash(child)
-            this.steps.push(arrow)
-        }
-    }
-    
     addNavButtonListeners() { 
         this.navSteps.addClickEventListener('beginningButton', () => {
             this.skipToBeg = true
@@ -105,87 +135,15 @@ export default class Graph {
     }
 
     jumpToStep(step) { 
-        return new Promise(resolve => { 
-            setTimeout( () => {
-                const doSteps = this.steps.slice(0, step + 1) 
-                const undoSteps = this.steps.slice(step + 1)
-                for (let i = 0; i < this.steps.length; i++) {
-                    if (i <= step) {
-                        this.doStep(this.steps[i], doSteps)
-                    }
-                    else if (i > step) {
-                        this.undoStep(this.steps[i], undoSteps)
-                    }
-                }
-                resolve()
-            }, TIME_GAP)
-        })
+        for (let i = 0; i <= step; i++) {
+            let {doIt, obj, description} = this.steps[i];
+            doIt(obj);
+        }
+        for (let i = this.steps.length-1; i > step; i--) {
+            const {undoIt, obj} = this.steps[i];
+            undoIt(obj);
+        }
     }
-
-    doStep(object, doSteps) { 
-        return new Promise(resolve => {
-            setTimeout (() => {
-                if (object instanceof Arrow) {
-                    let count = 0
-                    doSteps.forEach( (step) => { 
-                        if (step.id === object.id) {
-                            count += 1
-                        }
-                    })
-                    if (count === 1) {
-                        // if there is only one return call arrow
-                        object.showCallArrow() 
-                        object.setReturn(false)
-                    }
-                    else if (count === 2) {
-        
-                        const arrowId = object.getId() // node that becomes complete has the same id as arrow
-                        const nodeReturning = this.nodes[`node-${arrowId}`]
-                        object.showReturnArrow(nodeReturning)
-                        object.setReturn(true)
-                    }
-                }
-                else if (object instanceof TreeNode) {
-                    object.showProcessingNode()
-                    object.setComplete(false)
-                }
-                if (this.currentStep === this.steps.length - 1) {
-                    this.nodes[`node-0`].showCompletedNode()
-                }
-                resolve()
-            }, TIME_GAP) 
-        })
-    }
-
-    undoStep(object, undoSteps) {
-        return new Promise(resolve => {
-            setTimeout (() => {
-                if (object instanceof Arrow) {
-                    let count = 0
-                    undoSteps.forEach( (step) => { 
-                        if (step.id === object.id) {
-                            count += 1
-                        }
-                    })
-                    if (count === 1) { 
-                        const arrowId = object.getId() // node that becomes complete has the same id as arrow
-                        const nodeReturning = this.nodes[`node-${arrowId}`]
-                        object.hideReturnArrow(nodeReturning)
-                    }
-                    else if (count === 2) {
-                        object.hideCallArrow()
-                    }
-                    object.setReturn(false)
-                }
-                else if (object instanceof TreeNode) {
-                    object.setComplete(false)
-                    object.hideProcessingNode()
-                }
-                resolve()
-            }, TIME_GAP)
-        })
-    }
-
 
     getDOMObject() {
         return this.graphContainer;

@@ -7,7 +7,6 @@ import Error from "./error/error";
 import Instructions from "./instructions/instructions"
 
 document.addEventListener("DOMContentLoaded", () => {
-    console.log("DOM content loaded!");
 
     const root = document.getElementById("root");
 
@@ -42,18 +41,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const args = userInputs.getArgs()
         const params = userInputs.getParams()
 
-        try {
+        // try {
             const func = new FuncRunner(args, fB, params)
             const treeData = func.runFunc()
             const positionCalculator = new PositionCalculator(treeData)
             
             graph.resizeViewBox(positionCalculator.getTreeDimensions())
-            graph.animate(positionCalculator.getRoot());
-        }
-        catch(e) {
-            err.updateMessage(e)
-            err.show()
-        }
+            graph.generateSteps(positionCalculator.getRoot());
+            graph.animate();
+        // }
+        // catch(e) {
+        //     err.updateMessage(e)
+        //     err.show()
+        // }
     });
     
 });

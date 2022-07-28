@@ -2,7 +2,7 @@ import { setAttributes, svgNameSpace } from "../utilities/util";
 import { RADIUS, STROKE_WIDTH, TIME_GAP } from "./constants";
 
 export default class Arrow {
-    constructor(id, result, startCoor, endCoor) {  // 
+    constructor(id, result, startCoor, endCoor, isReturn) {  // 
         this.id = `line-${id}`
         this.markerWidth = 50
         this.returned = false
@@ -11,7 +11,7 @@ export default class Arrow {
         this.endCoor = endCoor 
         this.result = result 
         this.midPoint = 0
-        this.generateCoors(this.startCoor, this.endCoor)
+        this.generateCoors(this.startCoor, this.endCoor);
         this.findMidpoint()
         this.defs = document.createElementNS(svgNameSpace, "defs");
         this.gTag = document.createElementNS(svgNameSpace, "g");
@@ -25,13 +25,14 @@ export default class Arrow {
             "orient": 'auto', 
             "markerUnits": 'strokeWidth'
         });
-
+        const start = isReturn ? this.flippedStartCoor : this.startCoor;
+        const end = isReturn ? this.flippedEndCoor : this.endCoor;
         this.line = document.createElementNS(svgNameSpace, "line")
         setAttributes(this.line, {
-            "x1": `${this.startCoor[0]}`, // where the line starts
-            "y1": `${this.startCoor[1]}`, 
-            "x2": `${this.endCoor[0]}`, // where the line ends
-            "y2": `${this.endCoor[1]}`, 
+            "x1": `${start[0]}`, // where the line starts
+            "y1": `${start[1]}`, 
+            "x2": `${end[0]}`, // where the line ends
+            "y2": `${end[1]}`, 
             "marker-end": `url(#arrowhead-${this.id})`, 
             "id": `${this.id}`
         })
@@ -67,8 +68,10 @@ export default class Arrow {
         this.gTag.appendChild(this.line)
         this.defs.appendChild(this.marker)
         this.marker.appendChild(this.path)
-        this.gTag.appendChild(this.circle)
-        this.gTag.appendChild(this.text)
+        if (isReturn) {
+            this.gTag.appendChild(this.circle)
+            this.gTag.appendChild(this.text);
+        }
     }
 
     generateCoors(start, end) {
