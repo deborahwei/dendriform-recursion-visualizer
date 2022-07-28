@@ -15,8 +15,8 @@ export default class Instructions {
         this.texts = [
         "Welcome to Dendriform: a recursion visualizer that displays the recursive function calls in a tree. You can select one of the default functions or input one of your own. When inputting your own recursive function you can also add in helper functions or global variables.",
         "Default functions will display default code and default parameters, which can be edited. You can choose to visualize the function with the default parameters or write in your own within the parenthesis. If you are inputting your custom function, you must add the parameters and arguments for your function.",
-        "Click the run button for the tree to start drawing. You can click the fast forward button to skip to the fully drawn tree.",
-        "You can click through the navigational buttons to see different branches of the recursive tree. The outer buttons skip to the beginning or the end of the tree. The inner buttons allow you to iterate throguh each individual step."
+        "Click the run button for the tree to start drawing. You can click the fast forward button to skip to the fully drawn tree. You can also skip back to the beginning if you want to iterate through the steps yourself.",
+        "You can click through the navigational buttons to see different branches of the recursive tree. The outer buttons skip to the beginning or the end of the tree. The inner buttons allow you to iterate through each individual step."
         ]
 
         this.gifs = {
@@ -158,11 +158,6 @@ export default class Instructions {
             this.pageNumber.textContent = `${this.currentPage + 1}/4`
         })
     }
-
-    // buttonSetup(backButton, forwardButton)
-    //     if (backButton) {
-            
-    //     }
 
     pageSetup() {
         this.instructionsSubheading.innerHTML = this.subheadings[this.currentPage]

@@ -97,6 +97,7 @@
   direction: rtl;
   font-size: 35px;
   font-weight: bold;
+  word-wrap: break-word;
 }
 
 .top-nav h3 {
@@ -113,6 +114,11 @@
   font-weight: 500;
 }
 
+@media only screen and (max-width: 1200px) {
+  .nav-area {
+    display: none;
+  }
+}
 .param-text {
   font-size: 13;
   text-anchor: middle;
@@ -305,6 +311,11 @@ button.running {
   color: #678056;
 }
 
+@media only screen and (max-width: 1000px) {
+  .user-inputs {
+    width: 60%;
+  }
+}
 .default-funcs {
   display: flex;
   flex-direction: row;
@@ -343,6 +354,11 @@ button.selected {
   background: #E8C07D;
 }
 
+@media only screen and (max-width: 1000px) {
+  .default-funcs {
+    display: none;
+  }
+}
 .error-container {
   display: block;
   position: fixed;
@@ -366,12 +382,12 @@ button.selected {
 }
 
 .error-message {
-  margin-top: 40px;
   text-align: center;
   width: 100%;
   height: 85%;
   font-family: "Lato", sans-serif;
   letter-spacing: 1px;
+  padding-top: 30px;
 }
 
 .modal-content {
@@ -544,6 +560,23 @@ button.selected {
   padding: 8px;
 }
 
+@media only screen and (max-width: 750px) {
+  .instructions-content {
+    width: 50%;
+  }
+  .instructions-content h1 {
+    font-size: 20px;
+  }
+  .instructions-content h2 {
+    font-size: 16px;
+  }
+  .instructions-content img {
+    display: none;
+  }
+  .instructions-content footer div {
+    display: none;
+  }
+}
 #root {
   width: 100%;
   display: flex;
