@@ -1,6 +1,5 @@
 # Dendriform | Recursion Visualizer
-(https://user-images.githubusercontent.com/106613342/181576128-2d7ee448-1aaa-48a8-8bfa-449c3e35b1a4.png)
-
+[](https://github.com/deborahwei/dendriform/blob/main/assets/images/logo.png)
 ## Background 
 
 [Dendriform](https://deborahwei.github.io/dendriform/) is a recursion tree visualizer that uses **DFS** to recursively call itself and **Reingold-Tilford** to create the tree node structure. This makes it easier for people to understand and visually see the calls made by the recursive functions including which function is being called and the output of each call. This data is visualized through three steps: 1) Obtaining the data and recording it 2) Using the data to find the respective coordinates of each node 3) Displaying the data at those points.
