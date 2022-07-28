@@ -3,13 +3,14 @@ By Deborah Wei
 
 ## Background 
 
-Dendriform (link to site) is a recursion tree visualizer that uses DFS to recursively call itself. This makes it easier for people to understand and visually see recursive functions. 
+[Dendriform](https://deborahwei.github.io/dendriform/) is a recursion tree visualizer that uses DFS to recursively call itself. This makes it easier for people to understand and visually see the calls made by the recursive functions including which function is being called and the output of each call. 
 
 ## Features 
 
 Users are able to
 
 * Select default functions 
+![](https://github.com/deborahwei/dendriform/blob/main/assets/gifs/1a.gif)
 * Insert their own recursive function 
 * Iterate through the branches (steps) of the recursive calls 
 
