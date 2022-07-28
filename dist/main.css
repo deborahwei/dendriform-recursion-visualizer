@@ -347,9 +347,6 @@ button.selected {
   .default-funcs {
     display: none;
   }
-  .default-funcs button {
-    font-size: 8px;
-  }
 }
 .error-container {
   display: block;
