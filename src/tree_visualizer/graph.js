@@ -33,11 +33,7 @@ export default class Graph {
 
     reset() {
         return this.jumpToStep(-1).then(() => {
-            this.animating = false;
-            this.graphWindow.innerHTML = ''
-    
-            this.steps = []
-            this.currentStep = -1;
+            this.steps = [];
         })
     }
 
