@@ -14,10 +14,13 @@ export default class Error {
         this.errorHeader.classList.add("error-header")
         this.errorHeader.textContent = "ERROR"
         this.modalContent.appendChild(this.errorHeader)
+
+        this.errorContent = document.createElement('div')
+        this.modalContent.appendChild(this.errorContent)
         
         this.errorMessage = document.createElement("p")
         this.errorMessage.classList.add("error-message")
-        this.modalContent.appendChild(this.errorMessage)
+        this.errorContent.appendChild(this.errorMessage)
         this.errorMessage.innerHTML = this.message
         
         this.close = document.createElement("div")
