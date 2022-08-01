@@ -37,7 +37,7 @@ const sumBody =
     return n
   const lastDigit = n % 10
   const remainingNum = Math.floor(n / 10)
-  return fn(lastDigit + fn(remainingNum))
+  return lastDigit + fn(remainingNum)
 }
 `
 
