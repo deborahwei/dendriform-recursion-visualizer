@@ -444,6 +444,8 @@ button.selected {
 }
 
 .x {
+  position: absolute;
+  right: 0.5;
   opacity: 0;
   color: #614124;
   font-size: 13px;
