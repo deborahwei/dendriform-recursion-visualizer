@@ -16,7 +16,7 @@ const binomialBody =
 `function fn(n, k) {
   if (k == 0 || n == k)
     return 1
- return fn(n-1, k-1) + fn(n-1, k)
+  return fn(n-1, k-1) + fn(n-1, k)
 }`
 
 const coinBody = 

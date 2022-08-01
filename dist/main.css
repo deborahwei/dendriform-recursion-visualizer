@@ -451,7 +451,7 @@ button.selected {
 }
 
 .x:hover {
-  opacity: 30%;
+  opacity: 100;
 }
 
 .hide {
@@ -513,14 +513,14 @@ button.selected {
 }
 .instructions-content #x-instructions {
   position: absolute;
-  right: 1;
+  right: 1.4;
   opacity: 0;
   color: #614124;
   font-size: 13px;
   cursor: pointer;
 }
 .instructions-content #x-instructions:hover {
-  opacity: 60%;
+  opacity: 100;
 }
 .instructions-content .subheading {
   height: 5%;

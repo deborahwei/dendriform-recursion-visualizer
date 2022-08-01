@@ -116,6 +116,7 @@ export default class Instructions {
     closeInstructions() { 
         this.x.addEventListener('click', () => {
             this.hide()  
+            this.reset()
         })
     }
 
@@ -149,6 +150,7 @@ export default class Instructions {
             this.pageSetup()
             switch(this.currentPage) {
                 case 0: 
+                    this.gifOne.classList.remove('slide-four')
                     this.backButton.classList.add('hidden')
                     this.gifTwo.classList.remove('hide')
                     this.gifTwo.src = this.gifs[`page${this.currentPage}`].gif2
@@ -186,12 +188,15 @@ export default class Instructions {
     hide() {
         this.instructions.classList.remove('instructions')
         this.instructions.classList.add('hide')
+
     }
 
     reset() { 
         this.currentPage = 0
         this.gifOne.src = this.gifs['page0'].gif1
         this.gifTwo.src = this.gifs['page0'].gif2
+        this.gifTwo.classList.remove('hide')
+        this.gifOne.classList.remove('slide-four')
         this.instructionsText.innerHTML = this.texts[0]
         this.backButton.classList.add("hidden")
         this.forwardButton.classList.remove("hidden")

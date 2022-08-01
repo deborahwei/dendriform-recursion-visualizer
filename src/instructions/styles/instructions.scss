@@ -56,16 +56,18 @@
 
     #x-instructions { 
         position: absolute;
-        right: 1;
+        right: 1.4;
         opacity: 0; 
         color: $color4;
         font-size: 13px;
         cursor: pointer;
 
         &:hover {
-            opacity: 60%;
+            opacity: 100;
         }
     }
+
+
 
     .subheading {
         height: 5%;
