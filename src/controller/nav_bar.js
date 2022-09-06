@@ -69,7 +69,7 @@ export default class NavBar {
         })
 
         const personalSite2 = document.createElement('i')
-        personalSite2.classList.add("fa-solid ", "fa-user", "fa-2xl")
+        personalSite2.classList.add("fa-solid", "fa-user", "fa-xl")
         this.socials.appendChild(personalSite2)
         setAttributes(personalSite2, {
             title: 'Personal Site'
