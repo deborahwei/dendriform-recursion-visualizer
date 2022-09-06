@@ -28,6 +28,16 @@ export default class NavBar {
     }
 
     createSocials() {  
+        const angelList = document.createElement('i')
+        angelList.classList.add("fa-brands", "fa-angellist", "fa-2xl")
+        this.socials.appendChild(angelList)
+        setAttributes(angelList, {
+            title: 'AngelList'
+        })
+        angelList.addEventListener("click", () => {
+            window.open("https://angel.co/u/deborah-elizabeth-wei")
+        })
+
         const linkedIn = document.createElement('i')
         linkedIn.classList.add("fa-brands", "fa-linkedin", "fa-2xl")
         this.socials.appendChild(linkedIn)
@@ -56,6 +66,16 @@ export default class NavBar {
         })
         gitHub.addEventListener("click", () => {
             window.open("https://github.com/deborahwei/dendriform")
+        })
+
+        const personalSite2 = document.createElement('i')
+        personalSite2.classList.add("fa-solid ", "fa-user", "fa-2xl")
+        this.socials.appendChild(personalSite2)
+        setAttributes(personalSite2, {
+            title: 'Personal Site'
+        })
+        personalSite2.addEventListener("click", () => {
+            window.open("")
         })
 
     }
