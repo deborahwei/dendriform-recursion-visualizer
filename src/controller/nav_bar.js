@@ -35,7 +35,7 @@ export default class NavBar {
             title: 'AngelList'
         })
         angelList.addEventListener("click", () => {
-            window.open("https://angel.co/u/deborah-elizabeth-wei")
+            window.open("https://angel.co/u/deborahwei")
         })
 
         const linkedIn = document.createElement('i')
@@ -55,7 +55,7 @@ export default class NavBar {
         })
         this.socials.appendChild(personalSite)
         personalSite.addEventListener("click", () => {
-            window.open("")
+            window.open("deborahwei.dev")
         })
 
         const gitHub = document.createElement('i')
@@ -75,7 +75,7 @@ export default class NavBar {
             title: 'Personal Site'
         })
         personalSite2.addEventListener("click", () => {
-            window.open("")
+            window.open("deborahwei.dev")
         })
 
     }
