@@ -53,12 +53,12 @@
   filter: brightness(0.5);
 }
 
-.fa-brands, .fa-user {
+.fa-brands, .fa-user{
   color: #9FC088;
   padding: 5px;
   cursor: pointer;
 }
-.fa-brands:hover, .fa-user:hover {
+.fa-brands:hover {
   filter: brightness(0.8);
 }
 
