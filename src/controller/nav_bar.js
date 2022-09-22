@@ -55,7 +55,7 @@ export default class NavBar {
         })
         this.socials.appendChild(personalSite)
         personalSite.addEventListener("click", () => {
-            window.open("deborahwei.dev")
+            window.open("https://deborahwei.dev/")
         })
 
         const gitHub = document.createElement('i')
@@ -75,7 +75,7 @@ export default class NavBar {
             title: 'Personal Site'
         })
         personalSite2.addEventListener("click", () => {
-            window.open("deborahwei.dev")
+            window.open("https://deborahwei.dev/")
         })
 
     }
